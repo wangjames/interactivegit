@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server  --host $IP --port $PORT  --hot --inline"
+    "start": "webpack-dev-server -d --watch --host $IP --port $PORT --history-api-fallback --public gitforemailpowerusers.wangjames.c9users.io"
 
   },
   "author": "",
