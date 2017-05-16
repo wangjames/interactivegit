@@ -16,7 +16,7 @@ module.exports.directoryObject = function DirectoryObject()
         this.text = "";
     }
   this.root = new Folder("root");
-  this.currentPointer = this.root
+  this.currentPointer = this.root;
   
   this.traverseToChild = function(name)
   {

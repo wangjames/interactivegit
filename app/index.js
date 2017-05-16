@@ -7,17 +7,26 @@ require("./index.css");
 
 var Visualization = React.createClass({
     
+    divStyle: function(name)
+    {
+        if (name === this.props.currentPointer)
+        {
+            return {
+                color: "blue"
+            };
+        }
+    },
     
     renderChildren: function(item)
     {
-       return <Visualization directory={item}/>
+       return <Visualization directory={item} currentPointer={this.props.currentPointer}/>
     },
     render: function()
     {
         var item = this.props.directory;
         return (
             <div>
-                <span>{item.directory_name}</span>
+                <span style={this.divStyle(item.directory_name)}>{item.directory_name}</span>
                 {item.children.map(this.renderChildren, this)}
             </div>
             )
@@ -115,7 +124,7 @@ var App = React.createClass({
     {
         return (
             <div>
-                <Visualization directory={this.state.directory.root}/>
+                <Visualization directory={this.state.directory.root} currentPointer={this.state.directory.currentPointer.directory_name}/>
                 <button onClick={this.createNode}>Hey</button>
                 <div id="console"></div>
             </div>
