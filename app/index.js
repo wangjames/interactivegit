@@ -63,9 +63,9 @@ var App = React.createClass({
                 this.createGitRepository();
             }
         
-            else if (command_split[1] === "add" && command_split[2] === ".")
+            else if (command_split[1] === "add")
             {
-                this.prepareStagingArea();
+                this.addToStagingArea(command_split[2]);
             }
             
             else if (command_split[1] === "commit")
@@ -83,10 +83,34 @@ var App = React.createClass({
                 this.mergeBranches();
             }
             
+            else if (command_split[1] === "status")
+            {
+                this.checkStatus();
+            }
+            
         }
         
     },
-    
+    checkStatus: function()
+    {
+        var repository = this.state.repo;
+        var currentDirectory = this.state.currentDirectory;
+        
+        return this.state.repo.currentStatus(currentDirectory);
+    },
+    addToStagingArea: function(file_name)
+    {
+        var currentDirectory = this.state.currentDirectory;
+        var currentPointer = currentDirectory.currentPointer;
+        
+        if (currentPointer.verifyFile(file_name))
+        {
+            var absolute_path = currentDirectory.generatePointerPath() + file_name + "/";
+            this.state.repo.stage_element(absolute_path);
+        }
+        
+        return;
+    },
     createGitRepository: function()
     {
         var newRepository = new gitrepository.GitRepository();

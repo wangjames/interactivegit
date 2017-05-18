@@ -52,6 +52,7 @@ module.exports.directoryObject = function DirectoryObject()
     {
         new_folder.parentNode = this.currentPointer;
         this.currentPointer.children.push(new_folder)
+        
     }
   }
 
@@ -61,9 +62,10 @@ module.exports.directoryObject = function DirectoryObject()
     if ((this.currentPointer.files.includes(file_name)) > -1)
     {
         this.currentPointer.files.push(new_file)
+        
     }
   }
-
+  
   this.displayContents = function()
   {
     for (var key in this.currentPointer.children)
