@@ -39,7 +39,10 @@ module.exports.directoryObject = function DirectoryObject()
   
   this.traverseBackwards = function()
   {
-    this.currentPointer = this.currentPointer.parentNode;
+    if (this.currentPointer.parentNode != null)
+    {
+      this.currentPointer = this.currentPointer.parentNode;
+    }
   }
 
   this.createFolder = function(directory_name)

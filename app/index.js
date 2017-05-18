@@ -56,7 +56,43 @@ var App = React.createClass({
             this.createFile(command_split[1]);
             return "";
         }
+        else if (command_split[0] === "git")
+        {
+            if (command_split[1] === "init")
+            {
+                this.createGitRepository();
+            }
+        
+            else if (command_split[1] === "add" && command_split[2] === ".")
+            {
+                this.prepareStagingArea();
+            }
+            
+            else if (command_split[1] === "commit")
+            {
+                this.makeCommit();
+            }
+            
+            else if (command_split[1] === "push" && command_split[2] === "origin" && command_split[3] === "master")
+            {
+                this.pushToRemote();
+            }
+            
+            else if (command_split[1] === "merge")
+            {
+                this.mergeBranches();
+            }
+            
+        }
+        
     },
+    
+    createGitRepository: function()
+    {
+        var newRepository = new gitrepository.GitRepository();
+        this.setState({repo: newRepository});
+    },
+    
     traverseBack: function()
     {
         var currentDirectory = this.state.directory;
@@ -82,6 +118,8 @@ var App = React.createClass({
         currentDirectory.traverseToChild(directory_name);
         this.setState({directory: currentDirectory});
     },
+    
+    
     componentDidMount: function()
     {
         var jqconsole = $('#console').jqconsole('Hi\n', '>>>');
