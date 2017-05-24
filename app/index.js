@@ -2,6 +2,7 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var directoryObject = require('./directory');
 var JQConsole = require('./jqconsole');
+var gitrepository = require('./gitrepository');
 
 require("./index.css");
 
@@ -33,6 +34,7 @@ var Visualization = React.createClass({
     }
 })
 var App = React.createClass({
+    
     parseCommand: function(input)
     {
         var command_split = input.split(" ");
@@ -61,16 +63,19 @@ var App = React.createClass({
             if (command_split[1] === "init")
             {
                 this.createGitRepository();
+                return "Git Repository Initialized";
             }
         
             else if (command_split[1] === "add")
             {
                 this.addToStagingArea(command_split[2]);
+                return "File added to Staging Area";
             }
             
             else if (command_split[1] === "commit")
             {
                 this.makeCommit();
+                return "Commit Made";
             }
             
             else if (command_split[1] === "push" && command_split[2] === "origin" && command_split[3] === "master")
@@ -87,10 +92,9 @@ var App = React.createClass({
             {
                 this.checkStatus();
             }
-            
         }
-        
     },
+    
     checkStatus: function()
     {
         var repository = this.state.repo;
@@ -98,6 +102,7 @@ var App = React.createClass({
         
         return this.state.repo.currentStatus(currentDirectory);
     },
+    
     addToStagingArea: function(file_name)
     {
         var currentDirectory = this.state.currentDirectory;
@@ -110,9 +115,10 @@ var App = React.createClass({
         }
         return;
     },
+    
     createGitRepository: function()
     {
-        var newRepository = new gitrepository.GitRepository();
+        var newRepository = new gitrepository.gitRepository();
         newRepository.populate_pre_stage(this.state.directory);
         this.setState({repo: newRepository});
     },
@@ -142,7 +148,6 @@ var App = React.createClass({
         currentDirectory.traverseToChild(directory_name);
         this.setState({directory: currentDirectory});
     },
-    
     
     componentDidMount: function()
     {

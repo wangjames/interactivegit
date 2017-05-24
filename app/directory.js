@@ -1,4 +1,3 @@
-var _ = require('underscore');
 
 module.exports.directoryObject = function DirectoryObject()
 {
@@ -54,11 +53,17 @@ module.exports.directoryObject = function DirectoryObject()
   {
     return this.currentPointer.getPath();
   }
-  
+  this.setPath = function(path_name)
+  {
+    this.currentPointer.setPath(path_name);
+    return;
+  }
   this.generate_pre_stage_helper = function(node)
   {
     var children_array = node.children;
-    
+    console.log(children_array);
+    console.log(node);
+    console.log("HEY");
     var result_array = _.map(children_array, function(element){
       return element.getPath();
     });
