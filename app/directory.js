@@ -8,6 +8,20 @@ module.exports.directoryObject = function DirectoryObject()
       this.children = []
       this.files = []
       this.parentNode = null
+      
+      this.setPath = function(path_name)
+      {
+        this.path = path_name;
+      }
+      this.getPath = function()
+      {
+        return this.path;
+      }
+      
+      this.checkPath = function(check)
+      {
+        return check === this.path;
+      }
     };
     
     function TextObject(file_name)
@@ -37,6 +51,64 @@ module.exports.directoryObject = function DirectoryObject()
     
   }
   
+  this.getPath = function()
+  {
+    return this.currentPointer.getPath();
+  }
+  
+  
+  this.addWithAbsolutePathHelper = function(paths, folder)
+  {
+    if (paths.length === 1)
+    {
+      folder.makeFile(paths[0]);
+    }
+    
+    for (var value in folder.children)
+    {
+      if (value.checkPath(paths[0]))
+      {
+        this.addWithAbsolutePathHelper(paths.slice(1), value);
+      }
+    }
+    
+    folder.makeFile(paths[0]);
+    this.addWithAbsolutePathHelper(paths, folder);
+  }
+  
+  this.addWithAbsolutePath = function(path_name)
+  {
+    var expression = /\/(\w+\/*)*|\w+\/(\w+\/*)*|\w+/; 
+    var matched_expression_array = path_name.match(expression);
+    
+    return this.addWithAbsolutePathHelper(matched_expression_array, this.currentPointer);
+  }
+  
+  this.verifyFileHelper = function(paths, folder)
+  {
+    if (paths.length === 0)
+    {
+      return true;
+    }
+    
+    for (var value in folder.children)
+    {
+      if (value.checkPath(paths[0]))
+      {
+        return this.verifyFileHelper(paths.slice(1), value);
+      }
+    }
+    return false;
+  }
+  
+  this.verifyFile = function(path_name)
+  {
+    var expression = /\/(\w+\/*)*|\w+\/(\w+\/*)*|\w+/; 
+    var matched_expression_array = path_name.match(expression);
+    
+    return this.verifyFileHelper(matched_expression_array, this.currentPointer);
+  }
+  
   this.traverseBackwards = function()
   {
     if (this.currentPointer.parentNode != null)
@@ -44,15 +116,16 @@ module.exports.directoryObject = function DirectoryObject()
       this.currentPointer = this.currentPointer.parentNode;
     }
   }
-
+  
   this.createFolder = function(directory_name)
   {
     var new_folder = new Folder(directory_name);
     if (!((this.currentPointer.children.indexOf(new_folder)) > -1))
     {
         new_folder.parentNode = this.currentPointer;
+        var new_directory_name = this.currentPointer.getPath() + "/" + directory_name
+        new_folder.setPath(new_directory_name);
         this.currentPointer.children.push(new_folder)
-        
     }
   }
 

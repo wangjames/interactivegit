@@ -105,7 +105,7 @@ var App = React.createClass({
         
         if (currentPointer.verifyFile(file_name))
         {
-            var absolute_path = currentDirectory.generatePointerPath() + file_name + "/";
+            var absolute_path = currentDirectory.generatePath() + file_name + "/";
             this.state.repo.stage_element(absolute_path);
         }
         
@@ -164,6 +164,7 @@ var App = React.createClass({
     getInitialState: function()
     {
         var directobject = new directoryObject.directoryObject();
+        directobject.setPath("/root");
         directobject.createFolder("hi");
         directobject.createFolder("hey");
         directobject.traverseToChild("hey");

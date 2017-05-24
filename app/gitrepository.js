@@ -1,10 +1,6 @@
 module.exports.gitRepository = function GitRepository()
 {
-    function CommitNode()
-    {
-        console.log(/\/(\w+\/*)*|\w+\/(\w+\/*)*|\w+/.test("abcroot"));
-    }
-    
+  
     function Branch(branch_name)
     {
         this.commits = []
@@ -12,8 +8,9 @@ module.exports.gitRepository = function GitRepository()
         
         this.addCommit = function(commitTree)
         {
-            
+            this.commits.push(commitTree);
         }
+        
     }
     
     function Stage()
