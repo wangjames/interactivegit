@@ -105,15 +105,15 @@ var App = React.createClass({
         
         if (currentPointer.verifyFile(file_name))
         {
-            var absolute_path = currentDirectory.generatePath() + file_name + "/";
+            var absolute_path = currentDirectory.getPath() + file_name + "/";
             this.state.repo.stage_element(absolute_path);
         }
-        
         return;
     },
     createGitRepository: function()
     {
         var newRepository = new gitrepository.GitRepository();
+        newRepository.populate_pre_stage(this.state.directory);
         this.setState({repo: newRepository});
     },
     

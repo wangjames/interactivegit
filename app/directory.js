@@ -1,4 +1,4 @@
-
+var _ = require('underscore');
 
 module.exports.directoryObject = function DirectoryObject()
 {
@@ -6,7 +6,6 @@ module.exports.directoryObject = function DirectoryObject()
     {
       this.directory_name = name;
       this.children = []
-      this.files = []
       this.parentNode = null
       
       this.setPath = function(path_name)
@@ -22,13 +21,13 @@ module.exports.directoryObject = function DirectoryObject()
       {
         return check === this.path;
       }
-    };
+  };
     
-    function TextObject(file_name)
-    {
-        this.name = file_name;
-        this.text = "";
-    }
+  function TextObject(file_name)
+  {
+      this.name = file_name;
+      this.text = "";
+  }
   this.root = new Folder("root");
   this.currentPointer = this.root;
   
@@ -56,12 +55,32 @@ module.exports.directoryObject = function DirectoryObject()
     return this.currentPointer.getPath();
   }
   
+  this.generate_pre_stage_helper = function(node)
+  {
+    var children_array = node.children;
+    
+    var result_array = _.map(children_array, function(element){
+      return element.getPath();
+    });
+    
+    for (var value in children_array)
+    {
+        result_array.concat(this.generate_pre_stage_helper(value))
+    }
+    
+    return result_array;
+  }
+  
+  this.generate_pre_stage = function()
+  {
+    return this.generate_pre_stage_helper(this.root);
+  }
   
   this.addWithAbsolutePathHelper = function(paths, folder)
   {
     if (paths.length === 1)
     {
-      folder.makeFile(paths[0]);
+      folder.createFolder(paths[0]);
     }
     
     for (var value in folder.children)
@@ -72,14 +91,34 @@ module.exports.directoryObject = function DirectoryObject()
       }
     }
     
-    folder.makeFile(paths[0]);
+    folder.createFolder(paths[0]);
     this.addWithAbsolutePathHelper(paths, folder);
   }
   
   this.addWithAbsolutePath = function(path_name)
   {
-    var expression = /\/(\w+\/*)*|\w+\/(\w+\/*)*|\w+/; 
-    var matched_expression_array = path_name.match(expression);
+    var expression1 = /(^\/(\w+\/*)+)$/gi;
+    var expression2 = /(^\w+\/(\w+\/*)*)$/gi;
+    var expression3 = /(^\w+$)/gi;
+    
+    if (path_name.match(expression1) !== null)
+    {
+      var matched_expression_array = path_name.match(expression1)[0].split("/").slice(1);
+    }
+    
+    else if (path_name.match(expression2) !== null)
+    {
+      var matched_expression_array = path_name.match(expression2)[0].split('/');
+    }
+    
+    else if (path_name.match(expression3) !== null)
+    {
+      var matched_expression_array = path_name.match(expression3);
+    }
+    else
+    {
+      return;
+    }
     
     return this.addWithAbsolutePathHelper(matched_expression_array, this.currentPointer);
   }
@@ -103,8 +142,28 @@ module.exports.directoryObject = function DirectoryObject()
   
   this.verifyFile = function(path_name)
   {
-    var expression = /\/(\w+\/*)*|\w+\/(\w+\/*)*|\w+/; 
-    var matched_expression_array = path_name.match(expression);
+    var expression1 = /(^\/(\w+\/*)+)$/gi;
+    var expression2 = /(^\w+\/(\w+\/*)*)$/gi;
+    var expression3 = /(^\w+$)/gi;
+    
+    if (path_name.match(expression1) !== null)
+    {
+      var matched_expression_array = path_name.match(expression1)[0].split("/").slice(1);
+    }
+    
+    else if (path_name.match(expression2) !== null)
+    {
+      var matched_expression_array = path_name.match(expression2)[0].split('/');
+    }
+    
+    else if (path_name.match(expression3) !== null)
+    {
+      var matched_expression_array = path_name.match(expression3);
+    }
+    else
+    {
+      return;
+    }
     
     return this.verifyFileHelper(matched_expression_array, this.currentPointer);
   }
@@ -132,21 +191,15 @@ module.exports.directoryObject = function DirectoryObject()
   this.createFile = function(file_name)
   {
     var new_file = new TextObject(file_name);
-    if ((this.currentPointer.files.includes(file_name)) > -1)
+    if ((this.currentPointer.children.includes(file_name)) > -1)
     {
-        this.currentPointer.files.push(new_file)
-        
+        this.currentPointer.children.push(new_file)
     }
   }
   
   this.displayContents = function()
   {
     for (var key in this.currentPointer.children)
-    {
-      console.log(key);
-    }
-
-    for (var key in this.currentPointer.files)
     {
       console.log(key);
     }
