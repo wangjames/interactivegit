@@ -25,7 +25,7 @@ module.exports.gitRepository = function GitRepository()
         }
         this.removeFromPreStage = function(item)
         {
-            var index = array.indexOf(item);
+            var index = this.pre_stage.indexOf(item);
             var array = this.pre_stage.slice(0,index).concat(this.pre_stage.slice(index+1))
             this.pre_stage = array;
         }

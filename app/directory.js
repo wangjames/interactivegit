@@ -16,9 +16,13 @@ module.exports.directoryObject = function DirectoryObject()
         return this.path;
       }
       
-      this.checkPath = function(check)
+      this.checkName = function(check)
       {
-        return check === this.path;
+        return check === this.directory_name;
+      }
+      this.addChild = function(element)
+      {
+        this.children.push(element);
       }
   };
     
@@ -85,21 +89,30 @@ module.exports.directoryObject = function DirectoryObject()
   
   this.addWithAbsolutePathHelper = function(paths, folder)
   {
+    console.log(paths);
     if (paths.length === 1)
     {
-      folder.createFolder(paths[0]);
+      var newChild = new Folder(paths[0]);
+      folder.addChild(newChild);
+      return;
     }
-    
-    for (var value in folder.children)
-    {
-      if (value.checkPath(paths[0]))
-      {
-        this.addWithAbsolutePathHelper(paths.slice(1), value);
+    var present = false;
+    console.log(folder.children);
+    folder.children.forEach(function(element){
+      console.log(element);
+      if(element.checkName(paths[0])){
+          this.addWithAbsolutePathHelper(paths.slice(1), element);
+          present = true;
       }
+    }, this);
+    
+    if (present == false)
+    {
+      var newChild = new Folder(paths[0]);
+      folder.addChild(newChild);
+      this.addWithAbsolutePathHelper(paths, folder);
     }
     
-    folder.createFolder(paths[0]);
-    this.addWithAbsolutePathHelper(paths, folder);
   }
   
   this.addWithAbsolutePath = function(path_name)
@@ -136,15 +149,15 @@ module.exports.directoryObject = function DirectoryObject()
     {
       return true;
     }
-    
-    for (var value in folder.children)
-    {
-      if (value.checkPath(paths[0]))
+    var return_result = _.reduce(folder.children, function(memo, element) {
+      if (element.checkName(paths[0]))
       {
-        return this.verifyFileHelper(paths.slice(1), value);
+        return true || memo;
       }
-    }
-    return false;
+      return false || memo;
+    }, false)
+    
+    return return_result;
   }
   
   this.verifyFile = function(path_name)
@@ -191,7 +204,7 @@ module.exports.directoryObject = function DirectoryObject()
         new_folder.parentNode = this.currentPointer;
         var new_directory_name = this.currentPointer.getPath() + "/" + directory_name
         new_folder.setPath(new_directory_name);
-        this.currentPointer.children.push(new_folder)
+        this.currentPointer.addChild(new_folder)
     }
   }
 
@@ -200,7 +213,7 @@ module.exports.directoryObject = function DirectoryObject()
     var new_file = new TextObject(file_name);
     if ((this.currentPointer.children.includes(file_name)) > -1)
     {
-        this.currentPointer.children.push(new_file)
+        this.currentPointer.addChild(new_file)
     }
   }
   

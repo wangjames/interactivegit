@@ -105,17 +105,23 @@ var App = React.createClass({
     
     addToStagingArea: function(file_name)
     {
-        var currentDirectory = this.state.currentDirectory;
+        var currentDirectory = this.state.directory;
         var currentPointer = currentDirectory.currentPointer;
         
-        if (currentPointer.verifyFile(file_name))
+        if (currentDirectory.verifyFile(file_name))
         {
-            var absolute_path = currentDirectory.getPath() + file_name + "/";
+            var absolute_path = currentDirectory.getPath() + "/" + file_name + "/";
             this.state.repo.stage_element(absolute_path);
         }
         return;
     },
-    
+    makeCommit: function()
+    {
+        var repository = this.state.repo;
+        repository.makeCommit();
+        return;
+        
+    },
     createGitRepository: function()
     {
         var newRepository = new gitrepository.gitRepository();
