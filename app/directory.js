@@ -60,24 +60,26 @@ module.exports.directoryObject = function DirectoryObject()
   }
   this.generate_pre_stage_helper = function(node)
   {
+    if (node.children.length === 0)
+    {
+      return [];
+    }
     var children_array = node.children;
-    console.log(children_array);
-    console.log(node);
-    console.log("HEY");
     var result_array = _.map(children_array, function(element){
       return element.getPath();
     });
-    
-    for (var value in children_array)
-    {
-        result_array.concat(this.generate_pre_stage_helper(value))
-    }
-    
+    var result_array = _.reduce(children_array, function(memo, element){ return memo.concat(this.generate_pre_stage_helper(element));}.bind(this), result_array);
+
+    console.log("final_result");
+    console.log(result_array);
     return result_array;
   }
   
   this.generate_pre_stage = function()
   {
+    console.log(this.root);
+    console.log( this.generate_pre_stage_helper(this.root));
+    console.log("WHAT");
     return this.generate_pre_stage_helper(this.root);
   }
   

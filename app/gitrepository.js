@@ -52,12 +52,12 @@ module.exports.gitRepository = function GitRepository()
     {
         var directory_list = directory.generate_pre_stage();
         console.log(directory_list);
-        for (var element in directory_list)
+        directory_list.forEach(function(element)
         {
             this.stagingArea.addToPreStage(element);
-        }
+        }, this);
         this.stagingArea.print_pre_stage();
-    }
+    };
     
     this.stage_element = function(path_name)
     {
