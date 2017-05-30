@@ -4,6 +4,7 @@ import gitrepository from "./gitrepository";
 import React from "react";
 import ReactDOM from "react-dom"
 import Visualization from "./Visualization";
+import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 require("./index.css");
 
 var App = React.createClass({
@@ -174,6 +175,9 @@ var App = React.createClass({
                 <Visualization directory={this.state.directory.root} currentPointer={this.state.directory.currentPointer.directory_name}/>
                 <button onClick={this.createNode}>Hey</button>
                 <div id="console"></div>
+                <Link to="/">
+                Back
+                </Link>
             </div>
             )
     
@@ -181,5 +185,4 @@ var App = React.createClass({
 })
 
 export default App;
-ReactDOM.render(<App />, document.getElementById('app'))
 
