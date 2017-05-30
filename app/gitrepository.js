@@ -6,9 +6,10 @@ module.exports.gitRepository = function GitRepository()
     {
         this.commits = []
         this.name = branch_name
-        
+        this.count = 0;
         this.addCommit = function(commitTree)
         {
+            var metadata = {}
             this.commits.push(commitTree);
         }
         

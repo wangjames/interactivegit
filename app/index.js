@@ -1,38 +1,11 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var directoryObject = require('./directory');
-var JQConsole = require('./jqconsole');
-var gitrepository = require('./gitrepository');
-
+import directoryObject from "./directory";
+import JQConsole from "./jqconsole";
+import gitrepository from "./gitrepository";
+import React from "react";
+import ReactDOM from "react-dom"
+import Visualization from "./Visualization";
 require("./index.css");
 
-var Visualization = React.createClass({
-    
-    divStyle: function(name)
-    {
-        if (name === this.props.currentPointer)
-        {
-            return {
-                color: "blue"
-            };
-        }
-    },
-    
-    renderChildren: function(item)
-    {
-       return <Visualization directory={item} currentPointer={this.props.currentPointer}/>
-    },
-    render: function()
-    {
-        var item = this.props.directory;
-        return (
-            <div>
-                <span style={this.divStyle(item.directory_name)}>{item.directory_name}</span>
-                {item.children.map(this.renderChildren, this)}
-            </div>
-            )
-    }
-})
 var App = React.createClass({
     
     parseCommand: function(input)
@@ -207,5 +180,6 @@ var App = React.createClass({
     }
 })
 
+export default App;
 ReactDOM.render(<App />, document.getElementById('app'))
 

@@ -5,16 +5,20 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server -d --watch --host $IP --port $PORT --history-api-fallback --public gitforemailpowerusers.wangjames.c9users.io"
-
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "react": "^15.5.4",
-    "react-dom": "^15.5.4"
+    "react-dom": "^15.5.4",
+    "react-router": "^4.0.0",
+    "react-router-dom": "^4.0.0"
   },
   "babel": {
-    "presets": ["env", "react"]
+    "presets": [
+      "env",
+      "react"
+    ]
   },
   "devDependencies": {
     "babel-core": "^6.24.1",
