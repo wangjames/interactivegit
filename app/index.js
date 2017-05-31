@@ -5,6 +5,7 @@ import React from "react";
 import ReactDOM from "react-dom"
 import Visualization from "./components/Visualization";
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
+import PromptContainer from "./components/PromptContainer";
 require("./index.css");
 
 var App = React.createClass({
@@ -174,10 +175,14 @@ var App = React.createClass({
             <div>
                 <Visualization directory={this.state.directory.root} currentPointer={this.state.directory.currentPointer.directory_name}/>
                 <button onClick={this.createNode}>Hey</button>
-                <div id="console"></div>
-                <Link to="/">
+                <Link id="link" to="/">
                 Back
                 </Link>
+                <div id="container">
+                    <PromptContainer />
+                    <div id="console"></div>
+                </div>
+                
             </div>
             )
     

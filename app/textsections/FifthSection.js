@@ -61,3 +61,6 @@ var text_object_8 = `After you do so, save the file, add it to the staging area,
  
 var text_object_9 = `I have provided here an example merge conflict you need to resolve. Select one, save it, and then continue the merge.`
  
+var text_array = [text_object_1, text_object_2, text_object_3, text_object_4, text_object_5, text_object_6, text_object_7, text_object_8, text_object_9]
+
+export default text_array;

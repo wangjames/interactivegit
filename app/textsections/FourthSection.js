@@ -33,3 +33,7 @@ var text_object_6 = `Notice now that all of the elements are cat-story elements.
 Checkout the master branch.`
  
 var text_object_7 = `Notice now that all of the elements are dog-story elements now.`
+
+var text_array = [text_object_1, text_object_2, text_object_3, text_object_4, text_object_5, text_object_6, text_object_7]
+
+export default text_array;
