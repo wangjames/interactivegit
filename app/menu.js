@@ -2,10 +2,10 @@ import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './index.js';
-import MenuItems from './menu_items.js';
-import MenuItem from "./MenuItem.js";
-import About from "./About.js";
-import Comparison from "./Comparison.js";
+import MenuItems from './textsections/menu_items.js';
+import MenuItem from "./components/MenuItem.js";
+import About from "./components/About.js";
+import Comparison from "./components/Comparison.js";
 
 class Index extends React.Component {
     render () {

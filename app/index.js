@@ -1,9 +1,9 @@
-import directoryObject from "./directory";
-import JQConsole from "./jqconsole";
-import gitrepository from "./gitrepository";
+import directoryObject from "./modules/directory";
+import JQConsole from "./modules/jqconsole";
+import gitrepository from "./modules/gitrepository";
 import React from "react";
 import ReactDOM from "react-dom"
-import Visualization from "./Visualization";
+import Visualization from "./components/Visualization";
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 require("./index.css");
 
