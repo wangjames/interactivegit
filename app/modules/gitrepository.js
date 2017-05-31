@@ -9,8 +9,8 @@ module.exports.gitRepository = function GitRepository()
         this.count = 0;
         this.addCommit = function(commitTree)
         {
-            var metadata = {}
             this.commits.push(commitTree);
+            this.count += 1;
         }
         
     }
@@ -48,7 +48,10 @@ module.exports.gitRepository = function GitRepository()
 
     this.currentBranch = new Branch("master");
     this.stagingArea = new Stage();
-    
+    this.exportCommit = function(count)
+    {
+        this.count
+    }
     this.populate_pre_stage = function(directory)
     {
         var directory_list = directory.generate_pre_stage();

@@ -67,9 +67,18 @@ var App = React.createClass({
             {
                 this.checkStatus();
             }
+            
+            else if (command_split[1] === "reset")
+            {
+                this.rollBack();
+            }
         }
     },
-    
+    rollBack: function()
+    {
+        var newDirectory = this.state.repo.exportCommit(1);
+        this.setState({directory: newDirectory});
+    },
     checkStatus: function()
     {
         var repository = this.state.repo;

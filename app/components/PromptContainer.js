@@ -10,6 +10,7 @@ class PromptContainer extends React.Component {
      currentPrompt : PromptArray[currentSelection]
     };
     this.changeAnswer = this.changeAnswer.bind(this);
+    this.goBack = this.goBack.bind(this);
   }
     
     changeAnswer ()
@@ -20,12 +21,21 @@ class PromptContainer extends React.Component {
             currentPrompt : this.state.prompts[nextSelection]
         })
     }
+    goBack ()
+    {
+        var backSelection = this.state.currentNumber - 1;
+        this.setState({
+            currentNumber : backSelection,
+            currentPrompt : this.state.prompts[backSelection]
+        })
+    }
     render () {
         return (
         <div>
         <div id="promptcontainer">
             <p> {this.state.currentPrompt} </p>
             <button onClick={this.changeAnswer}>Next</button>
+            <button onClick={this.goBack}>Back</button>
         </div>
        
         </div>
