@@ -3,6 +3,7 @@ module.exports.directoryObject = function DirectoryObject()
 {
     function Folder(name)
     {
+      this.type = "folder";
       this.directory_name = name;
       this.children = []
       this.parentNode = null
@@ -28,11 +29,23 @@ module.exports.directoryObject = function DirectoryObject()
     
   function TextObject(file_name)
   {
+      this.type = "file";
       this.name = file_name;
       this.text = "";
+      
+      this.modifyContents = function(input_string)
+      {
+        this.text = input_string;
+      }
+      this.retrieveContents = function()
+      {
+        return this.text;
+      }
   }
+  
   this.root = new Folder("root");
   this.currentPointer = this.root;
+  
   
   this.traverseToChild = function(name)
   {
@@ -50,7 +63,57 @@ module.exports.directoryObject = function DirectoryObject()
     {
       return;
     }
+  }
+  this.retrieveByPathName = function(path_name)
+  {
+    var expression1 = /(^\/(\w+\/*)+)$/gi;
+    var expression2 = /(^\w+\/(\w+\/*)*)$/gi;
+    var expression3 = /(^\w+$)/gi;
     
+    if (path_name.match(expression1) !== null)
+    {
+      var matched_expression_array = path_name.match(expression1)[0].split("/").slice(1);
+    }
+    
+    else if (path_name.match(expression2) !== null)
+    {
+      var matched_expression_array = path_name.match(expression2)[0].split('/');
+    }
+    
+    else if (path_name.match(expression3) !== null)
+    {
+      var matched_expression_array = path_name.match(expression3);
+    }
+    else
+    {
+      return;
+    }
+    
+    return this.retrievebyPathHelper(matched_expression_array, this.currentPointer);
+  }
+  
+  this.retrievebyPathHelper = function(paths, folder)
+  {
+    if (paths.length === 1)
+    {
+      var selected_file = "";
+      folder.children.forEach(function(element)
+      {
+        if (element.checkName(paths[0]))
+        {
+          return element.retrieveContents();
+        }
+      }, this)
+      return;
+    }
+    
+    folder.children.forEach(function(element){
+      if (element.checkName(paths[0]))
+      {
+        return this.retrievebyPathHelper(paths.slice(1), element);
+      }
+    }, this)
+    return;
   }
   
   this.getPath = function()

@@ -6,6 +6,7 @@ import ReactDOM from "react-dom"
 import Visualization from "./components/Visualization";
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 import PromptContainer from "./components/PromptContainer";
+import Editor from "./components/Editor";
 require("./index.css");
 
 var App = React.createClass({
@@ -194,9 +195,37 @@ var App = React.createClass({
       this.setState({directory:currentDirectory, increment: id})
 
     },
+    retrieveContents: function(file_name)
+    {
+        return this.state.directory.retrieveByPathName(file_name);
+    },
+    
+    openEditing: function(file_name){
+        var file_contents = this.state.directory.retrieveByPathName(file_name).retrieveContents();
+        this.setState({status: "editing", file: file_name, content: file_contents});
+    },
+    
+    submitContent: function(file_name, content)
+    {
+        var directory = this.state.directory;
+        directory.retrieveByPathName(file_name).modifyContents(content);
+        this.state.repo.add_to_pre_stage(file_name);
+        this.setState({directory: directory, status: "terminal"});
+    },
     render : function()
     {
-        return (
+        if (this.state.status === "editing")
+        {
+            return (
+                <div> 
+                    <Visualization directory={this.state.directory.root} currentPointer={this.state.directory.currentPointer.directory_name} />
+                    <Editor content={this.state.content} file={this.state.file_name} submit={this.submitContent} />
+                </div>
+                )
+        }
+        else
+        {
+            return (
             <div>
                 <Visualization directory={this.state.directory.root} currentPointer={this.state.directory.currentPointer.directory_name}/>
                 <button onClick={this.createNode}>Hey</button>
@@ -210,6 +239,7 @@ var App = React.createClass({
                 
             </div>
             )
+        }
     
     }
 })
