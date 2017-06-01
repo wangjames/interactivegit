@@ -13,7 +13,7 @@ module.exports.gitRepository = function GitRepository()
         this.rollback = function(count)
         {
             var totalCount = this.commits.length;
-            this.commits = this.commits.slice(0, (totalCount - count));
+            this.commits = this.commits.slice(0, (totalCount - count + 1));
         }
         
         this.returnHead = function()
@@ -71,6 +71,7 @@ module.exports.gitRepository = function GitRepository()
     };
     this.exportCommit = function()
     {
+        console.log(this.currentBranch.returnHead());
         return this.currentBranch.returnHead();
     }
     this.stage_element = function(path_name)
@@ -81,7 +82,8 @@ module.exports.gitRepository = function GitRepository()
     
     this.makeCommit = function()
     {
-        var commitTree = this.stagingArea;
+        var commitTree = this.stagingArea.returnStage();
+        console.log(commitTree);
         this.currentBranch.addCommit(commitTree);
     }
 

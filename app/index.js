@@ -75,7 +75,7 @@ var App = React.createClass({
                 
                 if (command_split[2].match(expression1) !== null && command_split[3].match(expression2))
                 {
-                    var number_rollback = command_split.split('~')[1];
+                    var number_rollback = command_split[2].split('~')[1];
                     this.rollBack(number_rollback);
                 }
                 
@@ -84,9 +84,9 @@ var App = React.createClass({
     },
     rollBack: function(rollback_count)
     {
-        var newRepo = this.state.repo.rollback(rollback_count);
-        var newDirectory = newRepo.exportCommit();
-        this.setState({directory: newDirectory, repo: newRepo});
+        this.state.repo.rollback(rollback_count);
+        var newDirectory = this.state.repo.exportCommit();
+        this.setState({directory: newDirectory, repo: this.state.repo});
     },
     checkStatus: function()
     {
@@ -100,8 +100,15 @@ var App = React.createClass({
     {
         var currentDirectory = this.state.directory;
         var currentPointer = currentDirectory.currentPointer;
-        
-        if (currentDirectory.verifyFile(file_name))
+        if (file_name === ".")
+        {
+            var children_array = currentDirectory.generate_current_children();
+            children_array.forEach(function(element)
+            {
+                this.state.repo.stage_element(element);
+            }, this);
+        }
+        else if (currentDirectory.verifyFile(file_name))
         {
             var absolute_path = currentDirectory.getPath() + "/" + file_name + "/";
             this.state.repo.stage_element(absolute_path);

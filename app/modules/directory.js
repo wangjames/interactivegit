@@ -62,9 +62,10 @@ module.exports.directoryObject = function DirectoryObject()
     this.currentPointer.setPath(path_name);
     return;
   }
-  this.generate_pre_stage_helper = function(node)
+  
+  this.generate_children_helper = function(node)
   {
-    if (node.children.length === 0)
+     if (node.children.length === 0)
     {
       return [];
     }
@@ -72,32 +73,40 @@ module.exports.directoryObject = function DirectoryObject()
     var result_array = _.map(children_array, function(element){
       return element.getPath();
     });
-    var result_array = _.reduce(children_array, function(memo, element){ return memo.concat(this.generate_pre_stage_helper(element));}.bind(this), result_array);
+    var result_array = _.reduce(children_array, function(memo, element){ return memo.concat(this.generate_children_helper(element));}.bind(this), result_array);
 
     console.log("final_result");
     console.log(result_array);
     return result_array;
   }
-  
+  this.generate_children = function(node)
+  {
+    return this.generate_children_helper(node);
+  }
   this.generate_pre_stage = function()
   {
-    console.log(this.root);
-    console.log( this.generate_pre_stage_helper(this.root));
-    console.log("WHAT");
-    return this.generate_pre_stage_helper(this.root);
+    return this.generate_children(this.root);
   }
-  
+  this.generate_current_children = function()
+  {
+    return this.generate_children(this.currentPointer);
+  }
   this.addWithAbsolutePathHelper = function(paths, folder)
   {
     console.log(paths);
+    var present = false;
     if (paths.length === 1)
     {
       var newChild = new Folder(paths[0]);
       folder.addChild(newChild);
       return;
     }
-    var present = false;
-    console.log(folder.children);
+    
+    if (folder.checkName(paths[0]))
+    {
+      this.addWithAbsolutePathHelper(paths.slice(1), folder);
+      present = true;
+    }
     folder.children.forEach(function(element){
       console.log(element);
       if(element.checkName(paths[0])){
