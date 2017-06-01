@@ -6,13 +6,20 @@ module.exports.gitRepository = function GitRepository()
     {
         this.commits = []
         this.name = branch_name
-        this.count = 0;
         this.addCommit = function(commitTree)
         {
             this.commits.push(commitTree);
-            this.count += 1;
+        }
+        this.rollback = function(count)
+        {
+            var totalCount = this.commits.length;
+            this.commits = this.commits.slice(0, (totalCount - count));
         }
         
+        this.returnHead = function()
+        {
+            return this.commits[(this.commits.length - 1)];
+        }
     }
     
     function Stage()
@@ -48,9 +55,9 @@ module.exports.gitRepository = function GitRepository()
 
     this.currentBranch = new Branch("master");
     this.stagingArea = new Stage();
-    this.exportCommit = function(count)
+    this.rollback = function(count)
     {
-        this.count
+        this.currentBranch.rollback(count);
     }
     this.populate_pre_stage = function(directory)
     {
@@ -62,7 +69,10 @@ module.exports.gitRepository = function GitRepository()
         }, this);
         this.stagingArea.print_pre_stage();
     };
-    
+    this.exportCommit = function()
+    {
+        return this.currentBranch.returnHead();
+    }
     this.stage_element = function(path_name)
     {
         this.stagingArea.removeFromPreStage(path_name);

@@ -70,14 +70,23 @@ var App = React.createClass({
             
             else if (command_split[1] === "reset")
             {
-                this.rollBack();
+                var expression1 = /^HEAD\~[0-9]+$/gi;
+                var expression2 = /^\-{2}hard$/gi;
+                
+                if (command_split[2].match(expression1) !== null && command_split[3].match(expression2))
+                {
+                    var number_rollback = command_split.split('~')[1];
+                    this.rollBack(number_rollback);
+                }
+                
             }
         }
     },
-    rollBack: function()
+    rollBack: function(rollback_count)
     {
-        var newDirectory = this.state.repo.exportCommit(1);
-        this.setState({directory: newDirectory});
+        var newRepo = this.state.repo.rollback(rollback_count);
+        var newDirectory = newRepo.exportCommit();
+        this.setState({directory: newDirectory, repo: newRepo});
     },
     checkStatus: function()
     {
