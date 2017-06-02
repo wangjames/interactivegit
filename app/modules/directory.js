@@ -16,7 +16,10 @@ module.exports.directoryObject = function DirectoryObject()
       {
         return this.path;
       }
-      
+      this.retrieveName = function()
+      {
+        return this.directory_name;
+      }
       this.checkName = function(check)
       {
         return check === this.directory_name;
@@ -25,6 +28,16 @@ module.exports.directoryObject = function DirectoryObject()
       {
         this.children.push(element);
       }
+      this.returnChildrenString = function()
+      {
+        var result_string = ""
+        this.children.forEach(function(element)
+        {
+          result_string += element.retrieveName();
+          result_string += " "
+        }, this)
+        return result_string;
+      }
   };
     
   function TextObject(file_name)
@@ -32,6 +45,10 @@ module.exports.directoryObject = function DirectoryObject()
       this.type = "file";
       this.name = file_name;
       this.text = "";
+      this.retrieveName = function()
+      {
+        return this.name;
+      }
       this.setPath = function(path_name)
       {
         this.path = path_name;
@@ -57,7 +74,7 @@ module.exports.directoryObject = function DirectoryObject()
   
   this.root = new Folder("root");
   this.currentPointer = this.root;
-  
+  this.root.setPath("/root");
   
   this.traverseToChild = function(name)
   {
@@ -320,10 +337,14 @@ module.exports.directoryObject = function DirectoryObject()
     }
   }
 
-  this.displayCurrentPointer = function()
+  this.showCurrentPointer = function()
   {
-    console.log(this.currentPointer);
+    return this.currentPointer.getPath();
   }
   
+  this.displayCurrentChildren = function()
+  {
+    return this.currentPointer.returnChildrenString();
+  }
   
 }

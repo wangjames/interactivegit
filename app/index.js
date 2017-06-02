@@ -34,6 +34,15 @@ var App = React.createClass({
             this.createFile(command_split[1]);
             return "";
         }
+        
+        else if (command_split[0] === "pwd")
+        {
+            return this.showCurrentPointer();
+        }
+        else if (command_split[0] === "ls")
+        {
+            return this.showChildren();
+        }
         else if (command_split[0] === "git")
         {
             if (command_split[1] === "init")
@@ -82,6 +91,14 @@ var App = React.createClass({
                 
             }
         }
+    },
+    showChildren: function()
+    {
+        return this.state.directory.displayCurrentChildren();
+    },
+    showCurrentPointer: function()
+    {
+        return this.state.directory.showCurrentPointer();
     },
     rollBack: function(rollback_count)
     {
