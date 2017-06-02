@@ -32,7 +32,14 @@ module.exports.directoryObject = function DirectoryObject()
       this.type = "file";
       this.name = file_name;
       this.text = "";
-      
+      this.setPath = function(path_name)
+      {
+        this.path = path_name;
+      }
+      this.getPath = function()
+      {
+        return this.path;
+      }
       this.modifyContents = function(input_string)
       {
         this.text = input_string;
@@ -40,6 +47,11 @@ module.exports.directoryObject = function DirectoryObject()
       this.retrieveContents = function()
       {
         return this.text;
+      }
+      
+      this.checkName = function(check)
+      {
+        return check === this.name;
       }
   }
   
@@ -69,7 +81,7 @@ module.exports.directoryObject = function DirectoryObject()
     var expression1 = /(^\/(\w+\/*)+)$/gi;
     var expression2 = /(^\w+\/(\w+\/*)*)$/gi;
     var expression3 = /(^\w+$)/gi;
-    
+    console.log(path_name);
     if (path_name.match(expression1) !== null)
     {
       var matched_expression_array = path_name.match(expression1)[0].split("/").slice(1);
@@ -88,32 +100,41 @@ module.exports.directoryObject = function DirectoryObject()
     {
       return;
     }
-    
-    return this.retrievebyPathHelper(matched_expression_array, this.currentPointer);
+    if (this.root.checkName(matched_expression_array[0]))
+    {
+      return this.retrievebyPathHelper(matched_expression_array.slice(1), this.root);
+    }
   }
   
   this.retrievebyPathHelper = function(paths, folder)
   {
+    console.log(paths);
+    console.log(folder);
+    console.log("check here");
+    var final_element = undefined;
     if (paths.length === 1)
     {
       var selected_file = "";
+      var final_element = undefined;
       folder.children.forEach(function(element)
       {
         if (element.checkName(paths[0]))
         {
-          return element.retrieveContents();
+          final_element = element;
         }
       }, this)
-      return;
+      console.log("are you serious");
+      return final_element;
     }
     
     folder.children.forEach(function(element){
       if (element.checkName(paths[0]))
       {
-        return this.retrievebyPathHelper(paths.slice(1), element);
+        
+        final_element = this.retrievebyPathHelper(paths.slice(1), element);
       }
     }, this)
-    return;
+    return final_element;
   }
   
   this.getPath = function()
@@ -283,10 +304,12 @@ module.exports.directoryObject = function DirectoryObject()
   this.createFile = function(file_name)
   {
     var new_file = new TextObject(file_name);
-    if ((this.currentPointer.children.includes(file_name)) > -1)
-    {
-        this.currentPointer.addChild(new_file)
-    }
+    
+    var new_directory_name = this.currentPointer.getPath() + "/" + file_name
+    new_file.setPath(new_directory_name);
+    console.log("here is the folder");
+    console.log(this.currentPointer);
+    this.currentPointer.addChild(new_file)
   }
   
   this.displayContents = function()

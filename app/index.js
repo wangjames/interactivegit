@@ -201,12 +201,19 @@ var App = React.createClass({
     },
     
     openEditing: function(file_name){
+        console.log("checking editing");
+        console.log(file_name);
         var file_contents = this.state.directory.retrieveByPathName(file_name).retrieveContents();
+        console.log("should work");
+        console.log(file_contents);
         this.setState({status: "editing", file: file_name, content: file_contents});
     },
     
     submitContent: function(file_name, content)
     {
+        console.log(file_name);
+        console.log(content);
+        console.log("checking submit");
         var directory = this.state.directory;
         directory.retrieveByPathName(file_name).modifyContents(content);
         this.state.repo.add_to_pre_stage(file_name);
@@ -227,7 +234,7 @@ var App = React.createClass({
         {
             return (
             <div>
-                <Visualization directory={this.state.directory.root} currentPointer={this.state.directory.currentPointer.directory_name}/>
+                <Visualization directory={this.state.directory.root} openEditing={this.openEditing} currentPointer={this.state.directory.currentPointer.directory_name}/>
                 <button onClick={this.createNode}>Hey</button>
                 <Link id="link" to="/">
                 Back

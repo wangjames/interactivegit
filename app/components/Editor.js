@@ -1,6 +1,6 @@
 import React from "react";
 
-class Editor extends React.component{
+class Editor extends React.Component{
     constructor(props)
     {
         super(props);
@@ -12,7 +12,10 @@ class Editor extends React.component{
     }
     modifyFile()
     {
-        this.props.submitContent(this.props.file,this.state.value);
+        console.log(this.props.file);
+        console.log(this.state.value);
+        console.log("where did it go");
+        this.props.submit(this.props.file, this.state.value);
     }
     handleChange()
     {
@@ -28,3 +31,5 @@ class Editor extends React.component{
             </div>)
     }
 }
+
+export default Editor;

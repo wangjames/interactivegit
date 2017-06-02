@@ -13,11 +13,12 @@ var Visualization = React.createClass({
     
     renderChildren: function(item)
     {
-       return <Visualization directory={item} currentPointer={this.props.currentPointer}/>
+       return <Visualization openEditing={this.props.openEditing} directory={item} currentPointer={this.props.currentPointer}/>
     },
     openFile: function()
     {
-        var file_name = this.props.directory.path_name;
+        var file_name = this.props.directory.getPath();
+        console.log(file_name);
         this.props.openEditing(file_name);
     },
     render: function()
@@ -27,8 +28,7 @@ var Visualization = React.createClass({
         {
             return (
                 <div>
-                    <span onClick={this.openFile}>{item.directory_name}</span>
-                    {item.children.map(this.renderChildren, this)}
+                    <span onClick={this.openFile}>{item.name}</span>
                 </div>
             )
         }
