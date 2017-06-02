@@ -4,6 +4,7 @@ class Editor extends React.Component{
     constructor(props)
     {
         super(props);
+        console.log(this.props);
         this.state = {
             value: props.content
         }
@@ -17,7 +18,7 @@ class Editor extends React.Component{
         console.log("where did it go");
         this.props.submit(this.props.file, this.state.value);
     }
-    handleChange()
+    handleChange(event)
     {
         this.setState({value: event.target.value});
     }

@@ -59,6 +59,10 @@ module.exports.gitRepository = function GitRepository()
     {
         this.currentBranch.rollback(count);
     }
+    this.add_to_pre_stage = function(file_name)
+    {
+        this.stagingArea.addToPreStage(file_name);
+    }
     this.populate_pre_stage = function(directory)
     {
         var directory_list = directory.generate_pre_stage();

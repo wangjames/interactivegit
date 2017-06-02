@@ -216,7 +216,7 @@ var App = React.createClass({
         console.log("checking submit");
         var directory = this.state.directory;
         directory.retrieveByPathName(file_name).modifyContents(content);
-        this.state.repo.add_to_pre_stage(file_name);
+       
         this.setState({directory: directory, status: "terminal"});
     },
     render : function()
@@ -226,7 +226,7 @@ var App = React.createClass({
             return (
                 <div> 
                     <Visualization directory={this.state.directory.root} currentPointer={this.state.directory.currentPointer.directory_name} />
-                    <Editor content={this.state.content} file={this.state.file_name} submit={this.submitContent} />
+                    <Editor content={this.state.content} file={this.state.file} submit={this.submitContent} />
                 </div>
                 )
         }
