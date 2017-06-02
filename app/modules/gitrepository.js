@@ -38,9 +38,9 @@ module.exports.gitRepository = function GitRepository()
             this.pre_stage = array;
         }
         
-        this.addToStaging = function(item)
+        this.addToStaging = function(item, final_object)
         {
-            this.stage.addWithAbsolutePath(item);
+            this.stage.addWithAbsolutePath(item, final_object);
         }
         
         this.returnStage = function()
@@ -80,6 +80,8 @@ module.exports.gitRepository = function GitRepository()
     }
     this.stage_element = function(path_name, final_object)
     {
+        console.log("this should be a textObject ->");
+        console.log(final_object);
         this.stagingArea.removeFromPreStage(path_name);
         this.stagingArea.addToStaging(path_name, final_object);
     }

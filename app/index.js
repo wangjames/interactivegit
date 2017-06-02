@@ -130,8 +130,10 @@ var App = React.createClass({
         }
         else if (currentDirectory.verifyFile(file_name))
         {
-            var absolute_path = currentDirectory.getPath() + "/" + file_name + "/";
+            var absolute_path = currentDirectory.getPath() + "/" + file_name;
             var copied_object = currentDirectory.retrieveByPathName(absolute_path);
+            console.log("there should be a file here!")
+            console.log(copied_object);
             this.state.repo.stage_element(absolute_path, copied_object);
         }
         return;

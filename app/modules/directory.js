@@ -198,6 +198,8 @@ module.exports.directoryObject = function DirectoryObject()
     var present = false;
     if (paths.length === 1)
     {
+      console.log(final_object);
+      console.log("this should be a file")
       folder.addChild(final_object);
       return;
     }
