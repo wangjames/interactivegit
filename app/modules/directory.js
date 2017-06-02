@@ -166,6 +166,10 @@ module.exports.directoryObject = function DirectoryObject()
   
   this.generate_children_helper = function(node)
   {
+    if (node.type === "file")
+    {
+      return [node.getPath()];
+    }
      if (node.children.length === 0)
     {
       return [];
