@@ -78,10 +78,10 @@ module.exports.gitRepository = function GitRepository()
         console.log(this.currentBranch.returnHead());
         return this.currentBranch.returnHead();
     }
-    this.stage_element = function(path_name)
+    this.stage_element = function(path_name, final_object)
     {
         this.stagingArea.removeFromPreStage(path_name);
-        this.stagingArea.addToStaging(path_name);
+        this.stagingArea.addToStaging(path_name, final_object);
     }
     
     this.makeCommit = function()

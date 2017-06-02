@@ -192,26 +192,25 @@ module.exports.directoryObject = function DirectoryObject()
   {
     return this.generate_children(this.currentPointer);
   }
-  this.addWithAbsolutePathHelper = function(paths, folder)
+  this.addWithAbsolutePathHelper = function(paths, folder, final_object)
   {
     console.log(paths);
     var present = false;
     if (paths.length === 1)
     {
-      var newChild = new Folder(paths[0]);
-      folder.addChild(newChild);
+      folder.addChild(final_object);
       return;
     }
     
     if (folder.checkName(paths[0]))
     {
-      this.addWithAbsolutePathHelper(paths.slice(1), folder);
+      this.addWithAbsolutePathHelper(paths.slice(1), folder, final_object);
       present = true;
     }
     folder.children.forEach(function(element){
       console.log(element);
       if(element.checkName(paths[0])){
-          this.addWithAbsolutePathHelper(paths.slice(1), element);
+          this.addWithAbsolutePathHelper(paths.slice(1), element, final_object);
           present = true;
       }
     }, this);
@@ -220,12 +219,12 @@ module.exports.directoryObject = function DirectoryObject()
     {
       var newChild = new Folder(paths[0]);
       folder.addChild(newChild);
-      this.addWithAbsolutePathHelper(paths, folder);
+      this.addWithAbsolutePathHelper(paths, folder, final_object);
     }
     
   }
   
-  this.addWithAbsolutePath = function(path_name)
+  this.addWithAbsolutePath = function(path_name, final_object)
   {
     var expression1 = /(^\/(\w+\/*)+)$/gi;
     var expression2 = /(^\w+\/(\w+\/*)*)$/gi;
@@ -250,7 +249,7 @@ module.exports.directoryObject = function DirectoryObject()
       return;
     }
     
-    return this.addWithAbsolutePathHelper(matched_expression_array, this.currentPointer);
+    return this.addWithAbsolutePathHelper(matched_expression_array, this.currentPointer, final_object);
   }
   
   this.verifyFileHelper = function(paths, folder)

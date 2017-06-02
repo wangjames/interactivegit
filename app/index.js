@@ -7,6 +7,7 @@ import Visualization from "./components/Visualization";
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 import PromptContainer from "./components/PromptContainer";
 import Editor from "./components/Editor";
+import Terminal from "./components/Terminal";
 require("./index.css");
 
 var App = React.createClass({
@@ -123,13 +124,15 @@ var App = React.createClass({
             var children_array = currentDirectory.generate_current_children();
             children_array.forEach(function(element)
             {
-                this.state.repo.stage_element(element);
+                var copied_object = currentDirectory.retrieveByPathName(element);
+                this.state.repo.stage_element(element, copied_object);
             }, this);
         }
         else if (currentDirectory.verifyFile(file_name))
         {
             var absolute_path = currentDirectory.getPath() + "/" + file_name + "/";
-            this.state.repo.stage_element(absolute_path);
+            var copied_object = currentDirectory.retrieveByPathName(absolute_path);
+            this.state.repo.stage_element(absolute_path, copied_object);
         }
         return;
     },
@@ -172,24 +175,7 @@ var App = React.createClass({
         currentDirectory.traverseToChild(directory_name);
         this.setState({directory: currentDirectory});
     },
-    
-    componentDidMount: function()
-    {
-        var jqconsole = $('#console').jqconsole('Hi\n', '>>>');
-        var startPrompt = function () {
-          // Start the prompt with history enabled.
-          jqconsole.Prompt(true, function (input) {
-              
-            // Output input with the class jqconsole-output.
-            jqconsole.Write(input + '\n', 'jqconsole-output');
-            jqconsole.Write(this.parseCommand(input) + "\n", 'jqconsole-output');
-            // Restart the prompt.
-            startPrompt();
-          }.bind(this));
-        }.bind(this);
-        startPrompt();
-    },
-    
+   
     getInitialState: function()
     {
         var directobject = new directoryObject.directoryObject();
@@ -233,7 +219,10 @@ var App = React.createClass({
         console.log("checking submit");
         var directory = this.state.directory;
         directory.retrieveByPathName(file_name).modifyContents(content);
-       
+        if (this.state.hasOwnProperty("repo"))
+        {
+            this.state.repo.add_to_pre_stage(file_name);
+        }
         this.setState({directory: directory, status: "terminal"});
     },
     render : function()
@@ -258,7 +247,7 @@ var App = React.createClass({
                 </Link>
                 <div id="container">
                     <PromptContainer />
-                    <div id="console"></div>
+                    <Terminal parseCommand={this.parseCommand}/>
                 </div>
                 
             </div>
