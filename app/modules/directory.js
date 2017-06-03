@@ -7,7 +7,14 @@ module.exports.directoryObject = function DirectoryObject()
       this.directory_name = name;
       this.children = []
       this.parentNode = null
-      
+      this.returnCopy = function()
+      {
+        var copy = new Folder(this.directory_name);
+        copy.setPath(this.path);
+        copy.parentNode = this.parentNode;
+        copy.children = this.children;
+        return copy;
+      }
       this.setPath = function(path_name)
       {
         this.path = path_name;
@@ -45,6 +52,14 @@ module.exports.directoryObject = function DirectoryObject()
       this.type = "file";
       this.name = file_name;
       this.text = "";
+      
+      this.returnCopy = function()
+      {
+        var copy = new TextObject(this.name);
+        copy.modifyContents(this.text);
+        copy.setPath(this.path);
+        return copy;
+      }
       this.retrieveName = function()
       {
         return this.name;
@@ -168,7 +183,7 @@ module.exports.directoryObject = function DirectoryObject()
   {
     if (node.type === "file")
     {
-      return [node.getPath()];
+      return [];
     }
      if (node.children.length === 0)
     {
@@ -190,6 +205,8 @@ module.exports.directoryObject = function DirectoryObject()
   }
   this.generate_pre_stage = function()
   {
+    console.log("here is the root for duplicates");
+    console.log(this.root);
     return this.generate_children(this.root);
   }
   this.generate_current_children = function()
@@ -203,8 +220,12 @@ module.exports.directoryObject = function DirectoryObject()
     if (paths.length === 1)
     {
       console.log(final_object);
+      console.log(folder);
       console.log("this should be a file")
-      folder.addChild(final_object);
+      var copied_object = final_object.returnCopy();
+      folder.addChild(copied_object);
+      console.log(folder);
+      console.log("why is there two");
       return;
     }
     
