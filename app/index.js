@@ -76,7 +76,7 @@ var App = React.createClass({
             
             else if (command_split[1] === "status")
             {
-                this.checkStatus();
+                return this.checkStatus();
             }
             
             else if (command_split[1] === "reset")
@@ -110,9 +110,9 @@ var App = React.createClass({
     checkStatus: function()
     {
         var repository = this.state.repo;
-        var currentDirectory = this.state.currentDirectory;
         
-        return this.state.repo.currentStatus(currentDirectory);
+        
+        return this.state.repo.currentStatus();
     },
     
     addToStagingArea: function(file_name)

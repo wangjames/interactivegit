@@ -55,6 +55,10 @@ module.exports.gitRepository = function GitRepository()
 
     this.currentBranch = new Branch("master");
     this.stagingArea = new Stage();
+    this.currentStatus = function()
+    {
+        return this.stagingArea.pre_stage;
+    }
     this.rollback = function(count)
     {
         this.currentBranch.rollback(count);
