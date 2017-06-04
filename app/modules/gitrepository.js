@@ -38,9 +38,9 @@ module.exports.gitRepository = function GitRepository()
             this.pre_stage = array;
         }
         
-        this.addToStaging = function(item)
+        this.addToStaging = function(item, copied_object)
         {
-            this.stage.addWithAbsolutePath(item);
+            this.stage.addWithAbsolutePath(item, copied_object);
         }
         
         this.returnStage = function()
@@ -78,10 +78,10 @@ module.exports.gitRepository = function GitRepository()
         console.log(this.currentBranch.returnHead());
         return this.currentBranch.returnHead();
     }
-    this.stage_element = function(path_name)
+    this.stage_element = function(path_name, copied_object)
     {
         this.stagingArea.removeFromPreStage(path_name);
-        this.stagingArea.addToStaging(path_name);
+        this.stagingArea.addToStaging(path_name, copied_object);
     }
     
     this.makeCommit = function()

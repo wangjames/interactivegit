@@ -124,13 +124,20 @@ var App = React.createClass({
             var children_array = currentDirectory.generate_current_children();
             children_array.forEach(function(element)
             {
-                this.state.repo.stage_element(element);
+                var copied_object = currentDirectory.retrieveByPathName(element);
+                console.log(copied_object);
+                console.log("is the object getting pulled correctly?");
+                this.state.repo.stage_element(element, copied_object);
             }, this);
         }
         else if (currentDirectory.verifyFile(file_name))
         {
+            
             var absolute_path = currentDirectory.getPath() + "/" + file_name;
-            this.state.repo.stage_element(absolute_path);
+            var copied_object = currentDirectory.retrieveByPathName(absolute_path);
+            console.log(copied_object);
+            console.log("is the object getting pulled correctly?");
+            this.state.repo.stage_element(absolute_path, copied_object);
         }
         return;
     },
