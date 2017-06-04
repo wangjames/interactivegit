@@ -203,11 +203,6 @@ module.exports.directoryObject = function DirectoryObject()
       return;
     }
     
-    if (folder.checkName(paths[0]))
-    {
-      this.addWithAbsolutePathHelper(paths.slice(1), folder);
-      present = true;
-    }
     folder.children.forEach(function(element){
       console.log(element);
       if(element.checkName(paths[0])){
@@ -249,8 +244,10 @@ module.exports.directoryObject = function DirectoryObject()
     {
       return;
     }
-    
-    return this.addWithAbsolutePathHelper(matched_expression_array, this.currentPointer);
+    if (this.root.checkName(matched_expression_array[0]))
+    {
+      return this.addWithAbsolutePathHelper(matched_expression_array.slice(1), this.root);
+    }
   }
   
   this.verifyFileHelper = function(paths, folder)

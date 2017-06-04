@@ -129,7 +129,7 @@ var App = React.createClass({
         }
         else if (currentDirectory.verifyFile(file_name))
         {
-            var absolute_path = currentDirectory.getPath() + "/" + file_name + "/";
+            var absolute_path = currentDirectory.getPath() + "/" + file_name;
             this.state.repo.stage_element(absolute_path);
         }
         return;
