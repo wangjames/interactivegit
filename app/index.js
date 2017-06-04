@@ -7,6 +7,7 @@ import Visualization from "./components/Visualization";
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 import PromptContainer from "./components/PromptContainer";
 import Editor from "./components/Editor";
+import Terminal from "./components/Terminal";
 require("./index.css");
 
 var App = React.createClass({
@@ -175,19 +176,7 @@ var App = React.createClass({
     
     componentDidMount: function()
     {
-        var jqconsole = $('#console').jqconsole('Hi\n', '>>>');
-        var startPrompt = function () {
-          // Start the prompt with history enabled.
-          jqconsole.Prompt(true, function (input) {
-              
-            // Output input with the class jqconsole-output.
-            jqconsole.Write(input + '\n', 'jqconsole-output');
-            jqconsole.Write(this.parseCommand(input) + "\n", 'jqconsole-output');
-            // Restart the prompt.
-            startPrompt();
-          }.bind(this));
-        }.bind(this);
-        startPrompt();
+       
     },
     
     getInitialState: function()
@@ -258,7 +247,7 @@ var App = React.createClass({
                 </Link>
                 <div id="container">
                     <PromptContainer />
-                    <div id="console"></div>
+                    <Terminal parseCommand={this.parseCommand}/>
                 </div>
                 
             </div>
