@@ -24,7 +24,7 @@ module.exports.gitRepository = function GitRepository()
     
     function Stage()
     {
-        this.stage = new directoryObject.directoryObject("yes");
+        this.stage = new directoryObject.directoryObject();
         this.pre_stage = [];
         
         this.addToPreStage = function(item)
@@ -38,14 +38,13 @@ module.exports.gitRepository = function GitRepository()
             this.pre_stage = array;
         }
         
-        this.addToStaging = function(item, final_object)
+        this.addToStaging = function(item)
         {
-            this.stage.addWithAbsolutePath(item, final_object);
+            this.stage.addWithAbsolutePath(item);
         }
         
         this.returnStage = function()
         {
-            
             return this.stage;
         }
         this.print_pre_stage = function()
@@ -56,10 +55,6 @@ module.exports.gitRepository = function GitRepository()
 
     this.currentBranch = new Branch("master");
     this.stagingArea = new Stage();
-    this.currentStatus = function()
-    {
-        return this.stagingArea.pre_stage;
-    }
     this.rollback = function(count)
     {
         this.currentBranch.rollback(count);
@@ -71,6 +66,7 @@ module.exports.gitRepository = function GitRepository()
     this.populate_pre_stage = function(directory)
     {
         var directory_list = directory.generate_pre_stage();
+        console.log(directory_list);
         directory_list.forEach(function(element)
         {
             this.stagingArea.addToPreStage(element);
@@ -79,17 +75,19 @@ module.exports.gitRepository = function GitRepository()
     };
     this.exportCommit = function()
     {
+        console.log(this.currentBranch.returnHead());
         return this.currentBranch.returnHead();
     }
-    this.stage_element = function(path_name, final_object)
+    this.stage_element = function(path_name)
     {
         this.stagingArea.removeFromPreStage(path_name);
-        this.stagingArea.addToStaging(path_name, final_object);
+        this.stagingArea.addToStaging(path_name);
     }
     
     this.makeCommit = function()
     {
         var commitTree = this.stagingArea.returnStage();
+        console.log(commitTree);
         this.currentBranch.addCommit(commitTree);
     }
 

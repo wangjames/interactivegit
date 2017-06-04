@@ -7,7 +7,6 @@ import Visualization from "./components/Visualization";
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 import PromptContainer from "./components/PromptContainer";
 import Editor from "./components/Editor";
-import Terminal from "./components/Terminal";
 require("./index.css");
 
 var App = React.createClass({
@@ -48,27 +47,18 @@ var App = React.createClass({
         {
             if (command_split[1] === "init")
             {
-                console.log("before");
-                console.log(this.state.directory.root)
                 this.createGitRepository();
-                console.log("after");
-                console.log(this.state.directory.root)
                 return "Git Repository Initialized";
             }
         
             else if (command_split[1] === "add")
             {
-                console.log("before add");
-                console.log(this.state.directory.root)
                 this.addToStagingArea(command_split[2]);
-                console.log("after add");
-                console.log(this.state.directory.root)
                 return "File added to Staging Area";
             }
             
             else if (command_split[1] === "commit")
             {
-                
                 this.makeCommit();
                 return "Commit Made";
             }
@@ -85,7 +75,7 @@ var App = React.createClass({
             
             else if (command_split[1] === "status")
             {
-                return this.checkStatus();
+                this.checkStatus();
             }
             
             else if (command_split[1] === "reset")
@@ -119,9 +109,9 @@ var App = React.createClass({
     checkStatus: function()
     {
         var repository = this.state.repo;
+        var currentDirectory = this.state.currentDirectory;
         
-        
-        return this.state.repo.currentStatus();
+        return this.state.repo.currentStatus(currentDirectory);
     },
     
     addToStagingArea: function(file_name)
@@ -133,15 +123,13 @@ var App = React.createClass({
             var children_array = currentDirectory.generate_current_children();
             children_array.forEach(function(element)
             {
-                var copied_object = currentDirectory.retrieveByPathName(element);
-                this.state.repo.stage_element(element, copied_object);
+                this.state.repo.stage_element(element);
             }, this);
         }
         else if (currentDirectory.verifyFile(file_name))
         {
-            var absolute_path = currentDirectory.getPath() + "/" + file_name;
-            var copied_object = currentDirectory.retrieveByPathName(absolute_path);
-            this.state.repo.stage_element(absolute_path, copied_object);
+            var absolute_path = currentDirectory.getPath() + "/" + file_name + "/";
+            this.state.repo.stage_element(absolute_path);
         }
         return;
     },
@@ -184,7 +172,24 @@ var App = React.createClass({
         currentDirectory.traverseToChild(directory_name);
         this.setState({directory: currentDirectory});
     },
-   
+    
+    componentDidMount: function()
+    {
+        var jqconsole = $('#console').jqconsole('Hi\n', '>>>');
+        var startPrompt = function () {
+          // Start the prompt with history enabled.
+          jqconsole.Prompt(true, function (input) {
+              
+            // Output input with the class jqconsole-output.
+            jqconsole.Write(input + '\n', 'jqconsole-output');
+            jqconsole.Write(this.parseCommand(input) + "\n", 'jqconsole-output');
+            // Restart the prompt.
+            startPrompt();
+          }.bind(this));
+        }.bind(this);
+        startPrompt();
+    },
+    
     getInitialState: function()
     {
         var directobject = new directoryObject.directoryObject();
@@ -213,18 +218,22 @@ var App = React.createClass({
     },
     
     openEditing: function(file_name){
+        console.log("checking editing");
+        console.log(file_name);
         var file_contents = this.state.directory.retrieveByPathName(file_name).retrieveContents();
+        console.log("should work");
+        console.log(file_contents);
         this.setState({status: "editing", file: file_name, content: file_contents});
     },
     
     submitContent: function(file_name, content)
     {
+        console.log(file_name);
+        console.log(content);
+        console.log("checking submit");
         var directory = this.state.directory;
         directory.retrieveByPathName(file_name).modifyContents(content);
-        if (this.state.hasOwnProperty("repo"))
-        {
-            this.state.repo.add_to_pre_stage(file_name);
-        }
+       
         this.setState({directory: directory, status: "terminal"});
     },
     render : function()
@@ -249,7 +258,7 @@ var App = React.createClass({
                 </Link>
                 <div id="container">
                     <PromptContainer />
-                    <Terminal parseCommand={this.parseCommand}/>
+                    <div id="console"></div>
                 </div>
                 
             </div>
