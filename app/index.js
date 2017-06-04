@@ -48,18 +48,27 @@ var App = React.createClass({
         {
             if (command_split[1] === "init")
             {
+                console.log("before");
+                console.log(this.state.directory.root)
                 this.createGitRepository();
+                console.log("after");
+                console.log(this.state.directory.root)
                 return "Git Repository Initialized";
             }
         
             else if (command_split[1] === "add")
             {
+                console.log("before add");
+                console.log(this.state.directory.root)
                 this.addToStagingArea(command_split[2]);
+                console.log("after add");
+                console.log(this.state.directory.root)
                 return "File added to Staging Area";
             }
             
             else if (command_split[1] === "commit")
             {
+                
                 this.makeCommit();
                 return "Commit Made";
             }
@@ -132,8 +141,6 @@ var App = React.createClass({
         {
             var absolute_path = currentDirectory.getPath() + "/" + file_name;
             var copied_object = currentDirectory.retrieveByPathName(absolute_path);
-            console.log("there should be a file here!")
-            console.log(copied_object);
             this.state.repo.stage_element(absolute_path, copied_object);
         }
         return;
@@ -206,19 +213,12 @@ var App = React.createClass({
     },
     
     openEditing: function(file_name){
-        console.log("checking editing");
-        console.log(file_name);
         var file_contents = this.state.directory.retrieveByPathName(file_name).retrieveContents();
-        console.log("should work");
-        console.log(file_contents);
         this.setState({status: "editing", file: file_name, content: file_contents});
     },
     
     submitContent: function(file_name, content)
     {
-        console.log(file_name);
-        console.log(content);
-        console.log("checking submit");
         var directory = this.state.directory;
         directory.retrieveByPathName(file_name).modifyContents(content);
         if (this.state.hasOwnProperty("repo"))

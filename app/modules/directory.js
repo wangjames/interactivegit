@@ -33,6 +33,9 @@ module.exports.directoryObject = function DirectoryObject()
       }
       this.addChild = function(element)
       {
+        console.log(this.getPath());
+        console.log("is this really happening?");
+        console.log(element.getPath());
         this.children.push(element);
       }
       this.returnChildrenString = function()
@@ -113,7 +116,6 @@ module.exports.directoryObject = function DirectoryObject()
     var expression1 = /(^\/(\w+\/*)+)$/gi;
     var expression2 = /(^\w+\/(\w+\/*)*)$/gi;
     var expression3 = /(^\w+$)/gi;
-    console.log(path_name);
     if (path_name.match(expression1) !== null)
     {
       var matched_expression_array = path_name.match(expression1)[0].split("/").slice(1);
@@ -140,9 +142,7 @@ module.exports.directoryObject = function DirectoryObject()
   
   this.retrievebyPathHelper = function(paths, folder)
   {
-    console.log(paths);
-    console.log(folder);
-    console.log("check here");
+  
     var final_element = undefined;
     if (paths.length === 1)
     {
@@ -155,7 +155,6 @@ module.exports.directoryObject = function DirectoryObject()
           final_element = element;
         }
       }, this)
-      console.log("are you serious");
       return final_element;
     }
     
@@ -195,8 +194,6 @@ module.exports.directoryObject = function DirectoryObject()
     });
     var result_array = _.reduce(children_array, function(memo, element){ return memo.concat(this.generate_children_helper(element));}.bind(this), result_array);
 
-    console.log("final_result");
-    console.log(result_array);
     return result_array;
   }
   this.generate_children = function(node)
@@ -205,8 +202,7 @@ module.exports.directoryObject = function DirectoryObject()
   }
   this.generate_pre_stage = function()
   {
-    console.log("here is the root for duplicates");
-    console.log(this.root);
+    
     return this.generate_children(this.root);
   }
   this.generate_current_children = function()
@@ -215,17 +211,14 @@ module.exports.directoryObject = function DirectoryObject()
   }
   this.addWithAbsolutePathHelper = function(paths, folder, final_object)
   {
-    console.log(paths);
+
     var present = false;
     if (paths.length === 1)
     {
-      console.log(final_object);
-      console.log(folder);
-      console.log("this should be a file")
+     
       var copied_object = final_object.returnCopy();
       folder.addChild(copied_object);
-      console.log(folder);
-      console.log("why is there two");
+     
       return;
     }
     
@@ -235,7 +228,7 @@ module.exports.directoryObject = function DirectoryObject()
       present = true;
     }
     folder.children.forEach(function(element){
-      console.log(element);
+      
       if(element.checkName(paths[0])){
           this.addWithAbsolutePathHelper(paths.slice(1), element, final_object);
           present = true;
@@ -350,9 +343,10 @@ module.exports.directoryObject = function DirectoryObject()
     
     var new_directory_name = this.currentPointer.getPath() + "/" + file_name
     new_file.setPath(new_directory_name);
-    console.log("here is the folder");
-    console.log(this.currentPointer);
+    console.log(this.currentPointer.children);
     this.currentPointer.addChild(new_file)
+    console.log(this.currentPointer.children);
+
   }
   
   this.displayContents = function()
