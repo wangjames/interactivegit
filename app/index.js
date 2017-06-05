@@ -8,6 +8,7 @@ import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 import PromptContainer from "./components/PromptContainer";
 import Editor from "./components/Editor";
 import Terminal from "./components/Terminal";
+import gitBoat from "./modules/GitBoat";
 require("./index.css");
 
 var App = React.createClass({
@@ -154,7 +155,16 @@ var App = React.createClass({
         newRepository.populate_pre_stage(this.state.directory);
         this.setState({repo: newRepository});
     },
-    
+    addRemote: function(name, url)
+    {
+        this.state.repo.addRemote(name, url);
+    },
+    pushBranch: function(name, branch)
+    {
+        var pushed_branch = this.state.repo.exportBranch();
+        var repo_url = this.state.repo.retrieveURL(name);
+        this.state.gitBoat.pushBranch(repo_url, pushed_branch);
+    },
     traverseBack: function()
     {
         var currentDirectory = this.state.directory;
@@ -181,11 +191,7 @@ var App = React.createClass({
         this.setState({directory: currentDirectory});
     },
     
-    componentDidMount: function()
-    {
-       
-    },
-    
+   
     getInitialState: function()
     {
         var directobject = new directoryObject.directoryObject();
@@ -197,8 +203,9 @@ var App = React.createClass({
         directobject.traverseBackwards();
         directobject.traverseToChild('hi');
         directobject.createFolder("yoyoyo");
-
-        return {directory: directobject, increment: 1};
+        var gitBoat = new gitBoat.gitBoat();
+      
+        return {directory: directobject, increment: 1, gitBoat: gitBoat};
     },
     createNode: function()
     {
