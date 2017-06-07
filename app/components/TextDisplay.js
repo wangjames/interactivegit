@@ -1,3 +1,4 @@
+import React from "react";
 class TextDisplay extends React.Component{
     render()
     {
@@ -9,3 +10,4 @@ class TextDisplay extends React.Component{
             )
     }
 }
+export default TextDisplay;

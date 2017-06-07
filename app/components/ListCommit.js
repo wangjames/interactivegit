@@ -1,3 +1,4 @@
+import React from "react";
 class ListCommit extends React.Component{
     render()
     {
@@ -12,3 +13,5 @@ class ListCommit extends React.Component{
                 )
     }
 }
+
+export default ListCommit;

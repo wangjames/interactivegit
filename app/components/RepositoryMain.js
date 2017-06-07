@@ -1,3 +1,6 @@
+import React from "react";
+import GitBoatVisualization from "./GitBoatVisualization";
+import TextDisplay from "./TextDisplay";
 class RepositoryMain extends React.Component {
     constructor(props)
     {
@@ -25,3 +28,5 @@ class RepositoryMain extends React.Component {
                 )
     }
 }
+
+export default RepositoryMain;

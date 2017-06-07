@@ -1,5 +1,9 @@
 import React from "react";
-
+import Login from "./Login.js"
+import MainPage from "./MainPage.js"
+import CreateRepository from "./CreateRepository";
+import RepositoryMain from "./RepositoryMain";
+import ListCommit from "./ListCommit";
 class GitBoat extends React.Component {
   constructor(props)
   {
