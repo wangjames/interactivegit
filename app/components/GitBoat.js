@@ -6,9 +6,11 @@ class GitBoat extends React.Component {
     super(props)
     this.state =
     {
-      status: "login"
+      status: "login",
+      gitBoat: props.gitBoat
     }
   }
+  
   login()
   {
     this.setState({status: "main_page"});
@@ -18,14 +20,20 @@ class GitBoat extends React.Component {
   {
     this.setState({status: "create_repository"})
   }
-  main_page()
+  submit_repository(name)
   {
-    this.setState({status: "main_page"});
+    this.state.gitBoat.create_repository(this.state.new_repository_value);
+    this.setState({status: "main_page", gitBoat: this.state.gitBoat, new_repository_value: ""});
+  }
+  handleChange(event)
+  {
+    this.setState({new_repository_value: event.target.value});
   }
   openRepository(name)
   {
-    var branch = this.getBranch(name);
-    this.setState({status: "single_commit", currentCommit: branch});
+    var gitRepo = this.state.gitBoat.getRepository(name);
+    var master_branch = gitRepo.getBranch("master");
+    this.setState({status: "single_commit", currentCommit: master_branch[(master_branch.length - 1)], currentBranch: master_branch, currentRepository: gitRepo, currentRepositoryName: name});
   }
   commitList()
   {
@@ -34,6 +42,10 @@ class GitBoat extends React.Component {
   goBack()
   {
     this.setState({status: "single_commit"});
+  }
+  toggleCommit(index)
+  {
+    this.setState({currentCommit: this.state.currentBranch[index]});
   }
   render()
   {
@@ -44,22 +56,22 @@ class GitBoat extends React.Component {
     
     else if (this.state.status === "create_repository")
     {
-      return <CreateRepository register={this.register}/>
+      return <CreateRepository handleChange={this.handleChange} submit_repository={this.submit_repository}/>
     }
     
     else if (this.state.status === "main_page")
     {
-      return <MainPage />
+      return <MainPage repository_list={this.state.gitBoat.exportRepositories} openRepository={this.openRepository} create_repository={this.create_repository} />
     }
     else if (this.state.status === "single_commit")
     {
-      return <RepositoryMain commit={this.state.currentCommit} />
+      return <RepositoryMain commit={this.state.currentCommit} repository_name={this.state.currentRepositoryName} />
     }
     
     else if (this.state.status === "list_commit")
     {
-      return <ListCommit branch={this.state.branch} />
+      return <ListCommit branch={this.state.currentBranch} toggleCommit={this.toggleCommit} goBack={this.goBack} />
     }
   
   }
-}
+} 
