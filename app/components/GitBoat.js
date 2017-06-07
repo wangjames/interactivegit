@@ -11,7 +11,29 @@ class GitBoat extends React.Component {
   }
   login()
   {
-    this.setState({status: main_page});
+    this.setState({status: "main_page"});
+  }
+  
+  create_repository()
+  {
+    this.setState({status: "create_repository"})
+  }
+  main_page()
+  {
+    this.setState({status: "main_page"});
+  }
+  openRepository(name)
+  {
+    var branch = this.getBranch(name);
+    this.setState({status: "single_commit", currentCommit: branch});
+  }
+  commitList()
+  {
+    this.setState({status: "list_commit"});
+  }
+  goBack()
+  {
+    this.setState({status: "single_commit"});
   }
   render()
   {
@@ -36,7 +58,7 @@ class GitBoat extends React.Component {
     
     else if (this.state.status === "list_commit")
     {
-      return <BranchVisualization branch={this.state.branch} />
+      return <ListCommit branch={this.state.branch} />
     }
   
   }
