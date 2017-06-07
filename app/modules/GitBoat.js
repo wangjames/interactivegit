@@ -2,57 +2,39 @@
 var gitBoat = function()
 {
   
-  function GitRepo()
+  function GitRepo(name)
   {
-    this.branch = [];
-    this.pushBranch = function(branch)
+    this.name = name;
+    this.branches = {};
+    this.pushBranch = function(branch_name, branch)
     {
-      this.branches.push(branch);
+      this.branches[branch_name] = branch;
     }
+   
   }
-  
-  this.generateURL = function(name)
+  this.generate_url = function(name)
   {
-    if (this.repository_hash.hasOwnProperty(name))
+    return name + ".git";
+  }
+  this.create_repository = function(name)
+  {
+    var url = this.generate_url(name);
+    
+    if (this.repository_hash.hasOwnProperty(url))
     {
       return;
     }
     else
     {
-      var url = name + ".git";
-      var newRepo = new GitRepo();
+      var newRepo = new GitRepo(name);
       this.repository_hash[url] = newRepo;
-      return;
+      return url;
     }
   }
-  
-  this.addRepository = function(name)
+  this.pushBranch = function(url, branch_name, branch)
   {
-    this.repositories[name] = new Repository();
-  }
-  this.pushBranch = function(url, branch)
-  {
-    this.repository_hash[url].pushBranch(branch);
+    this.repository_hash[url].pushBranch(branch_name, branch);
   }
 }
 
-
-
-<div id="box">
-  <p>Git Boat</p>
-  User: <input id="user"></input>
-  <br>
-  <br>
-  Password: <input id="password"></input>
-  <br>
-  <br>
-<button> Submit </button>
-</div>
-
-#box
-{
-  border: 1px solid black;
-  height: 500px;
-  width: 1000px;
-}
 

@@ -54,7 +54,13 @@ module.exports.gitRepository = function GitRepository()
     }
 
     this.currentBranch = new Branch("master");
+    this.branches = {}
+    this.branches["master"] = this.currentBranch;
     this.stagingArea = new Stage();
+    this.addRemote = function(name, url)
+    {
+        this.remotes[name] = url;
+    }
     this.rollback = function(count)
     {
         this.currentBranch.rollback(count);
@@ -73,6 +79,10 @@ module.exports.gitRepository = function GitRepository()
         }, this);
         this.stagingArea.print_pre_stage();
     };
+    this.exportBranch = function(branch_name)
+    {
+        return this.branches[branch_name];
+    }
     this.exportCommit = function()
     {
         console.log(this.currentBranch.returnHead());
@@ -89,6 +99,10 @@ module.exports.gitRepository = function GitRepository()
         var commitTree = this.stagingArea.returnStage();
         console.log(commitTree);
         this.currentBranch.addCommit(commitTree);
+    }
+    this.retrieveURL = function(name)
+    {
+        return this.remotes[name];
     }
 
 }

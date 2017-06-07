@@ -159,11 +159,11 @@ var App = React.createClass({
     {
         this.state.repo.addRemote(name, url);
     },
-    pushBranch: function(name, branch)
+    pushBranch: function(remote_name, branch_name)
     {
-        var pushed_branch = this.state.repo.exportBranch();
-        var repo_url = this.state.repo.retrieveURL(name);
-        this.state.gitBoat.pushBranch(repo_url, pushed_branch);
+        var pushed_branch = this.state.repo.exportBranch(branch_name);
+        var repo_url = this.state.repo.retrieveURL(remote_name);
+        this.state.gitBoat.pushBranch(repo_url, branch_name, pushed_branch);
     },
     traverseBack: function()
     {
@@ -247,6 +247,14 @@ var App = React.createClass({
                 <div> 
                     <Visualization directory={this.state.directory.root} currentPointer={this.state.directory.currentPointer.directory_name} />
                     <Editor content={this.state.content} file={this.state.file} submit={this.submitContent} />
+                </div>
+                )
+        }
+        if (this.state.status === "gitboat")
+        {
+            return (
+                <div id="gitboat-contianer">
+                <GitBoat gitBoat={this.state.gitBoat} />
                 </div>
                 )
         }
