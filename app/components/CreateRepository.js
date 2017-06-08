@@ -8,3 +8,4 @@ class CreateRepository extends React.Component{
             </div>)
     }
 }
+export default CreateRepository;

@@ -1,5 +1,5 @@
 
-var gitBoat = function()
+module.exports.gitBoat = function gitBoat()
 {
   
   function GitRepo(name)

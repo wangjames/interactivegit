@@ -11,4 +11,4 @@ class MenuItem extends React.Component {
     }
 }
 
-export default MenuItem
+export default MenuItem;

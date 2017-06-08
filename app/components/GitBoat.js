@@ -79,3 +79,5 @@ class GitBoat extends React.Component {
   
   }
 } 
+
+export default GitBoat;

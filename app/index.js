@@ -203,7 +203,7 @@ var App = React.createClass({
         directobject.traverseBackwards();
         directobject.traverseToChild('hi');
         directobject.createFolder("yoyoyo");
-        var gitBoat = new gitBoat.gitBoat();
+        var gitBoatInstance = new gitBoat.gitBoat();
       
         return {directory: directobject, increment: 1, gitBoat: gitBoat};
     },
