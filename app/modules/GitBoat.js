@@ -14,9 +14,15 @@ module.exports.gitBoat = function gitBoat()
     {
       return this.name;
     }
+    
+    this.containBranch = function(element)
+    {
+      return this.branches.hasOwnProperty(element);
+    }
    
   }
   this.repository_hash = {};
+  this.url_hash = {};
   this.generate_url = function(name)
   {
     return name + ".git";
@@ -32,20 +38,17 @@ module.exports.gitBoat = function gitBoat()
     {
       var newRepo = new GitRepo(name);
       this.repository_hash[url] = newRepo;
-      return url;
+      this.url_hash[name] = url;
+      return;
     }
+  }
+  this.getUrl = function(repo_name)
+  {
+    return this.url_hash[repo_name];
   }
   this.getRepository = function(repo_name)
   {
-    var url = "";
-    Object.keys(this.repository_hash).forEach(function(element)
-    {
-      if (this.repository_hash[element].returnName() === repo_name)
-      {
-        url = element;
-      }
-      
-    }.bind(this))
+    var url = this.getUrl(repo_name);
     return this.repository_hash[url];
   }
   this.exportRepositories = function()

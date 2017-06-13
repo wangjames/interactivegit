@@ -4,6 +4,7 @@ import MainPage from "./MainPage.js"
 import CreateRepository from "./CreateRepository";
 import RepositoryMain from "./RepositoryMain";
 import ListCommit from "./ListCommit";
+import NoBranchPage from "./NoBranchPage";
 class GitBoat extends React.Component {
   constructor(props)
   {
@@ -47,8 +48,17 @@ class GitBoat extends React.Component {
   {
     console.log("all the way up here");
     var gitRepo = this.state.gitBoat.getRepository(name);
-    var master_branch = gitRepo.getBranch("master");
-    this.setState({status: "single_commit", currentCommit: master_branch[(master_branch.length - 1)], currentBranch: master_branch, currentRepository: gitRepo, currentRepositoryName: name});
+    var gitUrl = this.state.gitBoat.getUrl(name);
+    var branchStatus = gitRepo.containBranch("master");
+    if (!branchStatus)
+    {
+      this.setState({status: "no_branch", currentRepository:gitRepo, currentRepositoryName: name, urlName: gitUrl});
+    }
+    else
+    {
+      var master_branch = gitRepo.getBranch("master");
+      this.setState({status: "single_commit", currentCommit: master_branch[(master_branch.length - 1)], urlName: gitUrl, currentBranch: master_branch, currentRepository: gitRepo, currentRepositoryName: name});
+    }
   }
   commitList()
   {
@@ -62,13 +72,17 @@ class GitBoat extends React.Component {
   {
     this.setState({currentCommit: this.state.currentBranch[index]});
   }
+  
   render()
   {
     if (this.state.status === "login")
     {
       return <Login loginHandler={this.login}/>
     }
-    
+    else if (this.state.status === "no_branch")
+    {
+      return <NoBranchPage url={this.state.urlName} repository_name={this.state.currentRepositoryName} changeToTerminal={this.props.changeToTerminal} />
+    }
     else if (this.state.status === "create_repository")
     {
       return <CreateRepository handleChange={this.handleChange} submit_repository={this.submit_repository}/>

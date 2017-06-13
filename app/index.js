@@ -244,6 +244,10 @@ var App = React.createClass({
     {
         this.setState({status: "gitboat"});
     },
+    changeToTerminal: function()
+    {
+        this.setState({status: "terminal"});
+    },
     render : function()
     {
         if (this.state.status === "editing")
@@ -259,7 +263,7 @@ var App = React.createClass({
         {
             return (
                 <div id="gitboat-container">
-                <GitBoat gitBoat={this.state.gitBoat} />
+                <GitBoat gitBoat={this.state.gitBoat} changeToTerminal={this.changeToTerminal} />
                 </div>
                 )
         }
