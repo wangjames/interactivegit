@@ -9,6 +9,7 @@ import PromptContainer from "./components/PromptContainer";
 import Editor from "./components/Editor";
 import Terminal from "./components/Terminal";
 import gitBoat from "./modules/GitBoat";
+import GitBoat from "./components/GitBoat";
 require("./index.css");
 
 var App = React.createClass({
@@ -205,7 +206,7 @@ var App = React.createClass({
         directobject.createFolder("yoyoyo");
         var gitBoatInstance = new gitBoat.gitBoat();
       
-        return {directory: directobject, increment: 1, gitBoat: gitBoat};
+        return {directory: directobject, increment: 1, gitBoat: gitBoatInstance};
     },
     createNode: function()
     {
@@ -239,6 +240,10 @@ var App = React.createClass({
        
         this.setState({directory: directory, status: "terminal"});
     },
+    gitBoat: function()
+    {
+        this.setState({status: "gitboat"});
+    },
     render : function()
     {
         if (this.state.status === "editing")
@@ -253,17 +258,19 @@ var App = React.createClass({
         if (this.state.status === "gitboat")
         {
             return (
-                <div id="gitboat-contianer">
+                <div id="gitboat-container">
                 <GitBoat gitBoat={this.state.gitBoat} />
                 </div>
                 )
         }
+        
         else
         {
             return (
             <div>
                 <Visualization directory={this.state.directory.root} openEditing={this.openEditing} currentPointer={this.state.directory.currentPointer.directory_name}/>
                 <button onClick={this.createNode}>Hey</button>
+                <button onClick={this.gitBoat}>Change to gitBoat</button>
                 <Link id="link" to="/">
                 Back
                 </Link>

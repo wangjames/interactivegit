@@ -13,6 +13,14 @@ class GitBoat extends React.Component {
       status: "login",
       gitBoat: props.gitBoat
     }
+    this.login = this.login.bind(this);
+    this.create_repository = this.create_repository.bind(this);
+    this.submit_repository = this.submit_repository.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.openRepository = this.openRepository.bind(this);
+    this.commitList = this.commitList.bind(this);
+    this.goBack = this.goBack.bind(this);
+    this.toggleCommit = this.toggleCommit.bind(this);
   }
   
   login()
@@ -24,10 +32,12 @@ class GitBoat extends React.Component {
   {
     this.setState({status: "create_repository"})
   }
-  submit_repository(name)
+  submit_repository()
   {
-    this.state.gitBoat.create_repository(this.state.new_repository_value);
-    this.setState({status: "main_page", gitBoat: this.state.gitBoat, new_repository_value: ""});
+    console.log("broken here");
+    var copy_gitBoat = this.state.gitBoat;
+    copy_gitBoat.create_repository(this.state.new_repository_value);
+    this.setState({status: "main_page", gitBoat: copy_gitBoat, new_repository_value: ""});
   }
   handleChange(event)
   {
@@ -35,6 +45,7 @@ class GitBoat extends React.Component {
   }
   openRepository(name)
   {
+    console.log("all the way up here");
     var gitRepo = this.state.gitBoat.getRepository(name);
     var master_branch = gitRepo.getBranch("master");
     this.setState({status: "single_commit", currentCommit: master_branch[(master_branch.length - 1)], currentBranch: master_branch, currentRepository: gitRepo, currentRepositoryName: name});
@@ -65,7 +76,9 @@ class GitBoat extends React.Component {
     
     else if (this.state.status === "main_page")
     {
-      return <MainPage repository_list={this.state.gitBoat.exportRepositories} openRepository={this.openRepository} create_repository={this.create_repository} />
+      console.log(this.state.gitBoat);
+      var repository_list = this.state.gitBoat.exportRepositories();
+      return <MainPage repository_list={repository_list} openRepository={this.openRepository} create_repository={this.create_repository} />
     }
     else if (this.state.status === "single_commit")
     {

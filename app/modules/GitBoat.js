@@ -16,6 +16,7 @@ module.exports.gitBoat = function gitBoat()
     }
    
   }
+  this.repository_hash = {};
   this.generate_url = function(name)
   {
     return name + ".git";
@@ -23,7 +24,6 @@ module.exports.gitBoat = function gitBoat()
   this.create_repository = function(name)
   {
     var url = this.generate_url(name);
-    
     if (this.repository_hash.hasOwnProperty(url))
     {
       return;
@@ -45,15 +45,19 @@ module.exports.gitBoat = function gitBoat()
         url = element;
       }
       
-    })
+    }.bind(this))
     return this.repository_hash[url];
   }
   this.exportRepositories = function()
   {
+    if (Object.keys(this.repository_hash) === 0)
+    {
+      return [];
+    }
     var final_array = Object.keys(this.repository_hash).map(function(element)
     {
       return this.repository_hash[element].returnName();
-    })
+    }.bind(this));
     return final_array;
   }
   this.pushBranch = function(url, branch_name, branch)

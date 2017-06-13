@@ -4,10 +4,10 @@ class Login extends React.Component
     
     render()
     {
-        <div>
+        return (<div>
             This is the Login Page
             <button onClick={this.props.loginHandler}> Login </button>
-        </div>
+        </div>)
     }
 }
 
