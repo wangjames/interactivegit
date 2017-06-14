@@ -92,7 +92,13 @@ var App = React.createClass({
             {
                 var expression1 = /^HEAD\~[0-9]+$/gi;
                 var expression2 = /^\-{2}hard$/gi;
+                var expression3 = /^HEAD$/gi;
                 
+                if (command_split[2].match(expression3) !== null && command_split[3].match(expression2))
+                {
+                    console.log("activated");
+                    this.rollBack(0);
+                }
                 if (command_split[2].match(expression1) !== null && command_split[3].match(expression2))
                 {
                     var number_rollback = command_split[2].split('~')[1];
