@@ -92,7 +92,13 @@ var App = React.createClass({
             {
                 var expression1 = /^HEAD\~[0-9]+$/gi;
                 var expression2 = /^\-{2}hard$/gi;
+                var expression3 = /^HEAD$/gi;
                 
+                if (command_split[2].match(expression3) !== null && command_split[3].match(expression2))
+                {
+                    console.log("activated");
+                    this.rollBack(0);
+                }
                 if (command_split[2].match(expression1) !== null && command_split[3].match(expression2))
                 {
                     var number_rollback = command_split[2].split('~')[1];
@@ -114,6 +120,10 @@ var App = React.createClass({
     {
         this.state.repo.rollback(rollback_count);
         var newDirectory = this.state.repo.exportCommit();
+        console.log(newDirectory);
+        console.log("here is the newdirectory after rollback");
+        console.log(newDirectory.generate_current_children());
+        console.log(this.state.directory.generate_current_children());
         this.setState({directory: newDirectory, repo: this.state.repo});
     },
     checkStatus: function()
@@ -131,6 +141,9 @@ var App = React.createClass({
         if (file_name === ".")
         {
             var children_array = currentDirectory.generate_current_children();
+            console.log("after rollback");
+            console.log(children_array);
+            console.log(currentDirectory);
             children_array.forEach(function(element)
             {
                 var copied_object = currentDirectory.retrieveByPathName(element);

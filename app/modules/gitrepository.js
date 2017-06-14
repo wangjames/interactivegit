@@ -13,17 +13,16 @@ module.exports.gitRepository = function GitRepository()
         this.addCommit = function(commitTree)
         {
             this.commits.push(commitTree);
+            console.log(commitTree);
+            console.log(commitTree.generate_current_children());
         }
         this.rollback = function(count)
         {
             var totalCount = this.commits.length;
-            this.commits = this.commits.slice(0, (totalCount - count + 1));
+            this.commits = this.commits.slice(0, (totalCount - count));
+            console.log(this.commits);
         }
         
-        this.returnHead = function()
-        {
-            return this.commits[(this.commits.length - 1)];
-        }
     }
     
     function Stage()
