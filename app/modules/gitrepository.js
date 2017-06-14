@@ -55,6 +55,7 @@ module.exports.gitRepository = function GitRepository()
 
     this.currentBranch = new Branch("master");
     this.branches = {}
+    this.remotes = {}
     this.branches["master"] = this.currentBranch;
     this.stagingArea = new Stage();
     this.addRemote = function(name, url)

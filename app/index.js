@@ -59,16 +59,23 @@ var App = React.createClass({
                 this.addToStagingArea(command_split[2]);
                 return "File added to Staging Area";
             }
-            
+            else if (command_split[1] === "remote")
+            {
+                this.addRemote(command_split[3], command_split[4]);
+                return "remote added";
+               
+            }
+          
             else if (command_split[1] === "commit")
             {
                 this.makeCommit();
                 return "Commit Made";
             }
             
-            else if (command_split[1] === "push" && command_split[2] === "origin" && command_split[3] === "master")
+            else if (command_split[1] === "push")
             {
-                this.pushToRemote();
+                this.pushBranch(command_split[2], command_split[3]);
+                return "Branch Pushed";
             }
             
             else if (command_split[1] === "merge")
@@ -164,6 +171,9 @@ var App = React.createClass({
     {
         var pushed_branch = this.state.repo.exportBranch(branch_name);
         var repo_url = this.state.repo.retrieveURL(remote_name);
+        console.log(this.state.gitBoat);
+        console.log(repo_url);
+        console.log("remote name");
         this.state.gitBoat.pushBranch(repo_url, branch_name, pushed_branch);
     },
     traverseBack: function()
