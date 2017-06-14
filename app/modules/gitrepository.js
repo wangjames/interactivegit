@@ -55,6 +55,7 @@ module.exports.gitRepository = function GitRepository()
         {
             console.log(this.pre_stage);
         }
+        
     }
 
     this.currentBranch = new Branch("master");
@@ -77,7 +78,6 @@ module.exports.gitRepository = function GitRepository()
     this.populate_pre_stage = function(directory)
     {
         var directory_list = directory.generate_pre_stage();
-        console.log(directory_list);
         directory_list.forEach(function(element)
         {
             this.stagingArea.addToPreStage(element);
@@ -90,7 +90,6 @@ module.exports.gitRepository = function GitRepository()
     }
     this.exportCommit = function()
     {
-        console.log(this.currentBranch.returnHead());
         return this.currentBranch.returnHead();
     }
     this.stage_element = function(path_name, copied_object)
@@ -102,7 +101,6 @@ module.exports.gitRepository = function GitRepository()
     this.makeCommit = function()
     {
         var commitTree = this.stagingArea.returnStage();
-        console.log(commitTree);
         this.currentBranch.addCommit(commitTree);
     }
     this.retrieveURL = function(name)

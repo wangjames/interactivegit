@@ -30,14 +30,11 @@ module.exports.directoryObject = function DirectoryObject()
       }
       
       this.contains = function(check_name){
-        var final_result = false;
-        this.children.forEach(function(element)
+        var final_result = this.children.reduce(function(acc, element)
         {
-          if (element.checkName(check_name))
-          {
-            var final_result = true;
-          }
-        }, this)
+          return acc || element.checkName(check_name);
+        }, false);
+        
         return final_result;
       }
       
@@ -122,7 +119,6 @@ module.exports.directoryObject = function DirectoryObject()
     var expression1 = /(^\/(\w+\/*)+)$/gi;
     var expression2 = /(^\w+\/(\w+\/*)*)$/gi;
     var expression3 = /(^\w+$)/gi;
-    console.log(path_name);
     if (path_name.match(expression1) !== null)
     {
       var matched_expression_array = path_name.match(expression1)[0].split("/").slice(1);
@@ -149,33 +145,22 @@ module.exports.directoryObject = function DirectoryObject()
   
   this.retrievebyPathHelper = function(paths, folder)
   {
-    console.log(paths);
-    console.log(folder);
-    console.log("check here");
     var final_element = undefined;
-    if (paths.length === 1)
+    function find_element(element)
     {
-      var selected_file = "";
-      var final_element = undefined;
-      folder.children.forEach(function(element)
-      {
-        if (element.checkName(paths[0]))
-        {
-          final_element = element;
-        }
-      }, this)
-      console.log("are you serious");
-      return final_element;
+      return element.checkName(paths[0])
     }
     
-    folder.children.forEach(function(element){
-      if (element.checkName(paths[0]))
-      {
-        
-        final_element = this.retrievebyPathHelper(paths.slice(1), element);
-      }
-    }, this)
-    return final_element;
+    final_element = folder.children.find(find_element);
+    if (paths.length === 1)
+    {
+      return final_element;
+    }
+    else
+    {
+      return this.retrievebyPathHelper(paths.slice(1), final_element);
+    }
+    
   }
   
   this.getPath = function()
@@ -205,8 +190,6 @@ module.exports.directoryObject = function DirectoryObject()
     });
     var result_array = _.reduce(children_array, function(memo, element){ return memo.concat(this.generate_children_helper(element));}.bind(this), result_array);
 
-    console.log("final_result");
-    console.log(result_array);
     return result_array;
   }
   this.generate_children = function(node)
@@ -223,22 +206,22 @@ module.exports.directoryObject = function DirectoryObject()
   }
   this.addWithAbsolutePathHelper = function(paths, folder, copied_object)
   {
-    console.log(paths);
-    var present = false;
     if (paths.length === 1)
     {
-      if(folder.contains(paths[0]) && copied_object.type === "folder")
+      // if object is folder, and the folder already has the object, then continue
+      if (folder.contains(paths[0]) && copied_object.type === "folder")
       {
         return;
       }
-      
-      if (copied_object.type === "folder")
+      // if the folder is not there, create the folder
+      if (copied_object.type === "folder") 
       {
         var newChild = new Folder(paths[0]);
         folder.addChild(newChild);
         return;
       }
       
+      // if the object is a file, copy the file and add it to the folder.
       else
       {
         var newChild = copied_object.createCopy();
@@ -248,20 +231,25 @@ module.exports.directoryObject = function DirectoryObject()
       
     }
     
-    folder.children.forEach(function(element){
-      console.log(element);
-      if(element.checkName(paths[0])){
-          this.addWithAbsolutePathHelper(paths.slice(1), element, copied_object);
-          present = true;
-      }
-    }, this);
+    function find_element(element)
+    {
+      return element.checkName(paths[0]);
+    }
     
-    if (present == false)
+    var selected_object = folder.children.find(find_element);
+    
+    if (selected_object === undefined)
     {
       var newChild = new Folder(paths[0]);
       folder.addChild(newChild);
       this.addWithAbsolutePathHelper(paths, folder, copied_object);
     }
+    
+    else
+    {
+      this.addWithAbsolutePathHelper(paths.slice(1), selected_object, copied_object);
+    }
+    
     
   }
   
@@ -366,8 +354,6 @@ module.exports.directoryObject = function DirectoryObject()
     
     var new_directory_name = this.currentPointer.getPath() + "/" + file_name
     new_file.setPath(new_directory_name);
-    console.log("here is the folder");
-    console.log(this.currentPointer);
     this.currentPointer.addChild(new_file)
   }
   

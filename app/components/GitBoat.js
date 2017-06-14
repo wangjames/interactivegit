@@ -99,7 +99,7 @@ class GitBoat extends React.Component {
     }
     else if (this.state.status === "single_commit")
     {
-      return <RepositoryMain commit={this.state.currentCommit} repository_name={this.state.currentRepositoryName} />
+      return <RepositoryMain returnTerminal={this.props.changeToTerminal} commit={this.state.currentCommit} repository_name={this.state.currentRepositoryName} />
     }
     
     else if (this.state.status === "list_commit")

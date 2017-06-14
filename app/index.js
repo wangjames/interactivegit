@@ -134,8 +134,6 @@ var App = React.createClass({
             children_array.forEach(function(element)
             {
                 var copied_object = currentDirectory.retrieveByPathName(element);
-                console.log(copied_object);
-                console.log("is the object getting pulled correctly?");
                 this.state.repo.stage_element(element, copied_object);
             }, this);
         }
@@ -144,8 +142,6 @@ var App = React.createClass({
             
             var absolute_path = currentDirectory.getPath() + "/" + file_name;
             var copied_object = currentDirectory.retrieveByPathName(absolute_path);
-            console.log(copied_object);
-            console.log("is the object getting pulled correctly?");
             this.state.repo.stage_element(absolute_path, copied_object);
         }
         return;

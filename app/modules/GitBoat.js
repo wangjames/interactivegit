@@ -69,10 +69,6 @@ module.exports.gitBoat = function gitBoat()
   }
   this.pushBranch = function(url, branch_name, branch)
   {
-    console.log("here is the url");
-    console.log("url");
-    console.log(this.repository_hash);
-    console.log(this.repository_hash[url]);
     this.repository_hash[url].pushBranch(branch_name, branch);
   }
 }
