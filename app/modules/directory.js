@@ -96,7 +96,10 @@ module.exports.directoryObject = function DirectoryObject()
   this.root = new Folder("root");
   this.currentPointer = this.root;
   this.root.setPath("/root");
-  
+  this.returnRoot = function()
+  {
+    return this.root;
+  }
   this.traverseToChild = function(name)
   {
     var children_array = this.currentPointer.children;

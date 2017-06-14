@@ -19,10 +19,10 @@ class RepositoryMain extends React.Component {
     
     render()
     {
+        var root = this.props.commit.returnRoot();
         return (
                 <div>
-                    <button onClick={this.commitList()} branch={this.props.currentBranch}> Go to Commit List </button>
-                    <GitBoatVisualization directory={this.props.currentCommit} viewFile={this.viewFile}/>
+                    <GitBoatVisualization directory={this.props.commit.root} viewFile={this.viewFile}/>
                     <TextDisplay currentFileName={this.state.currentFileName} content={this.state.content}/>
                 </div>
                 )

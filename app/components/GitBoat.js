@@ -57,7 +57,10 @@ class GitBoat extends React.Component {
     else
     {
       var master_branch = gitRepo.getBranch("master");
-      this.setState({status: "single_commit", currentCommit: master_branch[(master_branch.length - 1)], urlName: gitUrl, currentBranch: master_branch, currentRepository: gitRepo, currentRepositoryName: name});
+      console.log(master_branch);
+      console.log("is the master branch being found");
+      var headCommit = master_branch.returnHead();
+      this.setState({status: "single_commit", currentCommit: headCommit, urlName: gitUrl, currentBranch: master_branch, currentRepository: gitRepo, currentRepositoryName: name});
     }
   }
   commitList()

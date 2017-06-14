@@ -6,6 +6,10 @@ module.exports.gitBoat = function gitBoat()
   {
     this.name = name;
     this.branches = {};
+    this.getBranch = function(branch_name)
+    {
+      return this.branches[branch_name];
+    }
     this.pushBranch = function(branch_name, branch)
     {
       this.branches[branch_name] = branch;

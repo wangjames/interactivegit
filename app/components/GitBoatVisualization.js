@@ -4,7 +4,7 @@ var GitBoatVisualization = React.createClass({
     
     renderChildren: function(item)
     {
-       return <GitBoatVisualization directory={this.props.directory} viewFile={this.props.viewFile}/>
+       return <GitBoatVisualization directory={item} viewFile={this.props.viewFile}/>
     },
     openFile: function()
     {
@@ -14,6 +14,8 @@ var GitBoatVisualization = React.createClass({
     render: function()
     {
         var item = this.props.directory;
+        console.log(item);
+        console.log("is anything being returned?");
         if (item.type === "file")
         {
             return (
