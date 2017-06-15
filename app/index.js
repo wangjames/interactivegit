@@ -101,6 +101,7 @@ var App = React.createClass({
                 }
                 if (command_split[2].match(expression1) !== null && command_split[3].match(expression2))
                 {
+                    console.log("here we go");
                     var number_rollback = command_split[2].split('~')[1];
                     this.rollBack(number_rollback);
                 }
@@ -147,6 +148,10 @@ var App = React.createClass({
             children_array.forEach(function(element)
             {
                 var copied_object = currentDirectory.retrieveByPathName(element);
+                console.log("plz");
+                console.log(copied_object);
+                console.log(element);
+                console.log(currentDirectory);
                 this.state.repo.stage_element(element, copied_object);
             }, this);
         }

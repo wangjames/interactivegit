@@ -14,7 +14,8 @@ class Branch
     addCommit(commitTree)
     {
         this.commits.push(commitTree);
-        console.log("this should be a directoryObject");
+        console.log("here are the commits");
+        console.log(this.commits);
         console.log(commitTree);
         console.log(commitTree.generate_current_children());
     }

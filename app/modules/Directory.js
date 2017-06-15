@@ -8,7 +8,43 @@ class Directory
     this.currentPointer = this.root;
     this.root.setPath("/root");
   }
-  
+  change_root(folder)
+  {
+    this.root = folder;
+  }
+  copy_helper(copy_node)
+  {
+    if (copy_node.type === "file")
+    {
+      return copy_node.createCopy();
+    }
+    
+    else
+    {
+      
+      if (copy_node.hasChildren === false)
+      {
+        return [];
+      }
+      
+      let new_folder_name = copy_node.retrieveName();
+      let children_array = copy_node.getChildren();
+      let newFolder = new Folder(new_folder_name);
+      children_array = children_array.map(function(element)
+      {
+        return this.copy_helper(element);
+      }, this)
+      newFolder.setChildren(children_array);
+      return newFolder;
+    }
+  }
+  copy_directory()
+  {
+    let new_root = this.copy_helper(this.root);
+    let new_directory = new Directory();
+    new_directory.change_root(new_root);
+    return new_directory;
+  }
   returnRoot()
   {
     return this.root;
@@ -119,14 +155,10 @@ class Directory
     }
     
     var children_array = node.children;
-    console.log("this should be node_children");
-    console.log(children_array);
     var result_array = children_array.map(function(element){
       return element.getPath();
     });
     var result_array = children_array.reduce(function(memo, element){ return memo.concat(this.generate_children_helper(element));}.bind(this), result_array);
-    console.log("why all undefined");
-    console.log(result_array);
     return result_array;
   }
   generate_children(node)
@@ -146,6 +178,7 @@ class Directory
   {
     if (paths.length === 1)
     {
+      var new_directory_name = folder.getPath() + "/" + paths[0];
       // if object is folder, and the folder already has the object, then continue
       if (folder.contains(paths[0]) && copied_object.type === "folder")
       {
@@ -155,6 +188,8 @@ class Directory
       if (copied_object.type === "folder") 
       {
         var newChild = new Folder(paths[0]);
+        newChild.setParentNode(folder);
+        newChild.setPath(new_directory_name);
         folder.addChild(newChild);
         return;
       }
@@ -163,6 +198,8 @@ class Directory
       else
       {
         var newChild = copied_object.createCopy();
+        newChild.setPath(new_directory_name);
+        newChild.setParentNode(folder);
         folder.addChild(newChild);
         return;
       }
@@ -178,8 +215,13 @@ class Directory
     
     if (selected_object === undefined)
     {
+      var new_directory_name = folder.getPath() + "/" + paths[0];
       var newChild = new Folder(paths[0]);
+      newChild.setParentNode(folder);
+      newChild.setPath(new_directory_name)
       folder.addChild(newChild);
+      
+      
       this.addWithAbsolutePathHelper(paths, folder, copied_object);
     }
     

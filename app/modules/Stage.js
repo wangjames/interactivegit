@@ -6,7 +6,10 @@ class Stage
         this.stage = new DirectoryObject();
         this.pre_stage = []
     }
-    
+    replaceStage(new_stage)
+    {
+        this.stage = new_stage;
+    }
     addToPreStage(item)
     {
         this.pre_stage.push(item);

@@ -7,7 +7,22 @@ class Folder
         this.children = [];
         this.parentNode = null;
     }
-    
+    setChildren(children_array)
+    {
+        this.children = children_array;
+    }
+    hasChildren()
+    {
+        return this.children.length > 0;
+    }
+    getChildren()
+    {
+        return this.children;
+    }
+    setParentNode(node)
+    {
+        this.parentNode = node;
+    }
     setPath(path_name)
     {
         this.path = path_name;
