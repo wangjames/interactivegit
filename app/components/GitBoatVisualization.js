@@ -14,8 +14,6 @@ var GitBoatVisualization = React.createClass({
     render: function()
     {
         var item = this.props.directory;
-        console.log(item);
-        console.log("is anything being returned?");
         if (item.type === "file")
         {
             return (

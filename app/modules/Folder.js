@@ -6,6 +6,7 @@ class Folder
         this.directory_name = directory_name;
         this.children = [];
         this.parentNode = null;
+        this.path = "";
     }
     
     setChildren(children_array)

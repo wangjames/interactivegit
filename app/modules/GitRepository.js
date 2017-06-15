@@ -53,6 +53,7 @@ class GitRepository
         var new_stage = commitTree.copy_directory();
         this.stagingArea.replaceStage(new_stage);
         this.currentBranch.addCommit(commitTree);
+        
     }
     retrieveURL(name)
     {

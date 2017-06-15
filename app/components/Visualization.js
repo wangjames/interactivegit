@@ -18,7 +18,6 @@ var Visualization = React.createClass({
     openFile: function()
     {
         var file_name = this.props.directory.getPath();
-        console.log(file_name);
         this.props.openEditing(file_name);
     },
     render: function()

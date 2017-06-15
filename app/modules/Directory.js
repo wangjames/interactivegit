@@ -30,6 +30,7 @@ class Directory
       let new_folder_name = copy_node.retrieveName();
       let children_array = copy_node.getChildren();
       let newFolder = new Folder(new_folder_name);
+      newFolder.setPath(copy_node.getPath());
       children_array = children_array.map(function(element)
       {
         return this.copy_helper(element);
@@ -202,7 +203,6 @@ class Directory
         newChild.setParentNode(folder);
         folder.removeNode(paths[0]);
         folder.addChild(newChild);
-        console.log(folder);
         return;
       }
       

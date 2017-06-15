@@ -14,7 +14,6 @@ class Branch
     addCommit(commitTree)
     {
         this.commits.push(commitTree);
-        
     }
     rollback(count)
     {

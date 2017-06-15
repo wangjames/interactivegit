@@ -97,12 +97,10 @@ var App = React.createClass({
                 
                 if (command_split[2].match(expression3) !== null && command_split[3].match(expression2))
                 {
-                    console.log("activated");
                     this.rollBack(0);
                 }
                 if (command_split[2].match(expression1) !== null && command_split[3].match(expression2))
                 {
-                    console.log("here we go");
                     var number_rollback = command_split[2].split('~')[1];
                     this.rollBack(number_rollback);
                 }
@@ -260,7 +258,7 @@ var App = React.createClass({
         {
             return (
                 <div> 
-                    <Visualization directory={this.state.directory.root} currentPointer={this.state.directory.currentPointer.directory_name} />
+                    <Visualization directory={this.state.directory.root} openEditing={this.openEditing} currentPointer={this.state.directory.currentPointer.directory_name} />
                     <Editor content={this.state.content} file={this.state.file} submit={this.submitContent} />
                 </div>
                 )
