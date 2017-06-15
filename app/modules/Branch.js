@@ -14,16 +14,12 @@ class Branch
     addCommit(commitTree)
     {
         this.commits.push(commitTree);
-        console.log("here are the commits");
-        console.log(this.commits);
-        console.log(commitTree);
-        console.log(commitTree.generate_current_children());
+        
     }
     rollback(count)
     {
         var totalCount = this.commits.length;
         this.commits = this.commits.slice(0, (totalCount - count));
-        console.log(this.commits);
     }
 
 }

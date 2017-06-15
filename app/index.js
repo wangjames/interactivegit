@@ -16,6 +16,7 @@ var App = React.createClass({
     
     parseCommand: function(input)
     {
+        this.state.command_array.push(input);
         var command_split = input.split(" ");
         if (command_split[0] === "cd")
         {
@@ -121,10 +122,6 @@ var App = React.createClass({
     {
         this.state.repo.rollback(rollback_count);
         var newDirectory = this.state.repo.exportCommit();
-        console.log(newDirectory);
-        console.log("here is the newdirectory after rollback");
-        console.log(newDirectory.generate_current_children());
-        console.log(this.state.directory.generate_current_children());
         this.setState({directory: newDirectory, repo: this.state.repo});
     },
     checkStatus: function()
@@ -142,16 +139,9 @@ var App = React.createClass({
         if (file_name === ".")
         {
             var children_array = currentDirectory.generate_current_children();
-            console.log("after rollback");
-            console.log(children_array);
-            console.log(currentDirectory);
             children_array.forEach(function(element)
             {
                 var copied_object = currentDirectory.retrieveByPathName(element);
-                console.log("plz");
-                console.log(copied_object);
-                console.log(element);
-                console.log(currentDirectory);
                 this.state.repo.stage_element(element, copied_object);
             }, this);
         }
@@ -185,9 +175,6 @@ var App = React.createClass({
     {
         var pushed_branch = this.state.repo.exportBranch(branch_name);
         var repo_url = this.state.repo.retrieveURL(remote_name);
-        console.log(this.state.gitBoat);
-        console.log(repo_url);
-        console.log("remote name");
         this.state.gitBoat.pushBranch(repo_url, branch_name, pushed_branch);
     },
     traverseBack: function()
@@ -230,8 +217,8 @@ var App = React.createClass({
         directobject.createFolder("yoyoyo");
         directobject.traverseBackwards();
         var gitBoatInstance = new GitBoatModule();
-      
-        return {directory: directobject, increment: 1, gitBoat: gitBoatInstance};
+        let command_array = [];
+        return {directory: directobject, increment: 1, gitBoat: gitBoatInstance, command_array: command_array};
     },
     createNode: function()
     {
@@ -247,19 +234,13 @@ var App = React.createClass({
     },
     
     openEditing: function(file_name){
-        console.log("checking editing");
-        console.log(file_name);
+        
         var file_contents = this.state.directory.retrieveByPathName(file_name).retrieveContents();
-        console.log("should work");
-        console.log(file_contents);
         this.setState({status: "editing", file: file_name, content: file_contents});
     },
     
     submitContent: function(file_name, content)
     {
-        console.log(file_name);
-        console.log(content);
-        console.log("checking submit");
         var directory = this.state.directory;
         directory.retrieveByPathName(file_name).modifyContents(content);
        

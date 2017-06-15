@@ -5,8 +5,13 @@ class TextObject
       this.type = "file";
       this.name = file_name;
       this.text = "";
+      this.parentNode = null;
     }
     
+    setParentNode(element)
+    {
+        this.parentNode = element;
+    }
     retrieveName()
     {
         return this.name;
@@ -43,3 +48,5 @@ class TextObject
         return newCopy;
     }
 }
+
+export default TextObject;

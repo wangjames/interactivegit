@@ -32,7 +32,6 @@ class GitRepository
         {
             this.stagingArea.addToPreStage(element);
         }, this);
-        this.stagingArea.print_pre_stage();
     };
     exportBranch(branch_name)
     {
@@ -52,8 +51,6 @@ class GitRepository
     {
         var commitTree = this.stagingArea.returnStage();
         var new_stage = commitTree.copy_directory();
-        console.log(new_stage);
-        console.log(commitTree);
         this.stagingArea.replaceStage(new_stage);
         this.currentBranch.addCommit(commitTree);
     }

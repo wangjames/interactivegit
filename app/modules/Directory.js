@@ -167,7 +167,6 @@ class Directory
   }
   generate_pre_stage()
   {
-    console.log(this.root.children);
     return this.generate_children(this.root);
   }
   generate_current_children()
@@ -197,10 +196,13 @@ class Directory
       // if the object is a file, copy the file and add it to the folder.
       else
       {
+        
         var newChild = copied_object.createCopy();
         newChild.setPath(new_directory_name);
         newChild.setParentNode(folder);
+        folder.removeNode(paths[0]);
         folder.addChild(newChild);
+        console.log(folder);
         return;
       }
       

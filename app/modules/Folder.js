@@ -7,6 +7,7 @@ class Folder
         this.children = [];
         this.parentNode = null;
     }
+    
     setChildren(children_array)
     {
         this.children = children_array;
@@ -14,6 +15,15 @@ class Folder
     hasChildren()
     {
         return this.children.length > 0;
+    }
+    
+    removeNode(element)
+    {
+        function equals(node) 
+        {
+            return !(node.checkName(element));
+        }
+        this.children = this.children.filter(equals);
     }
     getChildren()
     {
