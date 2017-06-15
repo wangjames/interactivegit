@@ -5,7 +5,7 @@ import CreateRepository from "./CreateRepository";
 import RepositoryMain from "./RepositoryMain";
 import ListCommit from "./ListCommit";
 import NoBranchPage from "./NoBranchPage";
-class GitBoat extends React.Component {
+class GitBoatComponent extends React.Component {
   constructor(props)
   {
     super(props)
@@ -110,4 +110,4 @@ class GitBoat extends React.Component {
   }
 } 
 
-export default GitBoat;
+export default GitBoatComponent;
