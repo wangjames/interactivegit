@@ -1,6 +1,6 @@
-import directoryObject from "./modules/directory";
+import DirectoryObject from "./modules/Directory";
 import JQConsole from "./modules/jqconsole";
-import gitrepository from "./modules/gitrepository";
+import GitRepository from "./modules/GitRepository";
 import React from "react";
 import ReactDOM from "react-dom"
 import Visualization from "./components/Visualization";
@@ -8,8 +8,8 @@ import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 import PromptContainer from "./components/PromptContainer";
 import Editor from "./components/Editor";
 import Terminal from "./components/Terminal";
-import gitBoat from "./modules/GitBoat";
-import GitBoat from "./components/GitBoat";
+import GitBoatModule from "./modules/GitBoatModule";
+import GitBoatComponent from "./components/GitBoatComponent";
 require("./index.css");
 
 var App = React.createClass({
@@ -101,6 +101,7 @@ var App = React.createClass({
                 }
                 if (command_split[2].match(expression1) !== null && command_split[3].match(expression2))
                 {
+                    console.log("here we go");
                     var number_rollback = command_split[2].split('~')[1];
                     this.rollBack(number_rollback);
                 }
@@ -147,6 +148,10 @@ var App = React.createClass({
             children_array.forEach(function(element)
             {
                 var copied_object = currentDirectory.retrieveByPathName(element);
+                console.log("plz");
+                console.log(copied_object);
+                console.log(element);
+                console.log(currentDirectory);
                 this.state.repo.stage_element(element, copied_object);
             }, this);
         }
@@ -168,7 +173,7 @@ var App = React.createClass({
     },
     createGitRepository: function()
     {
-        var newRepository = new gitrepository.gitRepository();
+        var newRepository = new GitRepository();
         newRepository.populate_pre_stage(this.state.directory);
         this.setState({repo: newRepository});
     },
@@ -214,7 +219,7 @@ var App = React.createClass({
    
     getInitialState: function()
     {
-        var directobject = new directoryObject.directoryObject();
+        var directobject = new DirectoryObject();
         directobject.setPath("/root");
         directobject.createFolder("hi");
         directobject.createFolder("hey");
@@ -223,7 +228,8 @@ var App = React.createClass({
         directobject.traverseBackwards();
         directobject.traverseToChild('hi');
         directobject.createFolder("yoyoyo");
-        var gitBoatInstance = new gitBoat.gitBoat();
+        directobject.traverseBackwards();
+        var gitBoatInstance = new GitBoatModule();
       
         return {directory: directobject, increment: 1, gitBoat: gitBoatInstance};
     },
