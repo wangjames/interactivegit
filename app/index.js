@@ -86,7 +86,7 @@ var App = React.createClass({
             
             else if (command_split[1] === "status")
             {
-                this.checkStatus();
+                return this.checkStatus();
             }
             
             else if (command_split[1] === "reset")
@@ -125,9 +125,9 @@ var App = React.createClass({
     checkStatus: function()
     {
         var repository = this.state.repo;
-        var currentDirectory = this.state.currentDirectory;
         
-        return this.state.repo.currentStatus(currentDirectory);
+        
+        return this.state.repo.checkStatus();
     },
     
     addToStagingArea: function(file_name)
@@ -185,19 +185,43 @@ var App = React.createClass({
     {
         var currentDirectory = this.state.directory;
         currentDirectory.createFile(file_name);
-        this.setState({directory:currentDirectory});
+        var new_path = currentDirectory.showCurrentPointer() + "/" + file_name;
+        
+        if (this.state.hasOwnProperty("repo"))
+        {
+            this.state.repo.track_changes(new_path);
+            this.setState({directory:currentDirectory, repo: this.state.repo});
+        }
+       
+        else
+        {
+            this.setState({directory:currentDirectory});
+        }
+        
     },
     makeDirectory: function(directory_name)
     {
         var currentDirectory = this.state.directory;
         currentDirectory.createFolder(directory_name);
-        this.setState({directory: currentDirectory});
+        var new_path = currentDirectory.showCurrentPointer() + directory_name;
+        
+        if (this.state.hasOwnProperty("repo"))
+        {
+            this.state.repo.track_changes(new_path);
+            this.setState({directory:currentDirectory, repo: this.state.repo});
+        }
+        else
+        {
+            this.setState({directory:currentDirectory});
+        }
+
     },
     
     changeDirectory: function(directory_name)
     {
         var currentDirectory = this.state.directory;
         currentDirectory.traverseToChild(directory_name);
+        
         this.setState({directory: currentDirectory});
     },
     
@@ -206,14 +230,6 @@ var App = React.createClass({
     {
         var directobject = new DirectoryObject();
         directobject.setPath("/root");
-        directobject.createFolder("hi");
-        directobject.createFolder("hey");
-        directobject.traverseToChild("hey");
-        directobject.createFolder("yes");
-        directobject.traverseBackwards();
-        directobject.traverseToChild('hi');
-        directobject.createFolder("yoyoyo");
-        directobject.traverseBackwards();
         var gitBoatInstance = new GitBoatModule();
         let command_array = [];
         return {directory: directobject, increment: 1, gitBoat: gitBoatInstance, command_array: command_array};
@@ -242,6 +258,10 @@ var App = React.createClass({
         var directory = this.state.directory;
         directory.retrieveByPathName(file_name).modifyContents(content);
        
+        if (this.state.hasOwnProperty("repo"))
+        {
+            this.state.repo.track_changes(file_name);
+        }
         this.setState({directory: directory, status: "terminal"});
     },
     gitBoat: function()

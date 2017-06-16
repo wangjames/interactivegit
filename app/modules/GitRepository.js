@@ -21,6 +21,10 @@ class GitRepository
     {
         this.currentBranch.rollback(count);
     }
+    track_changes(file_name)
+    {
+        this.add_to_pre_stage(file_name);
+    }
     add_to_pre_stage(file_name)
     {
         this.stagingArea.addToPreStage(file_name);
@@ -46,7 +50,10 @@ class GitRepository
         this.stagingArea.removeFromPreStage(path_name);
         this.stagingArea.addToStaging(path_name, copied_object);
     }
-    
+    checkStatus()
+    {
+        return this.stagingArea.returnStatus();
+    }
     makeCommit()
     {
         var commitTree = this.stagingArea.returnStage();
