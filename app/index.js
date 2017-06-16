@@ -296,7 +296,7 @@ var App = React.createClass({
         {
             return (
                 <div id="gitboat-container">
-                <GitBoat gitBoat={this.state.gitBoat} changeToTerminal={this.changeToTerminal} />
+                <GitBoatComponent gitBoat={this.state.gitBoat} changeToTerminal={this.changeToTerminal} />
                 </div>
                 )
         }
