@@ -69,10 +69,19 @@ var App = React.createClass({
           
             else if (command_split[1] === "commit")
             {
-                this.makeCommit();
-                return "Commit Made";
+                var expression_1 = "/^\-m$/gi"
+                var expression_2 = "/^\".+\"$/"
+                if (command_split[2].match(expression1) !== null && command_split[3].match(expression2) !== null)
+                {
+                    
+                    this.makeCommit(command_split[3]);
+                    return "Commit Made"
+                }
             }
-            
+            else if (command_split[1] === "log")
+            {
+                return this.state.repo.returnLog();
+            }
             else if (command_split[1] === "push")
             {
                 this.pushBranch(command_split[2], command_split[3]);
@@ -152,10 +161,10 @@ var App = React.createClass({
         }
         return;
     },
-    makeCommit: function()
+    makeCommit: function(message)
     {
         var repository = this.state.repo;
-        repository.makeCommit();
+        repository.makeCommit(message);
         return;
         
     },

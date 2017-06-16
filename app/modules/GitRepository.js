@@ -54,17 +54,21 @@ class GitRepository
     {
         return this.stagingArea.returnStatus();
     }
-    makeCommit()
+    makeCommit(message)
     {
+        console.log(message);
         var commitTree = this.stagingArea.returnStage();
         var new_stage = commitTree.copy_directory();
         this.stagingArea.replaceStage(new_stage);
-        this.currentBranch.addCommit(commitTree);
-        
+        this.currentBranch.addCommit(commitTree, message);
     }
     retrieveURL(name)
     {
         return this.remotes[name];
+    }
+    returnLog()
+    {
+        return this.currentBranch.returnLog();
     }
 }
 
