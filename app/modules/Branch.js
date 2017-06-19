@@ -7,7 +7,16 @@ class Branch
         this.branch_data = []
         this.name = branch_name;
     }
-
+   
+    returnMessages()
+    {
+        return this.branch_data;
+    }
+    
+    selectCommit(index)
+    {
+        return this.commits[index];
+    }
     returnHead()
     {
         return this.commits[(this.commits.length - 1)];

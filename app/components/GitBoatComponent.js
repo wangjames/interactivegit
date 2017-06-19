@@ -22,6 +22,7 @@ class GitBoatComponent extends React.Component {
     this.commitList = this.commitList.bind(this);
     this.goBack = this.goBack.bind(this);
     this.toggleCommit = this.toggleCommit.bind(this);
+    this.goToList = this.goToList.bind(this);
   }
   
   login()
@@ -69,9 +70,14 @@ class GitBoatComponent extends React.Component {
   }
   toggleCommit(index)
   {
-    this.setState({currentCommit: this.state.currentBranch[index]});
+    let selected_commit = this.state.currentBranch.selectCommit(index);
+    this.setState({status: "single_commit", currentCommit: selected_commit});
   }
-  
+  goToList()
+  {
+    console.log("list change");
+    this.setState({status: "list_commit"});
+  }
   render()
   {
     if (this.state.status === "login")
@@ -94,7 +100,7 @@ class GitBoatComponent extends React.Component {
     }
     else if (this.state.status === "single_commit")
     {
-      return <RepositoryMain returnTerminal={this.props.changeToTerminal} commit={this.state.currentCommit} repository_name={this.state.currentRepositoryName} />
+      return <RepositoryMain returnTerminal={this.props.changeToTerminal} changeToListCommit={this.goToList} commit={this.state.currentCommit} repository_name={this.state.currentRepositoryName} />
     }
     
     else if (this.state.status === "list_commit")

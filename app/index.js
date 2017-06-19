@@ -17,6 +17,8 @@ var App = React.createClass({
     parseCommand: function(input)
     {
         this.state.command_array.push(input);
+        console.log(this.state.command_array);
+        console.log("Command_array");
         var command_split = input.split(" ");
         if (command_split[0] === "cd")
         {
@@ -212,7 +214,7 @@ var App = React.createClass({
     {
         var currentDirectory = this.state.directory;
         currentDirectory.createFolder(directory_name);
-        var new_path = currentDirectory.showCurrentPointer() + directory_name;
+        var new_path = currentDirectory.showCurrentPointer() + "/" + directory_name;
         
         if (this.state.hasOwnProperty("repo"))
         {

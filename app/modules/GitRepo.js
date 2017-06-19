@@ -23,7 +23,7 @@ class GitRepo
     {
       return this.branches.hasOwnProperty(element);
     }
-
+    
 }
 
 export default GitRepo;

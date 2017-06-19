@@ -22,6 +22,7 @@ class RepositoryMain extends React.Component {
         var root = this.props.commit.returnRoot();
         return (
                 <div>
+                    <button onClick={this.props.changeToListCommit}> Go to List View </button>
                     <GitBoatVisualization directory={this.props.commit.root} viewFile={this.viewFile}/>
                     <TextDisplay currentFileName={this.state.currentFileName} content={this.state.content}/>
                     <button onClick={this.props.returnTerminal}> Go Back </button>
