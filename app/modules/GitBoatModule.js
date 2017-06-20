@@ -52,6 +52,7 @@ class GitBoatModule
   {
     this.repository_hash[url].pushBranch(branch_name, branch);
   }
+  
 }
 
 export default GitBoatModule;

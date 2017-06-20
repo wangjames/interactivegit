@@ -21,6 +21,6 @@ let Event_2_Message = "Added Epilogue";
 
 Event_2_Branch.addCommit(Event_2_Object, Event_2_Message);
 
-let event_array = [["push", Event_1_Branch], ["push", Event_2_Branch]];
+let event_array = [["create", "test"], ["push", "test.git", Event_1_Branch], ["push", "test.git", Event_2_Branch]];
 
 export default event_array;

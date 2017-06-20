@@ -291,7 +291,7 @@ var Simulation = React.createClass({
         var gitBoatInstance = new GitBoatModule();
         let command_array = [];
         console.log("happened first");
-        return {directory: directobject, increment: 1, gitBoat: gitBoatInstance, command_array: command_array};
+        return {directory: directobject, increment: 1, gitBoat: gitBoatInstance, command_array: command_array, execution: this.props.execution};
     },
     createNode: function()
     {
@@ -333,13 +333,22 @@ var Simulation = React.createClass({
     },
     execute : function(index)
     {
-        var command = this.props.execution[index];
-        console.log(this.props.execution);
+        let command_array = this.state.execution;
+        var command = command_array[index];
+        console.log(command);
         if (command[0] === "push")
         {
-            console.log("happend second")
-            this.state.gitBoat.pushBranch("master", command[1]);
+            let modifiedGitBoat = this.state.gitBoat.pushBranch(command[1], "master", command[2]);
+            this.setState({gitBoat: modifiedGitBoat});
         }
+        
+        if (command[0] === "create")
+        {
+            let modifiedGitBoat = this.state.gitBoat.create_repository(command[1]);
+            this.setState({gitBoat: modifiedGitBoat});
+        }
+        command_array[index][0] = "executed";
+        this.setState({execution: command_array});
         return;
     },
     render : function()

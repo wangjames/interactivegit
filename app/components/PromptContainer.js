@@ -2,67 +2,87 @@ import React from "react";
 
 class PromptContainer extends React.Component {
     constructor(props) {
-    super(props);
-    var currentSelection = 0;
-    this.state = {
-     prompts : props.prompts,
-     currentNumber : currentSelection,
-     currentPrompt : props.prompts[currentSelection]
-    };
-    this.changeAnswer = this.changeAnswer.bind(this);
-    this.goBack = this.goBack.bind(this);
-    this.processPrompt = this.processPrompt.bind(this);
+        super(props);
+        var currentSelection = 0;
+        this.state = {
+         prompts : props.prompts,
+         currentNumber : currentSelection,
+         currentPrompt : props.prompts[currentSelection]
+        };
+        this.changeAnswer = this.changeAnswer.bind(this);
+        this.goBack = this.goBack.bind(this);
+        this.getNewIndexBackward = this.getNewIndexBackward.bind(this);
+        this.getNewIndexForward = this.getNewIndexForward.bind(this);
     }
     componentWillMount ()
     {
-        console.log(this.state.currentPrompt);
-        if (this.processPrompt(this.state.currentPrompt) === "next")
+        let index = 0;
+        while (index < this.state.prompts.length)
         {
-            console.log(this.state.currentPrompt);
-            this.changeAnswer();
-        }
-    }
-    
-    processPrompt()
-    {
-        
-        if (typeof this.state.currentPrompt === "object")
-        {
-            if (this.state.currentPrompt[0] === "executed")
+            let currentPrompt = this.state.prompts[index];
+            if (typeof currentPrompt === "object")
             {
-                return "stay";
+                this.props.execute(currentPrompt[0]);
+                index += 1;
             }
-            this.props.execute(this.state.currentPrompt[0]);
-            this.state.currentPrompt[0] = "executed";
-            this.changeAnswer();
-            return "next";
+            else
+            {
+                break;
+            }
         }
-        return "stay";
+        let new_prompts = this.state.prompts.splice(index);
+        this.setState({prompts: new_prompts});
+    }
+    getNewIndexForward(index)
+    {
+        let pointer = index;
+        while (pointer < this.state.prompts.length)
+        {
+            let currentPrompt = this.state.prompts[pointer];
+            if (typeof currentPrompt === "object")
+            {
+                this.props.execute(currentPrompt[0]);
+                pointer += 1;
+            }
+            else
+            {
+                break;
+            }
+        }
+        return pointer;
+    }
+    getNewIndexBackward(index)
+    {
+        let pointer = index;
+        while (pointer > -1)
+        {
+            let currentPrompt = this.state.prompts[pointer];
+            if (typeof currentPrompt === "object")
+            {
+                this.props.execute(currentPrompt[0]);
+                pointer -= 1;
+            }
+            else
+            {
+                break;
+            }
+        }
+        return pointer;
     }
     changeAnswer ()
     {
         var nextSelection = this.state.currentNumber + 1;
-        var prospective_prompt = this.state.prompts[nextSelection];
-        if (this.processPrompt(prospective_prompt) === "next")
-        {
-            this.setState({currentNumber: nextSelection});
-            this.changeAnswer();
-        }
-        else
-        {
-            this.setState({
-                currentNumber : nextSelection,
-                currentPrompt : this.state.prompts[nextSelection]
-            })
-        }
-        
+      
+        var newSelection = this.getNewIndexForward(nextSelection);
+        this.setState({currentNumber: newSelection, currentPrompt: this.state.prompts[newSelection]});
     }
     goBack ()
     {
         var backSelection = this.state.currentNumber - 1;
+        var newSelection = this.getNewIndexBackward(backSelection);
         this.setState({
-            currentNumber : backSelection,
-            currentPrompt : this.state.prompts[backSelection]
+            currentNumber : newSelection,
+            currentPrompt : this.state.prompts[newSelection]
         })
     }
     render () {
