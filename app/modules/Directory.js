@@ -11,6 +11,7 @@ class Directory
   change_root(folder)
   {
     this.root = folder;
+    this.currentPointer = this.root;
   }
   copy_helper(copy_node)
   {

@@ -291,6 +291,7 @@ var Simulation = React.createClass({
         var gitBoatInstance = new GitBoatModule();
         let command_array = [];
         console.log("happened first");
+        console.log(gitBoatInstance);
         return {directory: directobject, increment: 1, gitBoat: gitBoatInstance, command_array: command_array, execution: this.props.execution};
     },
     createNode: function()
@@ -336,19 +337,21 @@ var Simulation = React.createClass({
         let command_array = this.state.execution;
         var command = command_array[index];
         console.log(command);
+        let modifiedGitBoat = this.state.gitBoat;
+        console.log("initial execute");
+        console.log(modifiedGitBoat);
         if (command[0] === "push")
         {
-            let modifiedGitBoat = this.state.gitBoat.pushBranch(command[1], "master", command[2]);
-            this.setState({gitBoat: modifiedGitBoat});
+            modifiedGitBoat.pushBranch(command[1], "master", command[2]);
         }
         
         if (command[0] === "create")
         {
-            let modifiedGitBoat = this.state.gitBoat.create_repository(command[1]);
-            this.setState({gitBoat: modifiedGitBoat});
+            modifiedGitBoat.create_repository(command[1]);
         }
         command_array[index][0] = "executed";
-        this.setState({execution: command_array});
+        console.log(modifiedGitBoat);
+        this.setState({gitBoat: modifiedGitBoat, execution: command_array});
         return;
     },
     render : function()
@@ -364,7 +367,9 @@ var Simulation = React.createClass({
         }
         if (this.state.status === "gitboat")
         {
+            console.log(this.state.gitBoat);
             return (
+                
                 <div id="gitboat-container">
                 <GitBoatComponent gitBoat={this.state.gitBoat} changeToTerminal={this.changeToTerminal} />
                 </div>

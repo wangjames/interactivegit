@@ -31,7 +31,8 @@ class PromptContainer extends React.Component {
             }
         }
         let new_prompts = this.state.prompts.splice(index);
-        this.setState({prompts: new_prompts});
+        console.log(new_prompts);
+        this.setState({prompts: new_prompts, currentPrompt: new_prompts[0]});
     }
     getNewIndexForward(index)
     {
