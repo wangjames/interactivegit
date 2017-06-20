@@ -12,7 +12,30 @@ class PromptContainer extends React.Component {
     this.changeAnswer = this.changeAnswer.bind(this);
     this.goBack = this.goBack.bind(this);
   }
+    constructorWillMount ()
+    {
+        this.processPrompt();
+    }
     
+    processPrompt()
+    {
+        
+        if (typeof this.state.currentPrompt === "object")
+        {
+            if (this.state.currentPrompt[0] === "executed")
+            {
+                return;
+            }
+            this.state.currentPrompt[0] = "executed";
+            this.props.execute(this.state.currentPrompt[0]);
+            var nextSelection = this.state.currentNumber + 1;
+            this.setState({
+                currentNumber : nextSelection,
+                currentPrompt : this.state.prompts[nextSelection]
+            })
+        }
+        return;
+    }
     changeAnswer ()
     {
         var nextSelection = this.state.currentNumber + 1;

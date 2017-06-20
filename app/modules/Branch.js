@@ -7,7 +7,17 @@ class Branch
         this.branch_data = []
         this.name = branch_name;
     }
-   
+    copy_branch()
+    {
+        let new_copy = new Branch(this.name);
+        this.commits.forEach(function(element, index)
+        {
+            let message = this.branch_data[index];
+            let commit = this.commits.copy_directory();
+            new_copy.addCommit(commit, message);
+        }, this);
+        return new_copy;
+    }
     returnMessages()
     {
         return this.branch_data;

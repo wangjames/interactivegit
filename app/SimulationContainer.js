@@ -1,6 +1,7 @@
 import React from "react";
 import Simulation from "./Simulation";
 import LessonArray from "./textsections/LessonArray.js";
+import LessonThreeEvents from "./modules/LessonThreeEvents";
 class SimulationContainer extends React.Component
 {
     constructor(props)
@@ -8,11 +9,20 @@ class SimulationContainer extends React.Component
         super(props);
         this.index = props.match.params.index;
         this.prompt_array = LessonArray;
-        console.log(this.index);
+        if (this.index === 2)
+        {
+            this.execution_events = LessonThreeEvents;
+        }
+        
+        else
+        {
+            this.execution_events = [];
+        }
+        
     }
     render()
     {
-        return <Simulation prompts={this.prompt_array[this.index]}/>
+        return <Simulation prompts={this.prompt_array[this.index]} execution={this.execution_events}/>
     }
     
 }

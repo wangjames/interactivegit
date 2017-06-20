@@ -12,7 +12,10 @@ class GitRepository
         this.branches["master"] = this.currentBranch;
         this.stagingArea = new Stage();
     }
-    
+    replaceBranch(branch_name, branch)
+    {
+        this.branches[branch_name] = branch;
+    }
     addRemote(name, url)
     {
         this.remotes[name] = url;

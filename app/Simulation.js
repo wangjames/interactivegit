@@ -89,7 +89,17 @@ var Simulation = React.createClass({
                 this.pushBranch(command_split[2], command_split[3]);
                 return "Branch Pushed";
             }
+            else if (command_split[1] === "pull")
+            {
+                this.pullBranch();
+                return "Branch pulled";
+            }
             
+            else if (command_split[1] === "clone")
+            {
+                this.cloneBranch(command_split[2])
+                return "Branch cloned";
+            }
             else if (command_split[1] === "merge")
             {
                 this.mergeBranches();
@@ -117,6 +127,43 @@ var Simulation = React.createClass({
                 }
                 
             }
+        }
+    },
+    
+    cloneBranch: function(url)
+    {
+        if (this.state.hasOwnProperty("gitRepo"))
+        {
+            let exported_branch = this.state.gitBoat.exportBranch(url, "master");
+            this.createGitRepository();
+            let currentGitRepo = this.state.gitRepo;
+            currentGitRepo.replaceBranch("master", exported_branch);
+            this.addRemote("origin", url);
+            let currentCommit = exported_branch.exportCommit();
+            this.setState({gitRepo: currentGitRepo, directory: currentCommit});
+            
+            return;
+        }
+        else
+        {
+            return;
+        }
+    },
+    pullBranch: function()
+    {
+        if (this.state.hasOwnProperty("gitRepo"))
+        {
+            let remote_url = this.gitRepo.retrieveURL("origin");
+            let exported_branch = this.state.gitBoat.exportBranch(remote_url, "master");
+            let currentGitRepo = this.state.gitRepo;
+            currentGitRepo.replaceBranch("master", exported_branch);
+            let currentCommit = exported_branch.exportCommit();
+            this.setState({gitRepo: currentGitRepo, directory: currentCommit});
+            return;
+        }
+        else
+        {
+            return;
         }
     },
     showChildren: function()
@@ -283,6 +330,15 @@ var Simulation = React.createClass({
     {
         this.setState({status: "terminal"});
     },
+    execute : function(index)
+    {
+        var command = this.props.execution[index];
+        if (command[0] === "push")
+        {
+            this.state.gitBoat.pushBranch(command[1]);
+        }
+        return;
+    },
     render : function()
     {
         if (this.state.status === "editing")
@@ -314,7 +370,7 @@ var Simulation = React.createClass({
                 Back
                 </Link>
                 <div id="container">
-                    <PromptContainer prompts={this.props.prompts} />
+                    <PromptContainer prompts={this.props.prompts} execute={this.execute} />
                     <Terminal parseCommand={this.parseCommand}/>
                 </div>
                 
