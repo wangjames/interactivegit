@@ -22,6 +22,6 @@ var text_object_5 = `Now you see that the changes have been pulled to your direc
 var text_object_6 = `At this point, we have covered the basic workflow that enables anyone using email to collaborate to use Git.
 Now we will move onto the special features that set Git apart from email as a collaboration tool.`
 
-var text_array = [text_object_1, text_object_2, text_object_3, text_object_4, text_object_5, text_object_6]
+var text_array = [[0], text_object_1, text_object_2, text_object_3, [1], text_object_4, text_object_5, text_object_6]
 
 export default text_array;
