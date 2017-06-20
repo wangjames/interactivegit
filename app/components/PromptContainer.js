@@ -11,11 +11,14 @@ class PromptContainer extends React.Component {
     };
     this.changeAnswer = this.changeAnswer.bind(this);
     this.goBack = this.goBack.bind(this);
+    this.processPrompt = this.processPrompt.bind(this);
     }
-    constructorWillMount ()
+    componentWillMount ()
     {
+        console.log(this.state.currentPrompt);
         if (this.processPrompt(this.state.currentPrompt) === "next")
         {
+            console.log(this.state.currentPrompt);
             this.changeAnswer();
         }
     }
@@ -29,8 +32,8 @@ class PromptContainer extends React.Component {
             {
                 return "stay";
             }
-            this.state.currentPrompt[0] = "executed";
             this.props.execute(this.state.currentPrompt[0]);
+            this.state.currentPrompt[0] = "executed";
             this.changeAnswer();
             return "next";
         }

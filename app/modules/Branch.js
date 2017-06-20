@@ -13,7 +13,7 @@ class Branch
         this.commits.forEach(function(element, index)
         {
             let message = this.branch_data[index];
-            let commit = this.commits.copy_directory();
+            let commit = this.commits[index].copy_directory();
             new_copy.addCommit(commit, message);
         }, this);
         return new_copy;

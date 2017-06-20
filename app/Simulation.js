@@ -290,6 +290,7 @@ var Simulation = React.createClass({
         directobject.setPath("/root");
         var gitBoatInstance = new GitBoatModule();
         let command_array = [];
+        console.log("happened first");
         return {directory: directobject, increment: 1, gitBoat: gitBoatInstance, command_array: command_array};
     },
     createNode: function()
@@ -333,9 +334,11 @@ var Simulation = React.createClass({
     execute : function(index)
     {
         var command = this.props.execution[index];
+        console.log(this.props.execution);
         if (command[0] === "push")
         {
-            this.state.gitBoat.pushBranch(command[1]);
+            console.log("happend second")
+            this.state.gitBoat.pushBranch("master", command[1]);
         }
         return;
     },

@@ -9,7 +9,7 @@ class SimulationContainer extends React.Component
         super(props);
         this.index = props.match.params.index;
         this.prompt_array = LessonArray;
-        if (this.index === 2)
+        if (this.index === "2")
         {
             this.execution_events = LessonThreeEvents;
         }
@@ -20,6 +20,7 @@ class SimulationContainer extends React.Component
         }
         
     }
+    
     render()
     {
         return <Simulation prompts={this.prompt_array[this.index]} execution={this.execution_events}/>

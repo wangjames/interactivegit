@@ -12,8 +12,8 @@ let Event_1_Message = "Initial Commit";
 
 Event_1_Branch.addCommit(Event_1_Object, Event_1_Message);
 
-let Event_2_Branch = Event_1_Object.copy_branch();
-let Event_2_Object = Event_1_Branch.copy_directory();
+let Event_2_Branch = Event_1_Branch.copy_branch();
+let Event_2_Object = Event_1_Object.copy_directory();
 Event_2_Object.traverseToChild("TextFiles");
 Event_2_Object.createFile("Epilogue");
 Event_2_Object.traverseBackwards();
