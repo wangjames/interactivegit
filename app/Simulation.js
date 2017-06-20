@@ -12,7 +12,7 @@ import GitBoatModule from "./modules/GitBoatModule";
 import GitBoatComponent from "./components/GitBoatComponent";
 require("./index.css");
 
-var App = React.createClass({
+var Simulation = React.createClass({
     
     parseCommand: function(input)
     {
@@ -314,7 +314,7 @@ var App = React.createClass({
                 Back
                 </Link>
                 <div id="container">
-                    <PromptContainer />
+                    <PromptContainer prompts={this.props.prompts} />
                     <Terminal parseCommand={this.parseCommand}/>
                 </div>
                 
@@ -325,5 +325,5 @@ var App = React.createClass({
     }
 })
 
-export default App;
+export default Simulation;
 

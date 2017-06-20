@@ -1,13 +1,13 @@
 import React from "react";
-import PromptArray from "../textsections/AllSections.js";
+
 class PromptContainer extends React.Component {
     constructor(props) {
     super(props);
     var currentSelection = 0;
     this.state = {
-     prompts : PromptArray,
+     prompts : props.prompts,
      currentNumber : currentSelection,
-     currentPrompt : PromptArray[currentSelection]
+     currentPrompt : props.prompts[currentSelection]
     };
     this.changeAnswer = this.changeAnswer.bind(this);
     this.goBack = this.goBack.bind(this);

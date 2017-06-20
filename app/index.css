@@ -6,6 +6,7 @@
       height: 500px;
       background-color:black;
 }
+
 #container{
     width:805px;
 }
@@ -17,6 +18,9 @@
     border: 1px solid black;
     width:400px;
     height:500px;
+}
+.box {
+    border: 1px solid black;
 }
 /* The inner console element. */
 .jqconsole {

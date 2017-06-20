@@ -30,23 +30,9 @@ Do this now.
  
 Make a commit with your own commit message.`
  
-var text_object_6 = `Now in your current repository, you have a version of your repository that you can share with your group. 
-In order to do so, you push this version to your remote through the command git push origin master.
- 
-Do this now.
- 
-Push your commit to the repository with the command git push origin master.`
- 
-var text_object_7 = `Congratulations! now anyone with access to the public repository has access to version of the repository that you pushed up to the repository.
-They’ll be able to see all of the changes and additions you’ve made to the repository.
- 
-Now to further make sure this workflow sticks, let us imagine that you’re asked to add an additional file called record.txt and upload it to the repository so everyone can view it.
- 
-Create this file, add it to the staging area, commit it, and push it to the repository. (Note: you only have to add things you’ve changed from the last commit.
-If you type git status, you can see these files under unstaged changes. Finally, you can use git add . still.)`
- 
-var text_object_8 = `Congratulations! Go ahead and experiment with this. (Note: your working directory will be wiped in the next tutorial)`
+var text_object_6 = `After doing this, you have now created a snapshot of your working directory that you can now push to a repository to share with others.
+This will be discussed in the next section.`
 
-var text_array = [text_object_1, text_object_2, text_object_3,text_object_4,text_object_5, text_object_6, text_object_7, text_object_8];
+var text_array = [text_object_1, text_object_2, text_object_3,text_object_4,text_object_5, text_object_6];
 
 export default text_array;
