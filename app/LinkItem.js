@@ -10,7 +10,7 @@ class LinkItem extends React.Component
     render()
     {
         return (
-            <div onClick={this.goToLink} className="col-md-4 box">
+            <div onClick={this.goToLink} className="col-md-3 offset-md-1 box">
                 <p>{this.props.content}</p>
             </div>
             )

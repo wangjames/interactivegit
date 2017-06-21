@@ -30,7 +30,7 @@ class Index extends React.Component {
                 <Link to="/about">
                 About
                 </Link>
-                <div className="container">
+                
                     <div className="row">
                         {content.map(function(element, index)
                         {
@@ -38,7 +38,7 @@ class Index extends React.Component {
                         }.bind(this))}
 
                     </div>
-                </div> 
+                
             </div>
             )
     }
