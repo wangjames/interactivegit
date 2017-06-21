@@ -132,15 +132,17 @@ var Simulation = React.createClass({
     
     cloneBranch: function(url)
     {
-        if (this.state.hasOwnProperty("gitRepo"))
+        console.log(this.state);
+        if (!(this.state.hasOwnProperty("repo")))
         {
+            console.log("yup");
             let exported_branch = this.state.gitBoat.exportBranch(url, "master");
             this.createGitRepository();
-            let currentGitRepo = this.state.gitRepo;
+            let currentGitRepo = this.state.repo;
             currentGitRepo.replaceBranch("master", exported_branch);
             this.addRemote("origin", url);
-            let currentCommit = exported_branch.exportCommit();
-            this.setState({gitRepo: currentGitRepo, directory: currentCommit});
+            let currentCommit = exported_branch.returnHead();
+            this.setState({repo: currentGitRepo, directory: currentCommit});
             
             return;
         }
@@ -151,13 +153,13 @@ var Simulation = React.createClass({
     },
     pullBranch: function()
     {
-        if (this.state.hasOwnProperty("gitRepo"))
+        if (this.state.hasOwnProperty("repo"))
         {
-            let remote_url = this.gitRepo.retrieveURL("origin");
+            let remote_url = this.state.repo.retrieveURL("origin");
             let exported_branch = this.state.gitBoat.exportBranch(remote_url, "master");
-            let currentGitRepo = this.state.gitRepo;
+            let currentGitRepo = this.state.repo;
             currentGitRepo.replaceBranch("master", exported_branch);
-            let currentCommit = exported_branch.exportCommit();
+            let currentCommit = exported_branch.returnHead();
             this.setState({gitRepo: currentGitRepo, directory: currentCommit});
             return;
         }
@@ -290,8 +292,6 @@ var Simulation = React.createClass({
         directobject.setPath("/root");
         var gitBoatInstance = new GitBoatModule();
         let command_array = [];
-        console.log("happened first");
-        console.log(gitBoatInstance);
         return {directory: directobject, increment: 1, gitBoat: gitBoatInstance, command_array: command_array, execution: this.props.execution};
     },
     createNode: function()
@@ -332,26 +332,30 @@ var Simulation = React.createClass({
     {
         this.setState({status: "terminal"});
     },
-    execute : function(index)
+    checkEvent : function(index)
     {
-        let command_array = this.state.execution;
-        var command = command_array[index];
-        console.log(command);
+        if (index < 0 || index > this.state.execution.length)
+        {
+            return;
+        }
+        let commands = this.state.execution;
+        var command_array = commands[index];
         let modifiedGitBoat = this.state.gitBoat;
-        console.log("initial execute");
-        console.log(modifiedGitBoat);
-        if (command[0] === "push")
+        command_array.forEach(function(command, index)
         {
-            modifiedGitBoat.pushBranch(command[1], "master", command[2]);
-        }
+            if (command[0] === "push")
+            {
+                modifiedGitBoat.pushBranch(command[1], "master", command[2]);
+            }
         
-        if (command[0] === "create")
-        {
-            modifiedGitBoat.create_repository(command[1]);
-        }
-        command_array[index][0] = "executed";
-        console.log(modifiedGitBoat);
-        this.setState({gitBoat: modifiedGitBoat, execution: command_array});
+            if (command[0] === "create")
+            {
+                modifiedGitBoat.create_repository(command[1]);
+            }
+            command_array[index][0] = "executed";
+        })
+        console.log(commands);
+        this.setState({gitBoat: modifiedGitBoat, execution: commands});
         return;
     },
     render : function()
@@ -387,7 +391,7 @@ var Simulation = React.createClass({
                 Back
                 </Link>
                 <div id="container">
-                    <PromptContainer prompts={this.props.prompts} execute={this.execute} />
+                    <PromptContainer prompts={this.props.prompts} checkEvent={this.checkEvent} />
                     <Terminal parseCommand={this.parseCommand}/>
                 </div>
                 

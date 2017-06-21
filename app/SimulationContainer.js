@@ -16,7 +16,7 @@ class SimulationContainer extends React.Component
         
         else
         {
-            this.execution_events = [];
+            this.execution_events = [[]];
         }
         console.log(this.prompt_array[this.index]);
         console.log("Here is the prompt_array");

@@ -48,6 +48,11 @@ class GitBoatModule
     }.bind(this));
     return final_array;
   }
+  exportBranch(url, branch_name)
+  {
+    let gitRepo = this.repository_hash[url];
+    return gitRepo.getBranch(branch_name);
+  }
   pushBranch(url, branch_name, branch)
   {
     this.repository_hash[url].pushBranch(branch_name, branch);

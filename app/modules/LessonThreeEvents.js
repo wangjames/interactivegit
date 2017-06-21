@@ -23,7 +23,6 @@ Event_2_Object.traverseBackwards();
 let Event_2_Message = "Added Epilogue";
 
 Event_2_Branch.addCommit(Event_2_Object, Event_2_Message);
-
-let event_array = [["create", "test"], ["push", "test.git", Event_1_Branch], ["push", "test.git", Event_2_Branch]];
+let event_array = [[["create", "test"], ["push", "test.git", Event_1_Branch]],[["none"]],[["none"]], [["push", "test.git", Event_2_Branch]], [["none"]], [["none"]]];
 
 export default event_array;
