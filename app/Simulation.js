@@ -340,22 +340,26 @@ var Simulation = React.createClass({
         }
         let commands = this.state.execution;
         var command_array = commands[index];
-        let modifiedGitBoat = this.state.gitBoat;
-        command_array.forEach(function(command, index)
+        if (command_array !== undefined)
         {
-            if (command[0] === "push")
+            let modifiedGitBoat = this.state.gitBoat;
+            command_array.forEach(function(command, index)
             {
-                modifiedGitBoat.pushBranch(command[1], "master", command[2]);
-            }
+                if (command[0] === "push")
+                {
+                    modifiedGitBoat.pushBranch(command[1], "master", command[2]);
+                }
+            
+                if (command[0] === "create")
+                {
+                    modifiedGitBoat.create_repository(command[1]);
+                }
+                command_array[index][0] = "executed";
+            })
+            console.log(commands);
+            this.setState({gitBoat: modifiedGitBoat, execution: commands});
+        }
         
-            if (command[0] === "create")
-            {
-                modifiedGitBoat.create_repository(command[1]);
-            }
-            command_array[index][0] = "executed";
-        })
-        console.log(commands);
-        this.setState({gitBoat: modifiedGitBoat, execution: commands});
         return;
     },
     render : function()
