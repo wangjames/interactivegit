@@ -2,13 +2,17 @@ import React from "react";
 class TextDescription extends React.Component {
     render () {
         return (
-            <div>
-            {this.props.textArray.map(function(element)
-                        {
-                        return (
-                        <p> {element} </p>
-                        )
-                        })}
+            <div className="container">
+                <div className="row">
+                    <div className="col-md-10 offset-md-1 text-box">
+                    {this.props.textArray.map(function(element)
+                                {
+                                return (
+                                <p> {element} </p>
+                                )
+                                })}
+                    </div>
+                </div>
             </div>
         )
     }

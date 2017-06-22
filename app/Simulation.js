@@ -395,26 +395,26 @@ var Simulation = React.createClass({
         else
         {
             return (
-          
-            <div className="container">
-                <div className="row">
-                    <div className="col-md-4">
-                        <div id="promptcontainer">
-                        <PromptContainer prompts={this.props.prompts} checkEvent={this.checkEvent} />
-                        <button onClick={this.gitBoat}> Go to GitBoat </button>
+            
+                <div className="container">
+                    <div className="row">
+                        <div className="col-md-4">
+                            <div id="promptcontainer">
+                            <PromptContainer prompts={this.props.prompts} checkEvent={this.checkEvent} />
+                            <button onClick={this.gitBoat}> Go to GitBoat </button>
+                            </div>
                         </div>
-                    </div>
-                    <div className="col-md-4">
-                        <Terminal parseCommand={this.parseCommand}/>
-                    </div>
-                    
-                    <div className="col-md-4">
-                        <div id="visualization-container">
-                            <Visualization directory={this.state.directory.root} openEditing={this.openEditing} currentPointer={this.state.directory.currentPointer.directory_name}/>
+                        <div className="col-md-4">
+                            <Terminal parseCommand={this.parseCommand}/>
+                        </div>
+                        
+                        <div className="col-md-4">
+                            <div id="visualization-container">
+                                <Visualization directory={this.state.directory.root} openEditing={this.openEditing} currentPointer={this.state.directory.currentPointer.directory_name}/>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
             
             )
         }

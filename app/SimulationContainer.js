@@ -2,6 +2,7 @@ import React from "react";
 import Simulation from "./Simulation";
 import LessonArray from "./textsections/LessonArray.js";
 import LessonThreeEvents from "./modules/LessonThreeEvents";
+import Navbar from "./Navbar"
 class SimulationContainer extends React.Component
 {
     constructor(props)
@@ -24,7 +25,12 @@ class SimulationContainer extends React.Component
     
     render()
     {
-        return <Simulation prompts={this.prompt_array[this.index]} execution={this.execution_events}/>
+        return (
+            <div>
+                <Navbar />
+                <Simulation prompts={this.prompt_array[this.index]} execution={this.execution_events}/>
+            </div>
+        )
     }
     
 }
