@@ -9,9 +9,14 @@ class LinkItem extends React.Component
     }
     render()
     {
+        let title = this.props.content[0];
+        let content = this.props.content[1];
         return (
-            <div onClick={this.goToLink} className="col-md-3 offset-md-1 box">
-                <p>{this.props.content}</p>
+            <div onClick={this.goToLink} className="col-md-4">
+                <div className="box">
+                    <h4> {title} </h4>
+                    <p>{content}</p>
+                </div>
             </div>
             )
     }

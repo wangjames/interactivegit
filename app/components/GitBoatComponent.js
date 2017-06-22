@@ -11,7 +11,7 @@ class GitBoatComponent extends React.Component {
     super(props)
     this.state =
     {
-      status: "login",
+      status: "main_page",
       gitBoat: props.gitBoat
     }
     this.login = this.login.bind(this);
@@ -23,6 +23,7 @@ class GitBoatComponent extends React.Component {
     this.goBack = this.goBack.bind(this);
     this.toggleCommit = this.toggleCommit.bind(this);
     this.goToList = this.goToList.bind(this);
+    this.goToMainPage = this.goToMainPage.bind(this);
   }
   
   login()
@@ -68,6 +69,10 @@ class GitBoatComponent extends React.Component {
   {
     this.setState({status: "single_commit"});
   }
+  goToMainPage()
+  {
+    this.setState({status: "main_page"});
+  }
   toggleCommit(index)
   {
     let selected_commit = this.state.currentBranch.selectCommit(index);
@@ -80,32 +85,29 @@ class GitBoatComponent extends React.Component {
   }
   render()
   {
-    if (this.state.status === "login")
+    
+    if (this.state.status === "no_branch")
     {
-      return <Login loginHandler={this.login}/>
-    }
-    else if (this.state.status === "no_branch")
-    {
-      return <NoBranchPage url={this.state.urlName} repository_name={this.state.currentRepositoryName} changeToTerminal={this.props.changeToTerminal} />
+      return <NoBranchPage url={this.state.urlName} repository_name={this.state.currentRepositoryName} changeToTerminal={this.props.changeToTerminal} goToMain={this.goToMainPage} />
     }
     else if (this.state.status === "create_repository")
     {
-      return <CreateRepository handleChange={this.handleChange} submit_repository={this.submit_repository}/>
+      return <CreateRepository handleChange={this.handleChange} goToMain={this.goToMainPage} submit_repository={this.submit_repository} returnTerminal={this.props.changeToTerminal}/>
     }
     
     else if (this.state.status === "main_page")
     {
       var repository_list = this.state.gitBoat.exportRepositories();
-      return <MainPage repository_list={repository_list} openRepository={this.openRepository} create_repository={this.create_repository} />
+      return <MainPage  repository_list={repository_list} openRepository={this.openRepository} create_repository={this.create_repository} returnTerminal={this.props.changeToTerminal} />
     }
     else if (this.state.status === "single_commit")
     {
-      return <RepositoryMain returnTerminal={this.props.changeToTerminal} changeToListCommit={this.goToList} commit={this.state.currentCommit} repository_name={this.state.currentRepositoryName} />
+      return <RepositoryMain url={this.state.urlName} returnTerminal={this.props.changeToTerminal} goToMain={this.goToMainPage} changeToListCommit={this.goToList} commit={this.state.currentCommit} goBack={this.goBack} repository_name={this.state.currentRepositoryName} />
     }
     
     else if (this.state.status === "list_commit")
     {
-      return <ListCommit branch={this.state.currentBranch} toggleCommit={this.toggleCommit} goBack={this.goBack} />
+      return <ListCommit branch={this.state.currentBranch} toggleCommit={this.toggleCommit} goBack={this.goBack} returnTerminal={this.props.changeToTerminal} />
     }
   
   }

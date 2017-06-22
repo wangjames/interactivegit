@@ -33,14 +33,13 @@ class PromptContainer extends React.Component {
     }
     render () {
         return (
+        
         <div>
-        <div id="promptcontainer">
             <p> {this.state.currentPrompt} </p>
             <button onClick={this.changeAnswer}>Next</button>
             <button onClick={this.goBack}>Back</button>
         </div>
        
-        </div>
             );
     }
 };

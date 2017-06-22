@@ -4,7 +4,7 @@ class Login extends React.Component
     
     render()
     {
-        return (<div>
+        return (<div id="loginContainer">
             This is the Login Page
             <button onClick={this.props.loginHandler}> Login </button>
         </div>)

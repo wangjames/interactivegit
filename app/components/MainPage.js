@@ -9,12 +9,13 @@ class MainPage extends React.Component{
     }
     render()
     {
-        return (<div> 
+        return (<div id="main-page-container"> 
                 This is the main_page
                 <button onClick={this.props.create_repository}> Create Repository</button>
                 {this.props.repository_list.map(function(element){
                     return <ListItem open_function={this.props.openRepository} item={element} />
                 }.bind(this))}
+                <button onClick={this.props.returnTerminal}> Go Back To Terminal</button>
                 </div>)
     }
 }

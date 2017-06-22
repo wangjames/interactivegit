@@ -19,18 +19,22 @@ class Index extends React.Component {
         this.props.history.push(link);
     }
     render () {
-        let content = ["Crafting Email -> Making a Commit", "Send Email -> Pushing to Repository", "Recieving Email -> Pulling from repository"];
+        let content = [["Crafting Email -> Making a Commit", `When sending email for the first time, you need to set up your email account with an email provider like Gmail or Yahoo! Mail.
+        Similarily, in order to use git, you need to do some local setup and signup with a public Git repository host like Github or Bitbucket.
+        Also, when coordinating with people on your team with email,
+        you can send them email messages with your work for them to see and work with. Before you send an email though, you first have to prepare the message and all of its attachments.
+        With Git, this process is done through commits. This tutorial will show you the workflow for doing this.`
+        ], ["Send Email -> Pushing to Repository", `With email, after you finish writing it and attaching files, you send it to your collaboraters. With Git, after you make a commit of your work,
+        you push your work up to a shared repository with your collaborators. From this, people can see the work that you have shared. This tutorial works through that process.`],
+        ["Recieving Email -> Pulling from repository", `When working with people through email, you simply recieve emails from your teammates and you inspect the files that they gave you.
+        With Git, the way you can do this is through pulling the most up to date changes from the public Git repository. This tutorial works through that process.`]];
         return (<div>
-                <Link to="/simulation">
-                Simulation
-                </Link>
-                <Link to="/comparison">
-                Comparison
-                </Link>
-                <Link to="/about">
-                About
-                </Link>
-                
+                <div className="container">
+                    <div className="row">
+                        <div className="col-md-2 offset-md-5">
+                            <h1> Tutorials </h1>
+                        </div>
+                    </div>
                     <div className="row">
                         {content.map(function(element, index)
                         {
@@ -38,7 +42,7 @@ class Index extends React.Component {
                         }.bind(this))}
 
                     </div>
-                
+                </div>
             </div>
             )
     }
