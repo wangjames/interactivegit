@@ -53,79 +53,102 @@ var Simulation = React.createClass({
         {
             if (command_split[1] === "init")
             {
+                if (this.state.directory.showCurrentPointer() !== "/root")
+                {
+                    return "Please initialize git repository from root directory for this tutorial.";
+                }
                 this.createGitRepository();
                 return "Git Repository Initialized";
             }
-        
-            else if (command_split[1] === "add")
-            {
-                this.addToStagingArea(command_split[2]);
-                return "File added to Staging Area";
-            }
-            else if (command_split[1] === "remote")
-            {
-                this.addRemote(command_split[3], command_split[4]);
-                return "remote added";
-               
-            }
-          
-            else if (command_split[1] === "commit")
-            {
-                var expression_1 = "/^\-m$/gi"
-                var expression_2 = "/^\".+\"$/"
-                if (command_split[2].match(expression1) !== null && command_split[3].match(expression2) !== null)
-                {
-                    
-                    this.makeCommit(command_split[3]);
-                    return "Commit Made"
-                }
-            }
-            else if (command_split[1] === "log")
-            {
-                return this.state.repo.returnLog();
-            }
-            else if (command_split[1] === "push")
-            {
-                this.pushBranch(command_split[2], command_split[3]);
-                return "Branch Pushed";
-            }
-            else if (command_split[1] === "pull")
-            {
-                this.pullBranch();
-                return "Branch pulled";
-            }
             
             else if (command_split[1] === "clone")
+                {
+                    this.cloneBranch(command_split[2])
+                    return "Branch cloned";
+                }
+            if (this.state.hasOwnProperty("repo"))
             {
-                this.cloneBranch(command_split[2])
-                return "Branch cloned";
-            }
-            else if (command_split[1] === "merge")
-            {
-                this.mergeBranches();
+                if (command_split[1] === "add")
+                {
+                    this.addToStagingArea(command_split[2]);
+                    return "File added to Staging Area";
+                }
+                else if (command_split[1] === "remote")
+                {
+                    if (command_split.length !== 5)
+                    {
+                        return "Incorrect syntax";
+                    }
+                    else
+                    {
+                    this.addRemote(command_split[3], command_split[4]);
+                    return "remote added";
+                    }
+                }
+              
+                else if (command_split[1] === "commit")
+                {
+                    var expression_1 = "/^\-m$/gi"
+                    var expression_2 = "/^\".+\"$/"
+                    if (command_split.length !== 4)
+                    {
+                        return "Incorrect syntax";
+                    }
+                    if (command_split[2].match(expression1) !== null && command_split[3].match(expression2) !== null)
+                    {
+                        
+                        this.makeCommit(command_split[3]);
+                        return "Commit Made"
+                    }
+                }
+                else if (command_split[1] === "log")
+                {
+                    return this.state.repo.returnLog();
+                }
+                else if (command_split[1] === "push")
+                {
+                    this.pushBranch(command_split[2], command_split[3]);
+                    return "Branch Pushed";
+                }
+                else if (command_split[1] === "pull")
+                {
+                    this.pullBranch();
+                    return "Branch pulled";
+                }
+                
+                
+                else if (command_split[1] === "merge")
+                {
+                    this.mergeBranches();
+                }
+                
+                else if (command_split[1] === "status")
+                {
+                    return this.checkStatus();
+                }
+                
+                else if (command_split[1] === "reset")
+                {
+                    var expression1 = /^HEAD\~[0-9]+$/gi;
+                    var expression2 = /^\-{2}hard$/gi;
+                    var expression3 = /^HEAD$/gi;
+                    
+                    if (command_split[2].match(expression3) !== null && command_split[3].match(expression2))
+                    {
+                        this.rollBack(0);
+                    }
+                    if (command_split[2].match(expression1) !== null && command_split[3].match(expression2))
+                    {
+                        var number_rollback = command_split[2].split('~')[1];
+                        this.rollBack(number_rollback);
+                    }
+                    
+                }
             }
             
-            else if (command_split[1] === "status")
+            else
             {
-                return this.checkStatus();
-            }
-            
-            else if (command_split[1] === "reset")
-            {
-                var expression1 = /^HEAD\~[0-9]+$/gi;
-                var expression2 = /^\-{2}hard$/gi;
-                var expression3 = /^HEAD$/gi;
-                
-                if (command_split[2].match(expression3) !== null && command_split[3].match(expression2))
-                {
-                    this.rollBack(0);
-                }
-                if (command_split[2].match(expression1) !== null && command_split[3].match(expression2))
-                {
-                    var number_rollback = command_split[2].split('~')[1];
-                    this.rollBack(number_rollback);
-                }
-                
+                return "Must initialize git repository first.";
             }
         }
     },
