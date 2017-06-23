@@ -21,13 +21,15 @@ class RepositoryMain extends React.Component {
     {
         var root = this.props.commit.returnRoot();
         return (
-                <div id="repository-container">
-                    <button onClick={this.props.changeToListCommit}> Go to List View </button>
-                    <p>Repository URL: {this.props.url}</p>
+                <div id="main-page-container">
+                    <button id="go-back-button" onClick={this.props.goToMain}> Go Back to Main</button>
+                    <button id="terminal-button" onClick={this.props.returnTerminal}> Go Back to Terminal</button>
+                    <span> Name: {this.props.repository_name} - Repository URL: {this.props.url}</span>
+                    <button id="list-button" onClick={this.props.changeToListCommit}> List of Commits </button>
+                    <hr />
                     <GitBoatVisualization directory={this.props.commit.root} viewFile={this.viewFile}/>
                     <TextDisplay currentFileName={this.state.currentFileName} content={this.state.content}/>
-                    <button onClick={this.props.goToMain}> Go Back to Main Page </button>
-                    <button onClick={this.props.returnTerminal}> Go Back to Terminal </button>
+                    
                 </div>
                 )
     }

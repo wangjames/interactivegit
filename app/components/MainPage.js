@@ -9,13 +9,24 @@ class MainPage extends React.Component{
     }
     render()
     {
-        return (<div id="main-page-container"> 
-                This is the main_page
-                <button onClick={this.props.create_repository}> Create Repository</button>
-                {this.props.repository_list.map(function(element){
+        let repository_list = "";
+        if (this.props.repository_list.length === 0)
+        {
+            repository_list = <div> No Repositories Uploaded </div>
+        }
+        
+        else
+        {
+            repository_list = this.props.repository_list.map(function(element){
                     return <ListItem open_function={this.props.openRepository} item={element} />
-                }.bind(this))}
-                <button onClick={this.props.returnTerminal}> Go Back To Terminal</button>
+                }.bind(this))
+        }
+        return (<div id="main-page-container"> 
+                <div> Main Page: </div>
+                <hr/>
+                {repository_list}
+                <button id="create-button" onClick={this.props.create_repository}> Create Repository</button>
+                <button id="terminal-button" onClick={this.props.returnTerminal}> Go Back To Terminal</button>
                 </div>)
     }
 }

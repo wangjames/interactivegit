@@ -35,9 +35,14 @@ class PromptContainer extends React.Component {
         return (
         
         <div>
-            <p> {this.state.currentPrompt} </p>
-            <button onClick={this.changeAnswer}>Next</button>
-            <button onClick={this.goBack}>Back</button>
+            {this.state.currentPrompt.map(function(element)
+            {
+                return <p> {element} </p>
+            })}
+            
+            <button id="back-button" onClick={this.goBack}>Back</button>
+            <button id="next-button" onClick={this.changeAnswer}>Next</button>
+            <button id="gitboat-button" onClick={this.props.gitBoat}> GitBoat </button>
         </div>
        
             );

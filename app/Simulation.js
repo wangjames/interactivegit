@@ -400,8 +400,7 @@ var Simulation = React.createClass({
                     <div className="row">
                         <div className="col-md-4">
                             <div id="promptcontainer">
-                            <PromptContainer prompts={this.props.prompts} checkEvent={this.checkEvent} />
-                            <button onClick={this.gitBoat}> Go to GitBoat </button>
+                            <PromptContainer gitBoat={this.gitBoat} prompts={this.props.prompts} checkEvent={this.checkEvent} />
                             </div>
                         </div>
                         <div className="col-md-4">
