@@ -21,9 +21,10 @@ class Editor extends React.Component{
     render()
     {
         return (
-            <div>
-                <textarea id="textbox" value={this.state.value} onChange={this.handleChange} ></textarea>
-                <button id="submit" onClick={this.modifyFile}>submit</button>
+            <div id="editor-page-container">
+                <div style={{"margin-bottom": "10px"}}> Currently editing {this.props.file} </div>
+                <textarea id="textbox" rows="10" cols="50" value={this.state.value} onChange={this.handleChange} ></textarea>
+                <button id="submit" onClick={this.modifyFile}>Submit</button>
                 <span id="displaytext"></span>
             </div>)
     }

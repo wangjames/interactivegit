@@ -390,9 +390,12 @@ var Simulation = React.createClass({
         if (this.state.status === "editing")
         {
             return (
-                <div> 
-                    <Visualization directory={this.state.directory.root} openEditing={this.openEditing} currentPointer={this.state.directory.currentPointer.directory_name} />
-                    <Editor content={this.state.content} file={this.state.file} submit={this.submitContent} />
+                <div className="container">
+                    <div className="row">
+                        <div className="col-md-4 offset-md-4">
+                            <Editor content={this.state.content} file={this.state.file} submit={this.submitContent} />
+                        </div>
+                    </div>
                 </div>
                 )
         }
@@ -432,6 +435,7 @@ var Simulation = React.createClass({
                         
                         <div className="col-md-4">
                             <div id="visualization-container">
+                                <div style={{"margin-bottom": "10px"}}> Visualization of Filesystem </div>
                                 <Visualization directory={this.state.directory.root} openEditing={this.openEditing} currentPointer={this.state.directory.currentPointer.directory_name}/>
                             </div>
                         </div>
