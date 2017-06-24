@@ -80,7 +80,6 @@ class GitBoatComponent extends React.Component {
   }
   goToList()
   {
-    console.log("list change");
     this.setState({status: "list_commit"});
   }
   render()

@@ -59,7 +59,6 @@ class GitRepository
     }
     makeCommit(message)
     {
-        console.log(message);
         var commitTree = this.stagingArea.returnStage();
         var new_stage = commitTree.copy_directory();
         this.stagingArea.replaceStage(new_stage);

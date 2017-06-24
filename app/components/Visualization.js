@@ -1,9 +1,17 @@
 import React from "react";
 var Visualization = React.createClass({
-    
+    nodeStyle: function(level)
+    {
+        let indent = level * 5;
+        indent = indent.toString() + "px";
+        return {
+            "marginLeft": indent
+        }
+    },
     renderChildren: function(item)
     {
-       return <Visualization openEditing={this.props.openEditing} directory={item} currentPointer={this.props.currentPointer}/>
+       let new_level = this.props.level + 1;
+       return <Visualization level={new_level}openEditing={this.props.openEditing} directory={item} currentPointer={this.props.currentPointer}/>
     },
     openFile: function()
     {
@@ -17,14 +25,14 @@ var Visualization = React.createClass({
         {
             return (
                 <div>
-                    <span onClick={this.openFile}>{item.name}</span>
+                    <span style={this.nodeStyle(this.props.level)} onClick={this.openFile}>{item.name}</span>
                 </div>
             )
         }
         else
         {
             return (
-                <details open>
+                <details style={this.nodeStyle(this.props.level)} open>
                     <summary>{item.directory_name}</summary>
                     {item.children.map(this.renderChildren, this)}
                 </details>

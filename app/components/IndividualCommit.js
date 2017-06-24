@@ -5,7 +5,6 @@ class IndividualCommit extends React.Component
     constructor(props)
     {
         super(props);
-        console.log("going into list item");
         this.toggleCommit = props.toggleCommit.bind(this, props.index);
     }
     render()

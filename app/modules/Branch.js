@@ -44,7 +44,6 @@ class Branch
     }
     returnLog()
     {
-        console.log(this.branch_data);
         let reversed_data = this.branch_data.reverse();
         let return_string = "";
         let totalCount = this.branch_data.length;

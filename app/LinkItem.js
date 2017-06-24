@@ -11,7 +11,6 @@ class LinkItem extends React.Component
     {
         let title = this.props.content[0];
         let content = this.props.content[1];
-        console.log(content);
         return (
             <div onClick={this.goToLink} className="col-md-4">
                 <div className="box">

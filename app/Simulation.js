@@ -17,8 +17,6 @@ var Simulation = React.createClass({
     parseCommand: function(input)
     {
         this.state.command_array.push(input);
-        console.log(this.state.command_array);
-        console.log("Command_array");
         var command_split = input.split(" ");
         if (command_split[0] === "cd")
         {
@@ -155,10 +153,9 @@ var Simulation = React.createClass({
     
     cloneBranch: function(url)
     {
-        console.log(this.state);
+       
         if (!(this.state.hasOwnProperty("repo")))
         {
-            console.log("yup");
             let exported_branch = this.state.gitBoat.exportBranch(url, "master");
             this.createGitRepository();
             let currentGitRepo = this.state.repo;
@@ -315,7 +312,7 @@ var Simulation = React.createClass({
         directobject.setPath("/root");
         var gitBoatInstance = new GitBoatModule();
         let command_array = [];
-        return {directory: directobject, increment: 1, gitBoat: gitBoatInstance, command_array: command_array, execution: this.props.execution};
+        return {prompt_count: 0, directory: directobject, increment: 1, gitBoat: gitBoatInstance, command_array: command_array, execution: this.props.execution};
     },
     createNode: function()
     {
@@ -377,10 +374,8 @@ var Simulation = React.createClass({
                 {
                     modifiedGitBoat.create_repository(command[1]);
                 }
-                command_array[index][0] = "executed";
             })
-            console.log(commands);
-            this.setState({gitBoat: modifiedGitBoat, execution: commands});
+            this.setState({gitBoat: modifiedGitBoat});
         }
         
         return;
@@ -401,13 +396,19 @@ var Simulation = React.createClass({
         }
         if (this.state.status === "gitboat")
         {
-            console.log(this.state.gitBoat);
+            
             return (
             <div className="container">
                 <div className="row">
                     <div className="col-md-4">
                         <div id="promptcontainer">
-                        <PromptContainer prompts={this.props.prompts} checkEvent={this.checkEvent} />
+                        <PromptContainer goBack={this.props.goBack}
+                                            changeAnswer={this.props.changeAnswer}
+                                            index={this.props.prompt_index}
+                                            count={this.props.prompt_count}
+                                            gitBoat={this.gitBoat}
+                                            prompt={this.props.current_prompt}
+                                            checkEvent={this.checkEvent} />
                         </div>
                     </div>
                     <div className="col-md-8">
@@ -417,7 +418,7 @@ var Simulation = React.createClass({
             </div>
                 )
         }
-        
+
         else
         {
             return (
@@ -426,7 +427,14 @@ var Simulation = React.createClass({
                     <div className="row">
                         <div className="col-md-4">
                             <div id="promptcontainer">
-                            <PromptContainer gitBoat={this.gitBoat} prompts={this.props.prompts} checkEvent={this.checkEvent} />
+                            <PromptContainer 
+                                            goBack={this.props.goBack}
+                                            changeAnswer={this.props.changeAnswer}
+                                            index={this.props.prompt_index}
+                                            count={this.props.prompt_count}
+                                            gitBoat={this.gitBoat}
+                                            prompt={this.props.current_prompt}
+                                            checkEvent={this.checkEvent} />
                             </div>
                         </div>
                         <div className="col-md-4">
@@ -435,8 +443,8 @@ var Simulation = React.createClass({
                         
                         <div className="col-md-4">
                             <div id="visualization-container">
-                                <div style={{"margin-bottom": "10px"}}> Visualization of Filesystem </div>
-                                <Visualization directory={this.state.directory.root} openEditing={this.openEditing} currentPointer={this.state.directory.currentPointer.directory_name}/>
+                                <div style={{"marginBottom": "10px"}}> Visualization of Filesystem </div>
+                                <Visualization level={0} directory={this.state.directory.root} openEditing={this.openEditing} currentPointer={this.state.directory.currentPointer.directory_name}/>
                             </div>
                         </div>
                     </div>
