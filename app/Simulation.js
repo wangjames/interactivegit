@@ -88,14 +88,13 @@ var Simulation = React.createClass({
                 {
                     var expression_1 = "/^\-m$/gi"
                     var expression_2 = "/^\".+\"$/"
-                    if (command_split.length !== 4)
+                    
+                    if (command_split[2].match(expression1) !== null && input.match(expression2) !== null)
                     {
-                        return "Incorrect syntax";
-                    }
-                    if (command_split[2].match(expression1) !== null && command_split[3].match(expression2) !== null)
-                    {
+                        let message = input.match(/\".+\"/g)
                         
-                        this.makeCommit(command_split[3]);
+                        message = message[0].match(/\w+\s*\w*/g)
+                        this.makeCommit(message);
                         return "Commit Made"
                     }
                 }

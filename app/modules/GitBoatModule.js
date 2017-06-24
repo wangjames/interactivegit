@@ -8,6 +8,8 @@ class GitBoatModule
   }
   generate_url(name)
   {
+    name = name.replace(/\s+/g, '');
+
     return name + ".git";
   }
   
