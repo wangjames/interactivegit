@@ -3,9 +3,16 @@ import React from "react";
 class Terminal extends React.Component
 {
     
+    
     componentDidMount()
     {
-        var jqconsole = $('#console').jqconsole('Hi\n', '>>>');
+        
+        var jqconsole = $('#console').jqconsole("",'>>>');
+        console.log("yup");
+        this.props.commands.forEach(function(element)
+        {
+            jqconsole.Write(element + "\n", 'jqconsole-output');
+        });
         var startPrompt = function () {
           // Start the prompt with history enabled.
           jqconsole.Prompt(true, function (input) {

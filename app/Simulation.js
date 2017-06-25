@@ -61,29 +61,38 @@ class Simulation extends React.Component
             if (command_split[1] === "../")
             {
                 this.traverseBack();
+                this.state.command_array.push("");
                 return "";
             }
             this.changeDirectory(command_split[1]);
+            this.state.command_array.push("");
             return "";
         }
         else if (command_split[0] === "mkdir")
         {
             this.makeDirectory(command_split[1]);
+            this.state.command_array.push("");
             return "";
         }
         else if (command_split[0] === "touch")
         {
             this.createFile(command_split[1]);
+            this.state.command_array.push("");
+
             return "";
         }
         
         else if (command_split[0] === "pwd")
         {
-            return this.showCurrentPointer();
+            let output = this.showCurrentPointer();
+            this.state.command_array.push(output);
+            return output;
         }
         else if (command_split[0] === "ls")
         {
-            return this.showChildren();
+            let output = this.showChildren();
+            this.state.command_array.push(output);
+            return output;
         }
         else if (command_split[0] === "git")
         {
@@ -91,14 +100,17 @@ class Simulation extends React.Component
             {
                 if (this.state.directory.showCurrentPointer() !== "/root")
                 {
+                    this.state.command_array.push("Please initialize git repository from root directory for this tutorial.");
                     return "Please initialize git repository from root directory for this tutorial.";
                 }
                 this.createGitRepository();
+                this.state.command_array.push("Git Repository Initialized");
                 return "Git Repository Initialized";
             }
             
             else if (command_split[1] === "clone")
                 {
+                    this.state.command_array.push("Branch cloned");
                     this.cloneBranch(command_split[2])
                     return "Branch cloned";
                 }
@@ -106,6 +118,7 @@ class Simulation extends React.Component
             {
                 if (command_split[1] === "add")
                 {
+                    this.state.command_array.push("File added to Staging Area");
                     this.addToStagingArea(command_split[2]);
                     return "File added to Staging Area";
                 }
@@ -113,11 +126,13 @@ class Simulation extends React.Component
                 {
                     if (command_split.length !== 5)
                     {
+                        this.state.command_array.push("Incorrect syntax");
                         return "Incorrect syntax";
                     }
                     else
                     {
                     this.addRemote(command_split[3], command_split[4]);
+                    this.state.command_array.push("remote added");
                     return "remote added";
                     }
                 }
@@ -131,6 +146,7 @@ class Simulation extends React.Component
                     {
                         let message = input.match(/\".+\"/g)
                         
+                        this.state.command_array.push("Commit Made");
                         message = message[0].match(/\w+\s*\w*/g)
                         this.makeCommit(message);
                         return "Commit Made"
@@ -138,15 +154,19 @@ class Simulation extends React.Component
                 }
                 else if (command_split[1] === "log")
                 {
-                    return this.state.repo.returnLog();
+                    let output = this.state.repo.returnLog;
+                    this.state.command_array.push(output);
+                    return output;
                 }
                 else if (command_split[1] === "push")
                 {
+                    this.state.command_array.push("Branch Pushed");
                     this.pushBranch(command_split[2], command_split[3]);
                     return "Branch Pushed";
                 }
                 else if (command_split[1] === "pull")
                 {
+                    this.state.command_array.push("Branch pulled");
                     this.pullBranch();
                     return "Branch pulled";
                 }
@@ -183,6 +203,7 @@ class Simulation extends React.Component
             
             else
             {
+                this.state.command_array.push("Must initialize git repository first.");
                 return "Must initialize git repository first.";
             }
         }
@@ -468,7 +489,7 @@ class Simulation extends React.Component
                             </div>
                         </div>
                         <div className="col-md-4">
-                            <Terminal parseCommand={this.parseCommand}/>
+                            <Terminal commands={this.state.command_array}parseCommand={this.parseCommand}/>
                         </div>
                         
                         <div className="col-md-4">
