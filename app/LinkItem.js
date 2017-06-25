@@ -15,9 +15,9 @@ class LinkItem extends React.Component
             <div onClick={this.goToLink} className="col-md-4">
                 <div className="box">
                     <h4 className="card-title"> {title} </h4>
-                    {content.map(function(element)
+                    {content.map(function(element, index)
                     {
-                        return (<p className="class-text">{element}</p>)
+                        return (<p key={index}className="class-text">{element}</p>)
                     })}
                 </div>
             </div>

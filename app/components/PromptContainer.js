@@ -59,9 +59,9 @@ class PromptContainer extends React.Component {
         return (
         
         <div>
-            {this.props.prompt.map(function(element)
+            {this.props.prompt.map(function(element, index)
             {
-                return <p> {element} </p>
+                return <p key={index}> {element} </p>
             })}
             
             <button id="back-button" onClick={this.goBack}>Back</button>

@@ -12,9 +12,47 @@ import GitBoatModule from "./modules/GitBoatModule";
 import GitBoatComponent from "./components/GitBoatComponent";
 require("./index.css");
 
-var Simulation = React.createClass({
+class Simulation extends React.Component
+{
+    constructor(props)
+    {
+        super(props);
+        var directobject = new DirectoryObject();
+        directobject.setPath("/root");
+        var gitBoatInstance = new GitBoatModule();
+        let command_array = [];
+        this.state = {prompt_count: 0,
+            directory: directobject, 
+            increment: 1, gitBoat: gitBoatInstance,
+            command_array: command_array, 
+            execution: props.execution};
+        this.parseCommand = this.parseCommand.bind(this);
+        this.cloneBranch = this.cloneBranch.bind(this);
+        this.pullBranch = this.pullBranch.bind(this);
+        this.showChildren = this.showChildren.bind(this);
+        this.showCurrentPointer = this.showCurrentPointer.bind(this);
+        this.rollBack = this.rollBack.bind(this);
+        this.checkStatus = this.checkStatus.bind(this);
+        this.addToStagingArea = this.addToStagingArea.bind(this);
+        this.makeCommit = this.makeCommit.bind(this);
+        this.createGitRepository = this.createGitRepository.bind(this);
+        this.addRemote = this.addRemote.bind(this);
+        this.pushBranch = this.pushBranch.bind(this);
+        this.traverseBack = this.traverseBack.bind(this);
+        this.createFile = this.createFile.bind(this);
+        this.makeDirectory = this.makeDirectory.bind(this);
+        this.changeDirectory = this.changeDirectory.bind(this);
+        this.createNode = this.createNode.bind(this);
+        this.retrieveContents = this.retrieveContents.bind(this);
+        this.openEditing = this.openEditing.bind(this);
+        this.submitContent = this.submitContent.bind(this);
+        this.gitBoat = this.gitBoat.bind(this);
+        this.changeToTerminal = this.changeToTerminal.bind(this);
+        this.checkEvent = this.checkEvent.bind(this);
+        
+    }
     
-    parseCommand: function(input)
+    parseCommand(input)
     {
         this.state.command_array.push(input);
         var command_split = input.split(" ");
@@ -148,9 +186,9 @@ var Simulation = React.createClass({
                 return "Must initialize git repository first.";
             }
         }
-    },
+    }
     
-    cloneBranch: function(url)
+    cloneBranch(url)
     {
        
         if (!(this.state.hasOwnProperty("repo")))
@@ -169,8 +207,8 @@ var Simulation = React.createClass({
         {
             return;
         }
-    },
-    pullBranch: function()
+    }
+    pullBranch()
     {
         if (this.state.hasOwnProperty("repo"))
         {
@@ -186,30 +224,30 @@ var Simulation = React.createClass({
         {
             return;
         }
-    },
-    showChildren: function()
+    }
+    showChildren()
     {
         return this.state.directory.displayCurrentChildren();
-    },
-    showCurrentPointer: function()
+    }
+    showCurrentPointer()
     {
         return this.state.directory.showCurrentPointer();
-    },
-    rollBack: function(rollback_count)
+    }
+    rollBack(rollback_count)
     {
         this.state.repo.rollback(rollback_count);
         var newDirectory = this.state.repo.exportCommit();
         this.setState({directory: newDirectory, repo: this.state.repo});
-    },
-    checkStatus: function()
+    }
+    checkStatus()
     {
         var repository = this.state.repo;
         
         
         return this.state.repo.checkStatus();
-    },
+    }
     
-    addToStagingArea: function(file_name)
+    addToStagingArea(file_name)
     {
         var currentDirectory = this.state.directory;
         var currentPointer = currentDirectory.currentPointer;
@@ -230,37 +268,37 @@ var Simulation = React.createClass({
             this.state.repo.stage_element(absolute_path, copied_object);
         }
         return;
-    },
-    makeCommit: function(message)
+    }
+    makeCommit(message)
     {
         var repository = this.state.repo;
         repository.makeCommit(message);
         return;
         
-    },
-    createGitRepository: function()
+    }
+    createGitRepository()
     {
         var newRepository = new GitRepository();
         newRepository.populate_pre_stage(this.state.directory);
         this.setState({repo: newRepository});
-    },
-    addRemote: function(name, url)
+    }
+    addRemote(name, url)
     {
         this.state.repo.addRemote(name, url);
-    },
-    pushBranch: function(remote_name, branch_name)
+    }
+    pushBranch(remote_name, branch_name)
     {
         var pushed_branch = this.state.repo.exportBranch(branch_name);
         var repo_url = this.state.repo.retrieveURL(remote_name);
         this.state.gitBoat.pushBranch(repo_url, branch_name, pushed_branch);
-    },
-    traverseBack: function()
+    }
+    traverseBack()
     {
         var currentDirectory = this.state.directory;
         currentDirectory.traverseBackwards();
         this.setState({directory:currentDirectory});
-    },
-    createFile: function(file_name)
+    }
+    createFile(file_name)
     {
         var currentDirectory = this.state.directory;
         currentDirectory.createFile(file_name);
@@ -277,8 +315,8 @@ var Simulation = React.createClass({
             this.setState({directory:currentDirectory});
         }
         
-    },
-    makeDirectory: function(directory_name)
+    }
+    makeDirectory(directory_name)
     {
         var currentDirectory = this.state.directory;
         currentDirectory.createFolder(directory_name);
@@ -294,45 +332,38 @@ var Simulation = React.createClass({
             this.setState({directory:currentDirectory});
         }
 
-    },
+    }
     
-    changeDirectory: function(directory_name)
+    changeDirectory(directory_name)
     {
         var currentDirectory = this.state.directory;
         currentDirectory.traverseToChild(directory_name);
         
         this.setState({directory: currentDirectory});
-    },
+    }
     
    
-    getInitialState: function()
-    {
-        var directobject = new DirectoryObject();
-        directobject.setPath("/root");
-        var gitBoatInstance = new GitBoatModule();
-        let command_array = [];
-        return {prompt_count: 0, directory: directobject, increment: 1, gitBoat: gitBoatInstance, command_array: command_array, execution: this.props.execution};
-    },
-    createNode: function()
+    
+    createNode()
     {
       var currentDirectory = this.state.directory;
       var id = this.state.increment + 1
       currentDirectory.createFolder("yes"+id);
       this.setState({directory:currentDirectory, increment: id})
 
-    },
-    retrieveContents: function(file_name)
+    }
+    retrieveContents(file_name)
     {
         return this.state.directory.retrieveByPathName(file_name);
-    },
+    }
     
-    openEditing: function(file_name){
+    openEditing(file_name){
         
         var file_contents = this.state.directory.retrieveByPathName(file_name).retrieveContents();
         this.setState({status: "editing", file: file_name, content: file_contents});
-    },
-    
-    submitContent: function(file_name, content)
+    }
+
+    submitContent(file_name, content)
     {
         var directory = this.state.directory;
         directory.retrieveByPathName(file_name).modifyContents(content);
@@ -342,16 +373,16 @@ var Simulation = React.createClass({
             this.state.repo.track_changes(file_name);
         }
         this.setState({directory: directory, status: "terminal"});
-    },
-    gitBoat: function()
+    }
+    gitBoat()
     {
         this.setState({status: "gitboat"});
-    },
-    changeToTerminal: function()
+    }
+    changeToTerminal()
     {
         this.setState({status: "terminal"});
-    },
-    checkEvent : function(index)
+    }
+    checkEvent(index)
     {
         if (index < 0 || index > this.state.execution.length)
         {
@@ -378,8 +409,8 @@ var Simulation = React.createClass({
         }
         
         return;
-    },
-    render : function()
+    }
+    render()
     {
         if (this.state.status === "editing")
         {
@@ -453,7 +484,7 @@ var Simulation = React.createClass({
         }
     
     }
-})
+}
 
 export default Simulation;
 

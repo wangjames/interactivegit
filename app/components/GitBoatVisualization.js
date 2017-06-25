@@ -1,17 +1,17 @@
 import React from "react";
-var GitBoatVisualization = React.createClass({
-    
-    
-    renderChildren: function(item)
+
+class GitBoatVisualization extends React.Component
+{
+    renderChildren(item, index)
     {
-       return <GitBoatVisualization directory={item} viewFile={this.props.viewFile}/>
-    },
-    openFile: function()
+       return <GitBoatVisualization key={index}directory={item} viewFile={this.props.viewFile}/>
+    }
+    openFile()
     {
         var file_name = this.props.directory.getPath();
         this.props.openEditing(file_name);
-    },
-    render: function()
+    }
+    render()
     {
         var item = this.props.directory;
         if (item.type === "file")
@@ -33,6 +33,6 @@ var GitBoatVisualization = React.createClass({
             
         }
     }
-})
+}
 
 export default GitBoatVisualization;

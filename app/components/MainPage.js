@@ -15,8 +15,8 @@ class MainPage extends React.Component{
         
         else
         {
-            repository_list = this.props.repository_list.map(function(element){
-                    return <ListItem open_function={this.props.openRepository} item={element} />
+            repository_list = this.props.repository_list.map(function(element, index){
+                    return <ListItem key={index} open_function={this.props.openRepository} item={element} />
                 }.bind(this))
         }
         return (<div id="main-page-container"> 

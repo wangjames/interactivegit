@@ -34,7 +34,7 @@ class Index extends React.Component {
                     <div className="row" id="card-row">
                         {content.map(function(element, index)
                         {
-                            return <LinkItem goToLink={this.goToLink} content={element} index={index} />
+                            return <LinkItem key={index} goToLink={this.goToLink} content={element} index={index} />
                         }.bind(this))}
 
                     </div>

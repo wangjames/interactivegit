@@ -5,10 +5,10 @@ class TextDescription extends React.Component {
             <div className="container">
                 <div className="row">
                     <div className="col-md-10 offset-md-1 text-box">
-                    {this.props.textArray.map(function(element)
+                    {this.props.textArray.map(function(element, index)
                                 {
                                 return (
-                                <p> {element} </p>
+                                <p key={index}> {element} </p>
                                 )
                                 })}
                     </div>
