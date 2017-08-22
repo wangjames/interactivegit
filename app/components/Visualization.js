@@ -1,6 +1,11 @@
 import React from "react";
 class Visualization extends React.Component{
-    
+        constructor(props)
+        {
+            super(props);
+            this.openFile = this.openFile.bind(this)
+            this.renderChildren = this.renderChildren.bind(this)
+        }
         nodeStyle(level)
         {
             let indent = level * 5;

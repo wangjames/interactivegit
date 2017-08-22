@@ -2,6 +2,12 @@ import React from "react";
 
 class GitBoatVisualization extends React.Component
 {
+    constructor(props)
+    {
+        super(props);
+        this.openFile = this.openFile.bind(this)
+        this.renderChildren = this.renderChildren.bind(this)
+    }
     renderChildren(item, index)
     {
        return <GitBoatVisualization key={index}directory={item} viewFile={this.props.viewFile}/>
