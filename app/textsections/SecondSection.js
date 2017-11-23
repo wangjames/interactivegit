@@ -4,7 +4,7 @@ Everyone receives a copy of the entire project and in order for users to collabo
 they must send up a new version of the entire project with changes which will be meticulously tracked by Git.
  
 When a repository is first created, we have to initialize a repository with our project. Type git init while in the root directory. Let’s do that now.`
- 
+var text
 var text_object_2 = `Make a file using the mkdir command. Make another file using the touch command. You can click on file to open up an editor for that file.`
  
 var text_object_3 = `Now that you are ready to push up the initial commit or version of your project to the repository, you first have to prepare all of the files to be sent.

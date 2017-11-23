@@ -3866,7 +3866,7 @@ var Navbar = function (_React$Component) {
         _react2.default.createElement(
           _reactRouterDom.Link,
           { className: "navbar-brand", to: "/" },
-          "A Git Tutorial for Email Power Users"
+          "Interactive Git"
         ),
         _react2.default.createElement(
           "div",
@@ -12727,40 +12727,55 @@ var Simulation = function (_React$Component) {
             if (command_split[0] === "cd") {
                 if (command_split[1] === "../") {
                     this.traverseBack();
+                    this.state.command_array.push("");
                     return "";
                 }
                 this.changeDirectory(command_split[1]);
+                this.state.command_array.push("");
                 return "";
             } else if (command_split[0] === "mkdir") {
                 this.makeDirectory(command_split[1]);
+                this.state.command_array.push("");
                 return "";
             } else if (command_split[0] === "touch") {
                 this.createFile(command_split[1]);
+                this.state.command_array.push("");
+
                 return "";
             } else if (command_split[0] === "pwd") {
-                return this.showCurrentPointer();
+                var output = this.showCurrentPointer();
+                this.state.command_array.push(output);
+                return output;
             } else if (command_split[0] === "ls") {
-                return this.showChildren();
+                var _output = this.showChildren();
+                this.state.command_array.push(_output);
+                return _output;
             } else if (command_split[0] === "git") {
                 if (command_split[1] === "init") {
                     if (this.state.directory.showCurrentPointer() !== "/root") {
+                        this.state.command_array.push("Please initialize git repository from root directory for this tutorial.");
                         return "Please initialize git repository from root directory for this tutorial.";
                     }
                     this.createGitRepository();
+                    this.state.command_array.push("Git Repository Initialized");
                     return "Git Repository Initialized";
                 } else if (command_split[1] === "clone") {
+                    this.state.command_array.push("Branch cloned");
                     this.cloneBranch(command_split[2]);
                     return "Branch cloned";
                 }
                 if (this.state.hasOwnProperty("repo")) {
                     if (command_split[1] === "add") {
+                        this.state.command_array.push("File added to Staging Area");
                         this.addToStagingArea(command_split[2]);
                         return "File added to Staging Area";
                     } else if (command_split[1] === "remote") {
                         if (command_split.length !== 5) {
+                            this.state.command_array.push("Incorrect syntax");
                             return "Incorrect syntax";
                         } else {
                             this.addRemote(command_split[3], command_split[4]);
+                            this.state.command_array.push("remote added");
                             return "remote added";
                         }
                     } else if (command_split[1] === "commit") {
@@ -12770,16 +12785,21 @@ var Simulation = function (_React$Component) {
                         if (command_split[2].match(expression1) !== null && input.match(expression2) !== null) {
                             var message = input.match(/\".+\"/g);
 
+                            this.state.command_array.push("Commit Made");
                             message = message[0].match(/\w+\s*\w*/g);
                             this.makeCommit(message);
                             return "Commit Made";
                         }
                     } else if (command_split[1] === "log") {
-                        return this.state.repo.returnLog();
+                        var _output2 = this.state.repo.returnLog;
+                        this.state.command_array.push(_output2);
+                        return _output2;
                     } else if (command_split[1] === "push") {
+                        this.state.command_array.push("Branch Pushed");
                         this.pushBranch(command_split[2], command_split[3]);
                         return "Branch Pushed";
                     } else if (command_split[1] === "pull") {
+                        this.state.command_array.push("Branch pulled");
                         this.pullBranch();
                         return "Branch pulled";
                     } else if (command_split[1] === "merge") {
@@ -12800,6 +12820,7 @@ var Simulation = function (_React$Component) {
                         }
                     }
                 } else {
+                    this.state.command_array.push("Must initialize git repository first.");
                     return "Must initialize git repository first.";
                 }
             }
@@ -13088,7 +13109,7 @@ var Simulation = function (_React$Component) {
                         _react2.default.createElement(
                             "div",
                             { className: "col-md-4" },
-                            _react2.default.createElement(_Terminal2.default, { parseCommand: this.parseCommand })
+                            _react2.default.createElement(_Terminal2.default, { commands: this.state.command_array, parseCommand: this.parseCommand })
                         ),
                         _react2.default.createElement(
                             "div",
@@ -13456,10 +13477,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var GitBoatVisualization = function (_React$Component) {
     _inherits(GitBoatVisualization, _React$Component);
 
-    function GitBoatVisualization() {
+    function GitBoatVisualization(props) {
         _classCallCheck(this, GitBoatVisualization);
 
-        return _possibleConstructorReturn(this, (GitBoatVisualization.__proto__ || Object.getPrototypeOf(GitBoatVisualization)).apply(this, arguments));
+        var _this = _possibleConstructorReturn(this, (GitBoatVisualization.__proto__ || Object.getPrototypeOf(GitBoatVisualization)).call(this, props));
+
+        _this.openFile = _this.openFile.bind(_this);
+        _this.renderChildren = _this.renderChildren.bind(_this);
+        return _this;
     }
 
     _createClass(GitBoatVisualization, [{
@@ -14142,9 +14167,14 @@ var Terminal = function (_React$Component) {
     }
 
     _createClass(Terminal, [{
-        key: 'componentDidMount',
+        key: "componentDidMount",
         value: function componentDidMount() {
-            var jqconsole = $('#console').jqconsole('Hi\n', '>>>');
+
+            var jqconsole = $('#console').jqconsole("", '>>>');
+            console.log("yup");
+            this.props.commands.forEach(function (element) {
+                jqconsole.Write(element + "\n", 'jqconsole-output');
+            });
             var startPrompt = function () {
                 // Start the prompt with history enabled.
                 jqconsole.Prompt(true, function (input) {
@@ -14159,9 +14189,9 @@ var Terminal = function (_React$Component) {
             startPrompt();
         }
     }, {
-        key: 'render',
+        key: "render",
         value: function render() {
-            return _react2.default.createElement('div', { id: 'console' });
+            return _react2.default.createElement("div", { id: "console" });
         }
     }]);
 
@@ -14258,10 +14288,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Visualization = function (_React$Component) {
     _inherits(Visualization, _React$Component);
 
-    function Visualization() {
+    function Visualization(props) {
         _classCallCheck(this, Visualization);
 
-        return _possibleConstructorReturn(this, (Visualization.__proto__ || Object.getPrototypeOf(Visualization)).apply(this, arguments));
+        var _this = _possibleConstructorReturn(this, (Visualization.__proto__ || Object.getPrototypeOf(Visualization)).call(this, props));
+
+        _this.openFile = _this.openFile.bind(_this);
+        _this.renderChildren = _this.renderChildren.bind(_this);
+        return _this;
     }
 
     _createClass(Visualization, [{

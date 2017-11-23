@@ -56,6 +56,19 @@ class PromptContainer extends React.Component {
         this.setState({currentNumber: newSelection, evaluated_events:event_array})
     }
     render () {
+        if (this.props.currentSection == 1){
+            return (
+                 <div>
+                    {this.props.prompt.map(function(element, index)
+                    {
+                        return <p key={index}> {element} </p>
+                    })}
+                    
+                    <button id="back-button" onClick={this.goBack}>Back</button>
+                    <button id="next-button" onClick={this.changeAnswer}>Next</button>
+                </div>
+                )
+        }
         return (
         
         <div>
