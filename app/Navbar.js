@@ -11,7 +11,7 @@ class Navbar extends React.Component
                 <span className="navbar-toggler-icon"></span>
               </button>
               <Link className="navbar-brand" to="/">
-                        A Git Tutorial for Email Power Users
+                        Interactive Git
               </Link>
               <div className="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul className="navbar-nav mr-auto">

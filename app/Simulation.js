@@ -154,7 +154,7 @@ class Simulation extends React.Component
                 }
                 else if (command_split[1] === "log")
                 {
-                    let output = this.state.repo.returnLog;
+                    let output = this.state.repo.returnLog();
                     this.state.command_array.push(output);
                     return output;
                 }

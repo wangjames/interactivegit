@@ -1,47 +1,63 @@
-var text_object_1 = `With email, you simply set up an account on one of the major email providers such as Gmail and Yahoo and then you sign in.
-Once signed in, you can easily email anyone you want through their interface.
 
-With Git, it is a little bit more involved. You first still need to setup an account with one of the major Git repository providers such as Github or Bitbucket. 
-Once you do that, you need to sign in and create a repository. 
-Through creating a repository, this creates a remote link that anyone can then access and send messages to.
+var text_object_1 = [`One aspect about remote repositories is that these remote repositories must be hosted on an online service for other people to collaborate on. 
+Companies around the world use services like Github, Gitlab, and Bitbucket to host their remote repositories.`]
 
-Throughout these tutorials, you will be using a fake public Repository provider called GitBoat that will simulate the workflow on Git. `
+var text_object_2 = [`When users want to push their commits to the remote repositories, they have to have an internet connection that will enable them to connect with these services`]
  
-var text_object_2 = `Sign in with the following credentials
- 
-User: CaptainFish
-Password: ShimaAji
- 
-Create a repository.
+var text_object_3 = [`In our case, we will use a simulation of these services called GitBoat. 
+This service will help us simulate the exact workflow needed to use these services.`]
 
-Click on the repository that you created in the list.`
- 
-var text_object_1 = [`In this screen, GitBoat is giving you a remote link that you and all of your collaborators will use to configure their local repositories.
-After being configured with this link, your local repository will push commits to this repository on GitBoat.`, `Copy this link to your clipboard.`]
- 
-var text_object_2 = [`Now we will create our local repository similar to how we did it for Lesson One, and configure it properly.`,
- 
-`Initialize a git repository in the root directory using git init.`,
+var text_object_4 = [`Now, lets repeat the steps from the last section to create a local repository.`]
 
-`Create several files or folders.`,
+var text_object_5 = [`First, we want to make a directory called essay. This tutorial simulates a Linux command line so the command for this is mkdir essay. `]
 
-`Add files to staging area using git add.`,
+var text_object_6 = [`We then want to create an introduction file in the essay folder. Do this by first changing into the directory with the command cd essay.`,
+`Then create the file using the command touch introduction. Return back to the root with the command cd ../.`]
 
-`Commit these files.`]
+var text_object_7 = [`Now that we have these files created, we can create our repository.`]
 
-var text_object_3 = [`Now that we've made a commit, we want to push our version of our branch to GitBoat so that everyone can see it.`,
+var text_object_8 = [`Enter the command git init. This creates a repository to watch over the current directory.`]
 
-`First we need to use the link that we copied to configure our repository properly.`,
+var text_object_9 = [`Next, we need to add these files to staging area.`, 
+`A shortcut is to just add each file through the git add . command.`]
 
-`Type git remote add origin <linkname>. For example, if your repository that you created has the link test.git, then type git remote add origin test.git.`]
+var text_object_10 = [`Once these files have been added, we can now make a commit. 
+All commits need a message associated with them so we will use the message “initial version”, 
+Enter the command git commit -m “initial version”.`]
 
-var text_object_4 = [`Now that your repository is correctly configured, you can push your commits to the repository. The way we do this is by pushing our entire
-branch to the repository.`,
+var text_object_11 = [`Now we have created a local repository that can serve as the remote repository.
+We can see our first initial commit using the command git log. `]
 
-`Execute the command git push origin master. What this does is it pushes the branch master to the remote origin.`]
+var text_object_12 = [`Now that we have a local repository, we can now push these changes to GitBoat.`,
+`Before we can do this however, we must first create a remote repository that we can push our local repository to. `]
 
-var text_object_5 = [`Go to the GitBoat visualization and see that the repository that you've pushed to now has the commits that you wanted.`]
+var text_object_13 = [`Click the GitBoat button.`]
 
-var text_array = [text_object_1, text_object_2, text_object_3, text_object_4, text_object_5]
+var text_object_14 = [`Click the create repository button.`]
+
+var text_object_15 = [`Give it the name test.`]
+
+var text_object_16 = [`Click on the test text to enter the repository.`]
+
+var text_object_17 = [`Make a note that the remote repository link is called test.git`]
+
+var text_object_18 = [`Return to your terminal.`]
+
+var text_object_19 = [`Type git remote add origin test.git`]
+
+var text_object_20 = [`Now you have configured your local repository to push to the remote repository.`]
+
+var text_object_21 = [`Type git push origin master.`]
+
+var text_object_22 = [`Now go back to the same repository in GitBoat, and you can notice your changes are now there.`]
+
+var text_object_23 = [`With the section, you’ve learned how to create a remote repository from your local repository.`]
+
+var text_object_24 = [`In the next section, we will talk about how to work with a remote repository that has already been 
+created and how to bring in changes to the repository when someone has pushed a commit to the repository.
+Please return to the menu, and go to the third section.`]
+
+
+var text_array = [text_object_1, text_object_2, text_object_3, text_object_4, text_object_5, text_object_6, text_object_7, text_object_8, text_object_9,text_object_10, text_object_11,text_object_12, text_object_13,text_object_14, text_object_15,text_object_16, text_object_17,text_object_18, text_object_19, text_object_20, text_object_21, text_object_22, text_object_23,text_object_24]
 
 export default text_array;
