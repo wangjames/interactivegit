@@ -20,14 +20,14 @@ class Index extends React.Component {
         this.props.history.push(link);
     }
     render () {
-        let content = [["Emails to Commits", [`When coordinating with people on your team with email, 
+        let content = [["", [`When coordinating with people on your team with email, 
         you can send them email messages, and when you want to share files, you can attach these files to the email.`,
         `With Git, this process is done through commits and preparing files to be sent by adding them to the staging area`
-        ,`This tutorial will show you the workflow for doing this.`]], ["Sending to Pushing", 
+        ,`Click here for the first section of the tutorial.`]], ["", 
         [`With email, after you finish prepare a message with its attachments, you send it to your collaboraters. With Git, after you make a commit of your work,
-        you push your work up to a shared repository with your collaborators.`, `From this, all your collaborators can see the work that you have shared.`, `This tutorial works through that process of sending your work to a repository.`]],
-        ["Recieving to Pulling", [`When working with people through email, you simply recieve emails from your teammates and you inspect the files that they gave you.
-        With Git, the way you can do this is through pulling the most up to date version of your project from the public Git repository.`, `This tutorial works through that process.`]]]
+        you push your work up to a shared repository with your collaborators.`, `From this, all your collaborators can see the work that you have shared.`, `Click here for the second section on this tutorial.`]],
+        ["", [`When working with people through email, you simply recieve emails from your teammates and you inspect the files that they gave you.
+        With Git, the way you can do this is through pulling the most up to date version of your project from the public Git repository.`, `Click here to go to the third section of this tutorial.`]]]
         return (<div>
                 <Navbar />
                 <div className="container">

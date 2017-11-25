@@ -1,5 +1,5 @@
 var text_object_1 = [`With this first section, we can start looking at how people collaborate on Git.`,
-`Imagine that you’re working on an essay with a team where each team member is responsible for a section of the essay.`
+`Imagine that you’re working on an essay with a team where each team member is responsible for a section of the essay.`,
 `Immediately, we can see that there are challenges on how to coordinate different versions and how to track all of the latest changes.`]
 
 var text_object_2 = [`These challenges could be solved by using Git. Git uses the idea of a repository which is essentially the folder that holds your project’s files,
@@ -37,6 +37,6 @@ var text_object_12 = [`Now we have created a local repository that can serve as 
 var text_object_13 = [`In the next section, we will be repeating these steps and then make this local repository be our remote repository.`,
 `Please hit the back button on your browser to go back to the menu.`]
 
-var text_array = [text_object_1, text_object_2, text_object_3,text_object_4,text_object_5, text_object_6, text_object_7];
+var text_array = [text_object_1, text_object_2, text_object_3,text_object_4,text_object_5, text_object_6, text_object_7, text_object_8, text_object_9, text_object_10,text_object_11,text_object_12,text_object_13];
 
 export default text_array;

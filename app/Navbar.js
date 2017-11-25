@@ -17,17 +17,17 @@ class Navbar extends React.Component
                 <ul className="navbar-nav mr-auto">
                   <li className="nav-item">
                     <Link className="nav-link" to="/">
-                        Menu
+                         Tutorials
                     </Link>
                   </li>
                   <li className="nav-item">
                     <Link className="nav-link" to="/comparison">
-                        Comparison
+                        About
                     </Link>
                   </li>
                   <li className="nav-item">
                     <Link className="nav-link" to="/about">
-                        About
+                        Comparison
                     </Link>
                   </li>
                   

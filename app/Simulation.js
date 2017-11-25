@@ -485,7 +485,8 @@ class Simulation extends React.Component
                                             count={this.props.prompt_count}
                                             gitBoat={this.gitBoat}
                                             prompt={this.props.current_prompt}
-                                            checkEvent={this.checkEvent} />
+                                            checkEvent={this.checkEvent}
+                                            currentSection={this.props.index}/>
                             </div>
                         </div>
                         <div className="col-md-4">

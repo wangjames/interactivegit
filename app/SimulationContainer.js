@@ -23,6 +23,7 @@ class SimulationContainer extends React.Component
         }
         
         this.state = {
+            lesson: this.index,
             prompts: this.prompt_array,
             prompt_index: this.prompt_index,
             current_prompt: this.prompt_array[this.prompt_index],
@@ -60,7 +61,7 @@ class SimulationContainer extends React.Component
             <div>
                 <Navbar />
                 <Simulation changeAnswer={this.changeAnswer} goBack={this.goBack}
-                prompt_count={this.state.prompt_length} prompt_index={this.state.prompt_index}
+                prompt_count={this.state.prompt_length} index={this.state.lesson} prompt_index={this.state.prompt_index}
                 current_prompt={this.state.current_prompt} execution={this.execution_events}/>
             </div>
         )

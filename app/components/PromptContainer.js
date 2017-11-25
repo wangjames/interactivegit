@@ -56,7 +56,8 @@ class PromptContainer extends React.Component {
         this.setState({currentNumber: newSelection, evaluated_events:event_array})
     }
     render () {
-        if (this.props.currentSection == 1){
+        console.log(this.props.currentSection);
+        if (this.props.currentSection == 0){
             return (
                  <div>
                     {this.props.prompt.map(function(element, index)
